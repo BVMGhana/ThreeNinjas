@@ -1,3 +1,61 @@
+/* @import 'bootstrap/dist/css/bootstrap.css'; */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+/* * {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    appearance: none;
+    border: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+} */
+
+:root {
+    --custom-gray: rgba(56, 56, 56, 0.9);
+    --color-primary: #7380ec;
+    --color-danger: #ff7782;
+    --color-success: #00c853;
+    --color-warning: #ffbb55;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-info-white: #17a2b8;
+    --color-dark: #343a40;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --color-primary-variant: #111e88;
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.8rem;
+    --border-radius-3: 1.2rem;
+    --border-radius-4: 1.6rem;
+    --border-radius-5: 2rem;
+    --border-radius-6: 2.4rem;
+
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+    --padding-small: 1rem;
+    --padding-semi-small: 0.7rem;
+
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
+
+.dark-theme-variables {
+    --color-background: #181a1e;
+    --color-white: #202528;
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba(0, 0, 0, 0.4);
+    --box-shadow: 0 2rem 3rem var(--color-light);
+}
