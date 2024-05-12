@@ -30,65 +30,62 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <!-- <GuestLayout> -->
         <Head title="Log in" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+        <div id="main-bg" class="fade-in">
+            <div class="text-white h-screen flex flex-col justify-center items-center gap-4">
+                <Link href="/" class="text-[32px] text-center">3 Ninjas Home</Link>
+                <div class="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
+                    <h1 class="text-4xl font-bold text-center mb-6">Login</h1>
+                    <form @submit.prevent="submit">
+                        <div class="relative my-4">
+                            <input type="email" 
+                                class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:text-white peer" 
+                                placeholder="" v-model="form.email">
+                            <label for="" 
+                                class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Email</label>
+                            <InputError :message="form.errors.email" />
+                            </div>
+                        <div class="relative my-8">
+                            <input type="password" v-model="form.password"
+                            class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:text-white peer" 
+                            placeholder="">
+                            <label for="" class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Password</label>
+                            <InputError :message="form.errors.password" />
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex gap-2 items-center">
+                                <input type="checkbox" id="remember-me" :checked="form.remember">
+                                <label for="remember-me">Remember Me</label>
+                            </div>
+                            <Link :href="route('password.request')" class="text-blue-500">Forgot Password?</Link>
+                        </div>
+                        <button :disabled="form.processing" class="w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-emerald-800 hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300" type="submit">Login</button>
+                        <div class="text-center">
+                            <span class="m-4">New Here? <Link class="text-blue-500" :href="route('register')">Create an account</Link></span>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+        </div>
+    <!-- </GuestLayout> -->
 </template>
+
+<style scoped>
+#main-bg {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg.jpg) no-repeat scroll center center /cover;
+}
+
+.fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
