@@ -13,6 +13,8 @@ const form = useForm({
     password_confirmation: '',
 });
 
+console.log({form});
+
 const submit = () => {
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
@@ -21,83 +23,86 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <!-- <GuestLayout> -->
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.name" />
+        <div id="main-bg" class="fade-in">
+            <div class="text-white h-screen flex flex-col justify-center items-center gap-4">
+                <Link href="/" class="text-[32px] text-center">3 Ninjas Home</Link>
+                <div class="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
+                    <h1 class="text-4xl font-bold text-center mb-6">Register</h1>
+                    <form @submit.prevent="submit">
+                        <div class="relative my-4">
+                            <input type="text" v-model="form.name" class="block w-72 py-2.3 px-0 text-sm bg-transparent 
+                                border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 
+                                focus:outline-none focus:ring-0 focus:text-white peer" placeholder="">
+                            <label for="" class="absolute text-sm duration-300 transform 
+                                -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 
+                                peer-focus:text-blue-600 peer-focus:dark:text-blue-500 
+                                peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                                peer-focus:scale-75 peer-focus:-translate-y-6">Full Name</label>
+                            <InputError class="mt-2" :message="form.errors.name" />
+                        </div>
+                        <div class="relative my-8">
+                            <input type="email" v-model="form.email" class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 
+                                border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 
+                                focus:outline-none focus:ring-0 focus:text-white peer" placeholder="">
+                            <label for="" class="absolute text-sm duration-300 transform -translate-y-6 scale-75 
+                                top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
+                                peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
+                                peer-placeholder-shown:translate-y-0 peer-focus:scale-75 
+                                peer-focus:-translate-y-6">Your Email</label>
+                            <InputError class="mt-2" :message="form.errors.email" />
+                        </div>
+                        <div class="relative my-8">
+                            <input type="password" v-model="form.password" class="block w-72 py-2.3 px-0 text-sm 
+                                bg-transparent border-0 border-b-2 border-gray-300 appearance-none 
+                                dark:focus:border-blue-500 focus:outline-none focus:ring-0 
+                                focus:text-white peer" placeholder="">
+                            <label for="" class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 
+                                -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
+                                peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
+                                peer-placeholder-shown:translate-y-0 peer-focus:scale-75 
+                                peer-focus:-translate-y-6">Your Password</label>
+                            <InputError class="mt-2" :message="form.errors.password" />
+                        </div>
+                        
+                        <div class="relative my-8">
+                            <input type="password" v-model="form.password_confirmation" class="block w-72 py-2.3 px-0 text-sm bg-transparent 
+                                border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 
+                                focus:outline-none focus:ring-0 focus:text-white peer" placeholder="">
+                            <label for="" class="absolute text-sm duration-300 transform 
+                                -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 
+                                peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
+                                peer-placeholder-shown:translate-y-0 peer-focus:scale-75 
+                                peer-focus:-translate-y-6">Confirm Password</label>
+                            <InputError class="mt-2" :message="form.errors.password_confirmation" />
+                        </div>
+                        <button class="w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-emerald-800 
+                            hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300"
+                            :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
+                            type="submit">Register</button>
+                        <div class="text-center">
+                            <span class="m-4">Already registered? <Link class="text-blue-500" :href="route('login')">Log In</Link></span>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+        </div>
+    <!-- </GuestLayout> -->
 </template>
+
+<style scoped>
+#main-bg {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg.jpg) no-repeat scroll center center /cover;
+}
+
+.fade-in {
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
