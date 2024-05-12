@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Homepage', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -14,7 +14,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard/{any?}', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
