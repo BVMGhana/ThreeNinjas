@@ -17,7 +17,8 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
+    // email: '',
+    phone: '',
     password: '',
     remember: false,
 });
@@ -43,12 +44,12 @@ const submit = () => {
                     <h1 class="text-4xl font-bold text-center mb-6">Login</h1>
                     <form @submit.prevent="submit">
                         <div class="relative my-4">
-                            <input type="email" 
+                            <input type="text" 
                                 class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:text-white peer" 
-                                placeholder="" v-model="form.email">
+                                placeholder="" v-model="form.phone">
                             <label for="" 
-                                class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Email</label>
-                            <InputError :message="form.errors.email" />
+                                class="absolute text-sm duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Your Phone Number</label>
+                            <InputError :message="form.errors.phone" />
                             </div>
                         <div class="relative my-8">
                             <input type="password" v-model="form.password"
@@ -62,7 +63,8 @@ const submit = () => {
                                 <input type="checkbox" id="remember-me" :checked="form.remember">
                                 <label for="remember-me">Remember Me</label>
                             </div>
-                            <Link :href="route('password.request')" class="text-blue-500">Forgot Password?</Link>
+                            <Link href="" class="text-blue-500">Forgot Password?</Link>
+                            <!-- <Link :href="route('password.request')" class="text-blue-500">Forgot Password?</Link> -->
                         </div>
                         <button :disabled="form.processing" class="w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-emerald-800 hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300" type="submit">Login</button>
                         <div class="text-center">

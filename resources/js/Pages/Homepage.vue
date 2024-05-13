@@ -9,6 +9,9 @@ const navLinks = ref();
 const whiteNinja = ref(null);
 const blackNinja = ref(null);
 const redNinja = ref(null);
+const previousResults = ref(null);
+const topBanner = ref(null);
+const bottomBanner = ref(null);
 
 onMounted(() => {
 // let menuBtn1 = document.querySelector('#menuBtn1');
@@ -81,7 +84,7 @@ defineProps({
     },
 });
 
-const result = reactive(false);
+const getBanner = (bannersList, position) => bannersList.filter(banner => banner.position === position)[0];
 
 let isOpen = ref(false);
 const toggleMenu = () => isOpen.value = !isOpen.value;
@@ -89,6 +92,11 @@ const toggleMenu = () => isOpen.value = !isOpen.value;
 const getNinjas = async () => {
   try {
     let response;
+
+    response = await axios.get('banners');
+    topBanner.value = getBanner(response.data, 'top');
+    bottomBanner.value = getBanner(response.data, 'bottom');
+
     response = await axios.get('white-ninjas');
     whiteNinja.value = response.data;
 
@@ -97,6 +105,9 @@ const getNinjas = async () => {
 
     response = await axios.get('red-ninjas');
     redNinja.value = response.data;
+
+    response = await axios.get('previous-results');
+    previousResults.value = response.data;
 
   } catch (error) {
     console.error('There was an error fetching the data: ', error);
@@ -112,6 +123,7 @@ getNinjas();
 //     document.getElementById('docs-card-content')?.classList.add('!flex-row');
 //     document.getElementById('background')?.classList.add('!hidden');
 // }
+
 
 </script>
 
@@ -142,18 +154,22 @@ getNinjas();
             <li v-if="$page.props.auth.user && $page.props.auth.user.name!==''" 
               class="my-[20px] py-[5px] px-[20px] rounded-[5px] bg-[#fc036b] mx-auto lg:my-0 lg:mx-[30px] 
               font-bold text-[15px] cursor-default">
-              Welcome, {{ $page.props.auth.user.name }}
+              Welcome, {{ $page.props.auth.user.name.split(" ")[0] }}
             </li>
-            <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] active text-[30px] lg:text-[20px]">
+            <!-- <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] active text-[30px] lg:text-[20px]"
+              v-if="$page.props.auth && $page.props.auth.user.is_admin"
+            >
               <Link href="/">VIP</Link>
-            </li>
+            </li> -->
             <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
               <Link href="#about">About Us</Link>
             </li>
             <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
               <Link href="#contact">Contact Us</Link>
             </li>
-            <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
+            <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]"
+              v-if="$page.props.auth && $page.props.auth?.user?.is_admin"
+            >
               <Link href="/dashboard">Dashboard</Link>
             </li>
           </article>
@@ -183,21 +199,24 @@ getNinjas();
       </header>
 
       <!-- Top Banner Section -->
-      <section class="w-full my-10 lg:my-15 flex justify-center">
-        <Link href="https://www.google.com" class="w-[570px] lg:w-[970px] h-auto lg:h-[250px]">
-          <img src="/images/topimage.jpg" alt="top-banner" class="max-w-full max-h-full">
-        </Link>
+      <section v-if="topBanner?.id" class="w-full my-10 lg:my-15 flex justify-center">
+        <a :href="topBanner?.url" target="_blank" class="w-[570px] lg:w-[970px] h-auto lg:h-[250px]">
+          <img :src="`/banners/${topBanner?.filename}`" alt="top-banner" class="max-w-full max-h-full">
+        </a>
       </section>
 
       <!-- Title Section -->
-      <section class="w-full lg:w-[60%] flex flex-col items-center px-2">
+      <!-- <section class="w-full lg:w-[60%] flex flex-col items-center px-2"> -->
+      <section class="w-full lg:w-full flex flex-col items-center px-2">
         <h2 class="text-black my-3 font-extrabold text-center text-[18px] lg:text-[32px]">FREE PREDICTIONS (LIMITED)</h2>
         <p class="bg-custom-gray my p-3 font-extrabold text-center text-[12px] lg:text-[16px] text-gray-300">NB: These free Predictions are limited. Log In or Sign Up to enjoy more Free slips with higher returns</p>
       </section>
 
       <!-- Ninjas Section -->
-      <section id="accordion" class="w-screen flex justify-start px-1 my-10 h-auto text-white">
-        <div class="w-full lg:w-[60%] rounded-lg overflow-hidden bg-slate-800 flex flex-col gap-[3px] lg:mx-5">
+      <!-- <section id="accordion" class="w-screen flex justify-start px-1 my-10 h-auto text-white"> -->
+        <!-- <div class="w-full lg:w-[60%] rounded-lg overflow-hidden bg-slate-800 flex flex-col gap-[3px] lg:mx-5"> -->
+      <section id="accordion" class="w-screen flex justify-center px-1 my-10 h-auto text-white">
+        <div class="w-full lg:w-[80%] rounded-lg overflow-hidden bg-slate-800 flex flex-col gap-[3px] lg:mx-5">
           <div class="item accordion-active">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
@@ -226,10 +245,11 @@ getNinjas();
                       <td class="py-3 px-2">{{ index + 1 }}</td>
                       <td class="py-3 px-2">{{item.league.title}}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
-                      <td class="py-3 px-2">{{ item.tips }}</td>
+                      <td class="py-3 px-2">{{ item.tip.title }}</td>
                       <td class="py-3 px-2">
-                        <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
+                        N/A
+                        <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
+                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
                       </td>
                     </tr>
                   </tbody>
@@ -238,7 +258,9 @@ getNinjas();
                   <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
                     BET DIRECTLY ON PRIDEBET
                   </Link>
-                  <Link class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke py-[10px] px-[45px]" target="_blank"  href="/login">
+                  <Link v-if="!$page.props.auth.user" 
+                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke py-[10px] 
+                    px-[45px]" target="_blank"  href="/login">
                     LOGIN FOR EXTRA FREE SLIPS
                   </Link>
                 </div>
@@ -273,10 +295,11 @@ getNinjas();
                       <td class="py-3 px-2">{{ index + 1 }}</td>
                       <td class="py-3 px-2">{{ item.league.title }}</td>
                       <td class="py-3 px-2">{{ item.fixtures }}</td>
-                      <td class="py-3 px-2">{{ item.tips }}</td>
+                      <td class="py-3 px-2">{{ item.tip.title }}</td>
                       <td class="py-3 px-2">
-                        <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
+                        N/A
+                        <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
+                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
                       </td>
                     </tr>
                   </tbody>
@@ -285,7 +308,9 @@ getNinjas();
                   <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
                     BET DIRECTLY ON PRIDEBET
                   </Link>
-                  <Link class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke py-[10px] px-[45px]" target="_blank"  href="/login">
+                  <Link v-if="!$page.props.auth.user" 
+                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke 
+                    py-[10px] px-[45px]" target="_blank"  href="/login">
                     LOGIN FOR EXTRA FREE SLIPS
                   </Link>
                 </div>
@@ -320,7 +345,57 @@ getNinjas();
                       <td class="py-3 px-2">{{ index + 1 }}</td>
                       <td class="py-3 px-2">{{ item.league.title }}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
-                      <td class="py-3 px-2">{{ item.tips }}</td>
+                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">
+                        N/A
+                        <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
+                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="p-4 w-full flex flex-col items-center gap-4">
+                  <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
+                    BET DIRECTLY ON PRIDEBET
+                  </Link>
+                  <Link v-if="!$page.props.auth.user" 
+                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke 
+                    py-[10px] px-[45px]" target="_blank"  href="/login">
+                    LOGIN FOR EXTRA FREE SLIPS
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
+              <div>
+                <div>PREVIOUS RESULTS</div>
+                <div>Prediction Results</div>
+              </div>
+              <div>
+                <i class="fas fa-chevron-up active-icon"></i>
+                <i class="fas fa-chevron-down inactive-icon"></i>
+              </div>
+            </div>
+            <div class="content bg-slate-800 w-full transition-all duration-500">
+              <div class="mb-2">
+                <table class="shadow-2xl border md:border-2 w-full">
+                  <thead class="text-black">
+                    <tr class="text-left">
+                      <th class="py-3 px-2 bg-cyan-200">#</th>
+                      <th class="py-3 px-2 bg-cyan-200">League</th>
+                      <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
+                      <th class="py-3 px-2 bg-cyan-200">Tips</th>
+                      <th class="py-3 px-2 bg-cyan-200">Results</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-300">
+                    <tr v-for="(item, index) in previousResults" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                      <td class="py-3 px-2">{{ index + 1 }}</td>
+                      <td class="py-3 px-2">{{ item.league.title }}</td>
+                      <td class="py-3 px-2">{{item.fixtures}}</td>
+                      <td class="py-3 px-2">{{ item.tip.title }}</td>
                       <td class="py-3 px-2">
                         <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
@@ -332,7 +407,9 @@ getNinjas();
                   <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
                     BET DIRECTLY ON PRIDEBET
                   </Link>
-                  <Link class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke py-[10px] px-[45px]" target="_blank"  href="/login">
+                  <Link v-if="!$page.props.auth.user" 
+                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke 
+                    py-[10px] px-[45px]" target="_blank"  href="/login">
                     LOGIN FOR EXTRA FREE SLIPS
                   </Link>
                 </div>
@@ -343,7 +420,7 @@ getNinjas();
       </section>
 
       <!-- Analytics Section -->
-      <section id="analytics" class="w-full h-fit px-1">
+      <section id="analytics" class="w-full h-fit px-1 my-8">
         <div class="wrapper w-full flex flex-wrap items-center justify-center gap-[10px]">
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
@@ -377,10 +454,10 @@ getNinjas();
       </section>
 
       <!-- Bottom Banner Section -->
-      <section class="w-full my-10 lg:my-15 flex justify-center">
-        <Link href="https://www.google.com" class="w-[570px] lg:w-[970px] h-auto lg:h-[250px]">
-          <img src="/images/bottomimage.jpg" alt="top-banner" class="max-w-full max-h-full">
-        </Link>
+      <section v-if="bottomBanner?.id" class="w-full my-10 lg:my-15 flex justify-center">
+        <a :href="bottomBanner?.url" target="_blank" class="w-[570px] lg:w-[970px] h-auto lg:h-[250px]">
+          <img :src="`/banners/${bottomBanner?.filename}`" alt="top-banner" class="max-w-full max-h-full">
+        </a>
       </section>
       
       <!-- Footer Section -->

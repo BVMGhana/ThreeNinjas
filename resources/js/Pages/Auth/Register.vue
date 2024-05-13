@@ -5,17 +5,29 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { toast } from 'vue3-toastify';
+import axios from '../../axiosConfig';
 
 const form = useForm({
     name: '',
-    email: '',
+    // email: '',
+    phone: '',
     password: '',
     password_confirmation: '',
 });
 
-console.log({form});
+const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
+// const submit = async () => {
 const submit = () => {
+    // try {
+    //     const response = await axios.post('register', form);
+    //     if (response.status == 201) {
+    //         displayMessage(response.data.message, 'success');
+    //     }
+    // } catch (error) {
+    //     displayMessage(error.response.statusText, 'error');
+    // }
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
@@ -44,15 +56,15 @@ const submit = () => {
                             <InputError class="mt-2" :message="form.errors.name" />
                         </div>
                         <div class="relative my-8">
-                            <input type="email" v-model="form.email" class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 
+                            <input type="text" v-model="form.phone" class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 
                                 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 
                                 focus:outline-none focus:ring-0 focus:text-white peer" placeholder="">
                             <label for="" class="absolute text-sm duration-300 transform -translate-y-6 scale-75 
                                 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
                                 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
                                 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 
-                                peer-focus:-translate-y-6">Your Email</label>
-                            <InputError class="mt-2" :message="form.errors.email" />
+                                peer-focus:-translate-y-6">Your Phone Number</label>
+                            <InputError class="mt-2" :message="form.errors.phone" />
                         </div>
                         <div class="relative my-8">
                             <input type="password" v-model="form.password" class="block w-72 py-2.3 px-0 text-sm 

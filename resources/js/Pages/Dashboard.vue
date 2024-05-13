@@ -7,6 +7,17 @@ import { Inertia } from '@inertiajs/inertia';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import axios from '../axiosConfig';
+import Dashboard from './Dashboard/Dashboard.vue';
+import Buttons from './Dashboard/Buttons.vue';
+import Banners from './Dashboard/Banners.vue';
+import Tips from './Dashboard/Tips.vue';
+import Fixtures from './Dashboard/Fixtures.vue';
+import Leagues from './Dashboard/Leagues.vue';
+import Users from './Dashboard/Users.vue';
+import WhiteNinja from './Dashboard/WhiteNinja.vue';
+import BlackNinja from './Dashboard/BlackNinja.vue';
+import RedNinja from './Dashboard/RedNinja.vue';
+import PreviousResult from './Dashboard/PreviousResult.vue';
 
 onMounted(() => {
 
@@ -34,444 +45,24 @@ onMounted(() => {
     });
 });
 
-const displayMessage = (message, type) => {
-    // if (type === 'success') toast.success(message, { autoClose: 1000,});
-    // else toast(message, { autoClose: 1000,});
-    toast(message, { autoClose: 1000, type}); 
-};
-
+const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
 const dashboardUrl = '/dashboard';
 const usersUrl = '/dashboard/users';
 const whiteNinjaUrl = '/dashboard/white-ninja';
 const redNinjaUrl = '/dashboard/red-ninja';
 const blackNinjaUrl = '/dashboard/black-ninja';
+const previousResultUrl = '/dashboard/previous-result';
 const leaguesUrl = '/dashboard/leagues';
 const fixturesUrl = '/dashboard/fixtures';
 const tipsUrl = '/dashboard/tips';
 const bannersUrl = '/dashboard/banners';
-
-const whiteNinjas = ref(null);
-const blackNinjas = ref(null);
-const redNinjas = ref(null);
-const leagues = ref(null);
-const fixtures = ref(null);
-const tips = ref(null);
-const banners = ref(null);
-
-const loadInitialData = async () => {
-  try {
-    let response;
-    response = await axios.get('white-ninjas');
-    whiteNinjas.value = response.data;
-
-    response = await axios.get('black-ninjas');
-    blackNinjas.value = response.data;
-
-    response = await axios.get('red-ninjas');
-    redNinjas.value = response.data;
-
-    response = await axios.get('leagues');
-    leagues.value = response.data;
-
-    response = await axios.get('fixtures');
-    fixtures.value = response.data;
-
-    response = await axios.get('tips');
-    tips.value = response.data;
-
-    response = await axios.get('banners');
-    banners.value = response.data;
-
-  } catch (error) {
-    displayMessage(error.response.statusText, 'error');
-  }
-}
-
-loadInitialData();
-
-const form = useForm({
-    league_id: '',
-    fixtures: '',
-    tip_id: '',
-    results: 0
-});
-
-const otherForm = useForm({
-    title: ''
-});
-
-const bannerForm = useForm({
-    name: '',
-    position: '',
-    file: '',
-    url: ''
-});
+const buttonsUrl = '/dashboard/buttons';
 
 const { url } = usePage();
 const stateUrl = ref(null);
 stateUrl.value = url;
-const editDataId = ref(null);
 
-const submitPrediction = async () => {
-    if (stateUrl.value.includes("white-ninja")) {
-        try {
-            if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`white-ninjas/${editDataId.value}`, form.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('white-ninjas');
-                    whiteNinjas.value = result.data;
-                }
-            } else {
-                const response = await axios.post('white-ninjas', form.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('white-ninjas');
-                    whiteNinjas.value = result.data;
-                    form.reset();
-                }
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("red-ninja")) {
-        try {
-            if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`red-ninjas/${editDataId.value}`, form.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('red-ninjas');
-                    redNinjas.value = result.data;
-                }
-            } else {
-                const response = await axios.post('red-ninjas', form.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('red-ninjas');
-                    redNinjas.value = result.data;
-                    form.reset();
-                }
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("black-ninja")) {
-        try {
-            if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`black-ninjas/${editDataId.value}`, form.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('black-ninjas');
-                    blackNinjas.value = result.data;
-                }
-            } else {
-                const response = await axios.post('black-ninjas', form.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('black-ninjas');
-                    blackNinjas.value = result.data;
-                    form.reset();
-                }
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-    
-    // console.log(form.data())
-    // form.post(route('white-ninja'), {
-    //     onFinish: () => form.reset(),
-    // });
-};
-
-const submitData = async () => {
-    if (stateUrl.value.includes("leagues")) {
-        try {
-            if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`leagues/${editDataId.value}`, otherForm.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('leagues');
-                    leagues.value = result.data;
-                    editDataId.value = '';
-                }
-            } else {
-                const response = await axios.post('leagues', otherForm.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('leagues');
-                    leagues.value = result.data;
-                    otherForm.reset();
-                    editDataId.value = '';
-                }
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("fixtures")) {
-        try {
-            if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`fixtures/${editDataId.value}`, otherForm.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('fixtures');
-                    fixtures.value = result.data;
-                }
-            } else {
-                const response = await axios.post('fixtures', otherForm.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('fixtures');
-                    fixtures.value = result.data;
-                    otherForm.reset();
-                }
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("tips")) {
-        try {
-            if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`tips/${editDataId.value}`, otherForm.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('tips');
-                    tips.value = result.data;
-                }
-            } else {
-                const response = await axios.post('tips', otherForm.data());
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('tips');
-                    tips.value = result.data;
-                    otherForm.reset();
-                }
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("banners")) {
-        const formData = new FormData();
-        formData.append('name', bannerForm.data().name);
-        formData.append('position', bannerForm.data().position);
-        formData.append('file', bannerForm.data().file);
-        formData.append('url', bannerForm.data().url);
-        try {
-            if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`banners/${editDataId.value}`, formData);
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('banners');
-                    banners.value = result.data;
-                }
-            } else {
-                console.log("bannerForm.data()>>>", bannerForm.data())
-                const response = await axios.post('banners', formData);
-                if (response.status === 201) {
-                    displayMessage(response.data.message, 'success');
-                    const result = await axios.get('banners');
-                    banners.value = result.data;
-                    bannerForm.reset();
-                } else {
-                    displayMessage(response.data.message, 'warning');
-                }
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-};
-
-const deletePrediction = async id => {
-    if (stateUrl.value.includes("white-ninja")) {
-        try {
-            const response = await axios.delete(`white-ninjas/${id}`);
-            if (response.data.success) {
-                displayMessage(response.data.message, 'success');
-                const result = await axios.get('white-ninjas');
-                whiteNinjas.value = result.data;
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("red-ninja")) {
-        try {
-            const response = await axios.delete(`red-ninjas/${id}`);
-            if (response.data.success) {
-                displayMessage(response.data.message, 'success');
-                const result = await axios.get('red-ninjas');
-                redNinjas.value = result.data;
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("black-ninja")) {
-        const response = await axios.delete(`black-ninjas/${id}`);
-        if (response.data.success) {
-            displayMessage(response.data.message, 'success');
-            const result = await axios.get('black-ninjas');
-            blackNinjas.value = result.data;
-        } else {
-            displayMessage(response.data.message, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("leagues")) {
-        try {
-            const response = await axios.delete(`leagues/${id}`);
-            if (response.data.success) {
-                displayMessage(response.data.message, 'success');
-                const result = await axios.get('leagues');
-                leagues.value = result.data;
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("fixtures")) {
-        try {
-            const response = await axios.delete(`fixtures/${id}`);
-            if (response.data.success) {
-                displayMessage(response.data.message, 'success');
-                const result = await axios.get('fixtures');
-                fixtures.value = result.data;
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("tips")) {
-        try {
-            const response = await axios.delete(`tips/${id}`);
-            if (response.data.success) {
-                displayMessage(response.data.message, 'success');
-                const result = await axios.get('tips');
-                tips.value = result.data;
-            }
-        } catch (error) {
-            displayMessage(error.response.statusText, 'error');
-        }
-    }
-
-    else if (stateUrl.value.includes("banners")) {
-        try {
-            const response = await axios.delete(`banners/${id}`);
-            console.log("Before-Before", response.data);
-            if (response.data.success) {
-                console.log("within-Before");
-                displayMessage(response.data.message, 'success');
-                const result = await axios.get('banners');
-                console.log("within-after");
-                banners.value = result.data;
-            }
-        } catch (error) {
-            console.log("catch-Before");
-            displayMessage(error.response.statusText, 'error');
-            console.log("catch-after");
-        }
-    }
-};
-    
-const editData = async id => {
-    if (!stateUrl.value.includes('edit=true')) {
-        const newUrl = `${url}?edit=true`;
-        stateUrl.value = newUrl;
-        window.history.pushState({ path: newUrl }, '', newUrl);
-        // Inertia.visit(`${url}/?edit=true`, { preserveState: true });
-    }
-    editDataId.value = id;
-
-    let data;
-    if (stateUrl.value.includes('white-ninja')) {
-        const response = await axios.get(`white-ninjas/${id}`);
-        data = response.data;
-    }
-
-    else if (stateUrl.value.includes('red-ninja')) {
-        const response = await axios.get(`red-ninjas/${id}`);
-        data = response.data;
-    }
-
-    else if (stateUrl.value.includes('black-ninja')) {
-        const response = await axios.get(`black-ninjas/${id}`);
-        data = response.data;
-    }
-
-    else if (stateUrl.value.includes('leagues')) {
-        const response = await axios.get(`leagues/${id}`);
-        data = response.data;
-    }
-
-    else if (stateUrl.value.includes('fixture')) {
-        const response = await axios.get(`fixtures/${id}`);
-        data = response.data;
-    }
-
-    else if (stateUrl.value.includes('tips')) {
-        const response = await axios.get(`tips/${id}`);
-        data = response.data;
-    }
-
-    if (stateUrl.value.includes('white-ninja') || stateUrl.value.includes('red-ninja') || 
-    stateUrl.value.includes('black-ninja')) {
-        form.league_id = data.league_id;
-        form.fixtures = data.fixtures;
-        form.tip_id = data.tip_id;
-        form.results = data.results === true ? 1 : 0;
-    }
-    
-    if (stateUrl.value.includes('leagues') || stateUrl.value.includes('fixtures') || stateUrl.value.includes('tips')) {
-        otherForm.title = data.title;
-    }
-};
-
-const addNewRecord = () => {
-    if (stateUrl.value.includes('edit=true')) {
-        let newUrl = stateUrl.value;
-        newUrl = newUrl.replace("?edit=true", '');
-        stateUrl.value = newUrl;
-        window.history.pushState({ path: newUrl }, '', newUrl);
-        editDataId.value = null;
-
-        if (stateUrl.value.includes('white-ninja') || stateUrl.value.includes('red-ninja') || 
-        stateUrl.value.includes('black-ninja')) {
-            form.reset();
-        }
-
-        if (stateUrl.value.includes('leagues') || stateUrl.value.includes('fixtures') || stateUrl.value.includes('tips')) {
-            otherForm.reset();
-        }
-    }
-};
-
-const setBannerName = event => {
-    if (event.target.value === 'top') {
-        bannerForm.name = 'Top Banner';
-    } else if (event.target.value === 'bottom') {
-        bannerForm.name = 'Bottom Banner';
-    }
-};
-
-const attachFile = event => {
-    bannerForm.file = event.target.files[0];
-}
 </script>
 
 <template>
@@ -509,6 +100,10 @@ const attachFile = event => {
                         <span class="material-icons-sharp">person_add</span>
                         <h3>Black Ninja</h3>
                     </Link>
+                    <Link href="/dashboard/previous-results" :class="{ 'active': $page.url.includes(previousResultUrl) }">
+                        <span class="material-icons-sharp">preview</span>
+                        <h3>Previous Results</h3>
+                    </Link>
                     <Link href="/dashboard/leagues" :class="{ 'active': $page.url.includes(leaguesUrl) }">
                         <span class="material-icons-sharp">insights</span>
                         <h3>Leagues</h3>
@@ -525,6 +120,10 @@ const attachFile = event => {
                         <span class="material-icons-sharp">stay_current_landscape</span>
                         <h3>Banners</h3>
                     </Link>
+                    <Link href="/dashboard/buttons" :class="{ 'active': $page.url.includes(buttonsUrl) }">
+                        <span class="material-icons-sharp">smart_button</span>
+                        <h3>Buttons</h3>
+                    </Link>
                     <Link href="/">
                         <span class="material-icons-sharp">home</span>
                         <h3>Homepage</h3>
@@ -538,628 +137,52 @@ const attachFile = event => {
             <!-- End of aside -->
             
             <article>
-                <section v-if="$page.url === dashboardUrl" id="mainSection">
-                    <main>
-                        <h1 class="heading">Dashboard</h1>
+                <Dashboard v-if="$page.url === dashboardUrl">
 
-                        <div class="date">
-                            <input type="date" class="bg-transparent text-dark">
-                        </div>
+                </Dashboard>
+                
+                <Users v-if="$page.url.startsWith(usersUrl)">
 
-                        <!-- Insights -->
-                        <div class="insights">
-                            <div class="sales">
-                                <span class="material-icons-sharp">analytics</span>
-                                <div class="middle">
-                                    <div class="left">
-                                        <h3>All Users</h3>
-                                        <h1>530</h1>
-                                    </div>
-                                    <div class="progress">
-                                        <svg>
-                                            <circle 
-                                                cx="38" cy="38" r="36" ></circle>
-                                        </svg>
-                                        <div class="number">
-                                            <p>81%</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <small class="text-muted">Last 24hours</small>
-                            </div>
-                            <!-- End of All Users -->
+                </Users>
 
-                            <div class="expenses">
-                                <span class="material-icons-sharp">analytics</span>
-                                <div class="middle">
-                                    <div class="left">
-                                        <h3>Subscribed</h3>
-                                        <h1>280</h1>
-                                    </div>
-                                    <div class="progress">
-                                        <svg class="w-[7rem] h-[7rem]">
-                                            <circle cx="38" cy="38" r="36" ></circle>
-                                        </svg>
-                                        <div class="number">
-                                            <p>62%</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <small class="text-muted">Last 24hours</small>
-                            </div>
-                            <!-- End of Subscribed Users -->
+                <WhiteNinja v-if="$page.url.startsWith(whiteNinjaUrl)">
 
-                            <div class="income">
-                                <span class="material-icons-sharp">stacked_line_chart</span>
-                                <div class="middle">
-                                    <div class="left">
-                                        <h3>Premium</h3>
-                                        <h1>225</h1>
-                                    </div>
-                                    <div class="progress">
-                                        <svg class="w-[7rem] h-[7rem]">
-                                            <circle cx="38" cy="38" r="36" ></circle>
-                                        </svg>
-                                        <div class="number">
-                                            <p>44%</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <small class="text-muted">Last 24hours</small>
-                            </div>
-                            <!-- End of Premium Users -->
-                        </div>
+                </WhiteNinja>
 
-                        <!-- Recent -->
-                        <div class="recent-subscriptions">
-                            <h2 class="heading">Recent Subscriptions</h2>
+                <RedNinja v-if="$page.url.startsWith(redNinjaUrl)">
 
-                            <table id="dashboard-table">
-                                <thead>
-                                    <tr>
-                                        <th>Customer Name</th>
-                                        <th>Customer Number</th>
-                                        <th>Payment</th>
-                                        <th>Status</th>
-                                        <th>Details</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Joshua Gato</td>
-                                        <td>0244306303</td>
-                                        <td>Due</td>
-                                        <td class="warning">Pending</td>
-                                        <td class="primary">Details</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Joshua Gato</td>
-                                        <td>0244306303</td>
-                                        <td>Due</td>
-                                        <td class="warning">Pending</td>
-                                        <td class="primary">Details</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Joshua Gato</td>
-                                        <td>0244306303</td>
-                                        <td>Due</td>
-                                        <td class="warning">Pending</td>
-                                        <td class="primary">Details</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Joshua Gato</td>
-                                        <td>0244306303</td>
-                                        <td>Due</td>
-                                        <td class="warning">Pending</td>
-                                        <td class="primary">Details</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <Link href="">Show all</Link>
-                        </div>
-                    </main>
-                    <!-- End of main -->
+                </RedNinja>
 
-                    <div class="right">
-                        <div class="top">
-                            <button id="menu-btn" class="hidden">
-                                <span class="material-icons-sharp">menu</span>
-                            </button>
-                            <div class="theme-toggler">
-                                <span class="material-icons-sharp active">light_mode</span>
-                                <span class="material-icons-sharp">dark_mode</span>
-                            </div>
-                            <div class="profile">
-                                <div class="info">
-                                    <p>Hey, <b>Joshua</b></p>
-                                    <small class="text-muted">Admin</small>
-                                </div>
-                                <div class="profile-photo">
-                                    <img src="/images/profile-1.jpg" alt="profile picture">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of top -->
+                <BlackNinja v-if="$page.url.startsWith(blackNinjaUrl)">
 
-                        <div class="recent-updates">
-                            <h2 class="heading">Recent Updates</h2>
-                            <div class="updates">
-                                <div class="update">
-                                    <div class="profile-photo">
-                                        <img src="/images/profile-2.jpg" alt="profile picture">
-                                    </div>
-                                    <div class="message">
-                                        <p><b>Joshua Gato</b><span class="text-[gray]"> Paid for premium subscription</span></p>
-                                        <small class="text-muted">2 minutes ago</small>
-                                    </div>
-                                </div>
-                                <div class="update">
-                                    <div class="profile-photo">
-                                        <img src="/images/profile-3.jpg" alt="profile picture">
-                                    </div>
-                                    <div class="message">
-                                        <p><b>Joshua Gato</b><span class="text-[gray]"> Paid for premium subscription</span></p>
-                                        <small class="text-muted">2 minutes ago</small>
-                                    </div>
-                                </div>
-                                <div class="update">
-                                    <div class="profile-photo">
-                                        <img src="/images/profile-4.jpg" alt="profile picture">
-                                    </div>
-                                    <div class="message">
-                                        <p><b>Joshua Gato</b><span class="text-[gray]"> Paid for premium subscription</span></p>
-                                        <small class="text-muted">2 minutes ago</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of recent updates -->
+                </BlackNinja>
+                
+                <PreviousResult v-if="$page.url.startsWith(previousResultUrl)">
 
-                        <div class="analytics">
-                            <h2 class="heading">Analytics</h2>
-                            <div class="item online">
-                                <div class="icon">
-                                    <span class="material-icons-sharp">shopping_cart</span>
-                                </div>
-                                <div class="right">
-                                    <div class="info">
-                                        <h3>PrideBet Clicks</h3>
-                                        <small class="text-muted">Last 24 hours</small>
-                                    </div>
-                                    <h5 class="success">+39%</h5>
-                                    <h3>3849</h3>
-                                </div>
-                            </div>
-                            <div class="item offline">
-                                <div class="icon">
-                                    <span class="material-icons-sharp">local_mall</span>
-                                </div>
-                                <div class="right">
-                                    <div class="info">
-                                        <h3>Betway Clicks</h3>
-                                        <small class="text-muted">Last 24 hours</small>
-                                    </div>
-                                    <h5 class="danger">-17%</h5>
-                                    <h3>1100</h3>
-                                </div>
-                            </div>
-                            <div class="item customers">
-                                <div class="icon">
-                                    <span class="material-icons-sharp">person</span>
-                                </div>
-                                <div class="right">
-                                    <div class="info">
-                                        <h3>New Customers</h3>
-                                        <small class="text-muted">Last 24 hours</small>
-                                    </div>
-                                    <h5 class="">+25%</h5>
-                                    <h3>849</h3>
-                                </div>
-                            </div>
-                            <div class="item add-product">
-                                <div>
-                                    <span class="material-icons-sharp">add</span>
-                                    <h3>Add Product</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section v-if="$page.url.startsWith(whiteNinjaUrl)" class="mainSection">
-                    <main class="prediction-main">
-                        
-                        <div class="add-record">
-                            <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Prediction</h1>
-                            <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Prediction</h1>
-                            <form action="" @submit.prevent="submitPrediction">
-                                <label class="heading-2" for="league">League</label>
-                                <select id="league" name="league" v-model="form.league_id">
-                                    <option value="">Select League</option>
-                                    <option v-for="league in leagues" :key="league.id" :value="league.id">{{league.title}}</option>
-                                </select>
+                </PreviousResult>
 
-                                <label class="heading-2" for="fixtures">Fixtures</label>
-                                <input type="text" id="fixtures" v-model="form.fixtures" name="fixtures" placeholder="Fixtures">
+                <Leagues v-if="$page.url.startsWith(leaguesUrl)">
 
-                                <select id="league" name="tips" v-model="form.tip_id">
-                                    <option value="">Select Tip</option>
-                                    <option v-for="tip in tips" :key="tip.id" :value="tip.id">{{tip.title}}</option>
-                                </select>
+                </Leagues>
+                
+                <Fixtures v-if="$page.url.startsWith(fixturesUrl)">
 
-                                <!-- <label class="heading-2" for="result">Results</label>
-                                <select id="result" name="country" v-model="form.results">
-                                    <option value="">Select Result</option>
-                                    <option value="1">Success</option>
-                                    <option value="0">Failure</option>
-                                </select> -->
-                            
-                                <div class="form-buttons">
-                                    <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="button" @click="addNewRecord">Add New</button>
+                </Fixtures>
+                <Tips v-if="$page.url.startsWith(tipsUrl)">
 
-                                    <button v-if="!stateUrl.includes('edit=true')" type="submit">Submit</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="submit">Update</button>
-                                </div>
-                            </form>
-                        </div>
+                </Tips>
+                <Banners v-if="$page.url.startsWith(bannersUrl)">
 
-                        <div>
-                            <h1 class="heading text-center">White Ninja Predictions</h1>
-                            <table class="predictions">
-                                <thead>
-                                    <tr class="text-left text-[13px] md:text-[16px]">
-                                        <th>#</th>
-                                        <th>League</th>
-                                        <th>Fixtures</th>
-                                        <th>Tips</th>
-                                        <!-- <th>Results</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in whiteNinjas" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.league.title }}</td>
-                                        <td>{{ item.fixtures }}</td>
-                                        <td>{{ item.tip.title }}</td>
-                                        <!-- <td class="py-3 px-2">
-                                            <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                                            <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
-                                        </td> -->
-                                        <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
-                </section>
-                <section v-if="$page.url.startsWith(redNinjaUrl)" class="mainSection">
-                    <main class="prediction-main">
-
-                        <div class="add-record">
-                            <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Prediction</h1>
-                            <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Prediction</h1>
-                            <form action="" @submit.prevent="submitPrediction">
-                                <label class="heading-2" for="league">League</label>
-                                <select id="league" name="league" v-model="form.league_id">
-                                    <option value="">Select League</option>
-                                    <option v-for="league in leagues" :key="league.id" :value="league.id">{{league.title}}</option>
-                                </select>
-
-                                <label class="heading-2" for="fixtures">Fixtures</label>
-                                <input type="text" id="fixtures" v-model="form.fixtures" name="fixtures" placeholder="Fixtures">
-
-                                <select id="league" name="tips" v-model="form.tip_id">
-                                    <option value="">Select Tip</option>
-                                    <option v-for="tip in tips" :key="tip.id" :value="tip.id">{{tip.title}}</option>
-                                </select>
-
-                                <!-- <label class="heading-2" for="result">Results</label>
-                                <select id="result" name="country" v-model="form.results">
-                                    <option value="">Select Result</option>
-                                    <option value="1">Success</option>
-                                    <option value="0">Failure</option>
-                                </select> -->
-                            
-                                <div class="form-buttons">
-                                    <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="button" @click="addNewRecord">Add New</button>
-
-                                    <button v-if="!stateUrl.includes('edit=true')" type="submit">Submit</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="submit">Update</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h1 class="heading text-center">Red Ninja Predictions</h1>
-                            <table class="predictions">
-                                <thead>
-                                    <tr class="text-left text-[13px] md:text-[16px]">
-                                        <th>#</th>
-                                        <th>League</th>
-                                        <th>Fixtures</th>
-                                        <th>Tips</th>
-                                        <!-- <th>Results</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in redNinjas" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.league.title }}</td>
-                                        <td>{{ item.fixtures }}</td>
-                                        <td>{{ item.tip.title }}</td>
-                                        <!-- <td class="py-3 px-2">
-                                            <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                                            <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
-                                        </td> -->
-                                        <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
-                </section>
-                <section v-if="$page.url.startsWith(blackNinjaUrl)" class="mainSection">
-                    <main class="prediction-main">
-                        
-                        <div class="add-record">
-                            <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Prediction</h1>
-                            <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Prediction</h1>
-                            <form action="" @submit.prevent="submitPrediction">
-                                <label class="heading-2" for="league">League</label>
-                                <select id="league" name="league" v-model="form.league_id">
-                                    <option value="">Select League</option>
-                                    <option v-for="league in leagues" :key="league.id" :value="league.id">{{league.title}}</option>
-                                </select>
-
-                                <label class="heading-2" for="fixtures">Fixtures</label>
-                                <input type="text" id="fixtures" v-model="form.fixtures" name="fixtures" placeholder="Fixtures">
-
-                                <select id="league" name="tips" v-model="form.tip_id">
-                                    <option value="">Select Tip</option>
-                                    <option v-for="tip in tips" :key="tip.id" :value="tip.id">{{tip.title}}</option>
-                                </select>
-
-                                <!-- <label class="heading-2" for="result">Results</label>
-                                <select id="result" name="country" v-model="form.results">
-                                    <option value="">Select Result</option>
-                                    <option value="1">Success</option>
-                                    <option value="0">Failure</option>
-                                </select> -->
-                            
-                                <div class="form-buttons">
-                                    <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="button" @click="addNewRecord">Add New</button>
-
-                                    <button v-if="!stateUrl.includes('edit=true')" type="submit">Submit</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="submit">Update</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h1 class="heading text-center">Black Ninja Predictions</h1>
-                            <table class="predictions">
-                                <thead>
-                                    <tr class="text-left text-[13px] md:text-[16px]">
-                                        <th>#</th>
-                                        <th>League</th>
-                                        <th>Fixtures</th>
-                                        <th>Tips</th>
-                                        <!-- <th>Results</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in blackNinjas" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item?.league?.title }}</td>
-                                        <td>{{ item.fixtures }}</td>
-                                        <td>{{ item.tip.title }}</td>
-                                        <!-- <td class="py-3 px-2">
-                                            <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                                            <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
-                                        </td> -->
-                                        <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
-                </section>
-                <section v-if="$page.url.startsWith(leaguesUrl)" class="mainSection">
-                    <main class="prediction-main">
-                        
-                        <div class="add-record">
-                            <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add League</h1>
-                            <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update League</h1>
-                            <form action="" @submit.prevent="submitData">
-                                <label class="heading-2" for="league">League</label>
-                                <input type="text" id="league" v-model="otherForm.title" name="league" placeholder="League">
-                            
-                                <div class="form-buttons">
-                                    <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="button" @click="addNewRecord">Add New</button>
-
-                                    <button v-if="!stateUrl.includes('edit=true')" type="submit">Submit</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="submit">Update</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h1 class="heading text-center">Available Leagues</h1>
-                            <table class="predictions">
-                                <thead>
-                                    <tr class="text-left text-[13px] md:text-[16px]">
-                                        <th>#</th>
-                                        <th>League Title</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in leagues" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.title }}</td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
-                </section>
-                <section v-if="$page.url.startsWith(fixturesUrl)" class="mainSection">
-                    <main class="prediction-main">
-                        
-                        <div class="add-record">
-                            <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Fixture</h1>
-                            <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Fixture</h1>
-                            <form action="" @submit.prevent="submitData">
-                                <label class="heading-2" for="fixture">Fixtures</label>
-                                <input type="text" id="fixture" v-model="otherForm.title" name="fixture" placeholder="Fixtures">
-                            
-                                <div class="form-buttons">
-                                    <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="button" @click="addNewRecord">Add New</button>
-
-                                    <button v-if="!stateUrl.includes('edit=true')" type="submit">Submit</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="submit">Update</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h1 class="heading text-center">Available Fixtures</h1>
-                            <table class="predictions">
-                                <thead>
-                                    <tr class="text-left text-[13px] md:text-[16px]">
-                                        <th>#</th>
-                                        <th>League Title</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in fixtures" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.title }}</td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
-                </section>
-                <section v-if="$page.url.startsWith(tipsUrl)" class="mainSection">
-                    <main class="prediction-main">
-                        
-                        <div class="add-record">
-                            <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Tip</h1>
-                            <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Tip</h1>
-                            <form action="" @submit.prevent="submitData">
-                                <label class="heading-2" for="tips">Tips</label>
-                                <input type="text" id="tips" v-model="otherForm.title" name="tips" placeholder="Tips">
-                            
-                                <div class="form-buttons">
-                                    <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="button" @click="addNewRecord">Add New</button>
-
-                                    <button v-if="!stateUrl.includes('edit=true')" type="submit">Submit</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="submit">Update</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h1 class="heading text-center">Available Tips</h1>
-                            <table class="predictions">
-                                <thead>
-                                    <tr class="text-left text-[13px] md:text-[16px]">
-                                        <th>#</th>
-                                        <th>Tip Title</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in tips" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.title }}</td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
-                </section>
-                <section v-if="$page.url.startsWith(bannersUrl)" class="mainSection">
-                    <main class="prediction-main">
-                        
-                        <div class="add-record">
-                            <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Banner</h1>
-                            <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Banner</h1>
-                            <form action="" @submit.prevent="submitData">
-                                <label class="heading-2" for="name">Name</label>
-                                <input type="text" id="name" v-model="bannerForm.name" name="name" placeholder="Name" disabled>
-                                <InputError :message="bannerForm.errors.name" />
-
-                                <label class="heading-2" for="position">Position</label>
-                                <select id="position" name="position" @change="setBannerName" v-model="bannerForm.position">
-                                    <option value="">Select Position</option>
-                                    <option value="top">Top</option>
-                                    <option value="bottom">Bottom</option>
-                                </select>
-                                <InputError :message="bannerForm.errors.position" />
-
-                                <label class="heading-2 block" for="banner">Banner</label>
-                                <input type="file" id="banner" @change="attachFile" name="banner" placeholder="Banner">
-                                <InputError :message="bannerForm.errors.file" />
-
-                                <label class="heading-2 block" for="url">Link</label>
-                                <input type="text" id="url" v-model="bannerForm.url" name="url" placeholder="Link">
-                                <InputError :message="bannerForm.errors.url" />
-
-                                <div class="form-buttons">
-                                    <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="button" @click="addNewRecord">Add New</button>
-
-                                    <button v-if="!stateUrl.includes('edit=true')" type="submit">Submit</button>
-                                    <button v-if="stateUrl.includes('edit=true')" type="submit">Update</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div>
-                            <h1 class="heading text-center">Available Banners</h1>
-                            <table class="predictions">
-                                <thead>
-                                    <tr class="text-left text-[13px] md:text-[16px]">
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Image</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(item, index) in banners" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ item.name }}</td>
-                                        <td>{{ item.position }}</td>
-                                        <td>{{ item.filename }}</td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
-                                        <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
-                </section>
+                </Banners>
+                <Buttons v-if="$page.url.startsWith(buttonsUrl)">
+                    
+                </Buttons>
             </article>
         </div>
     </section>
 </template>
 
-<style scoped>
+<style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
@@ -1408,8 +431,9 @@ aside .sidebar a span {
 }
 
 aside .sidebar a:last-child {
-    position: absolute;
-    bottom: 2rem;
+    margin-top: 1rem;
+    /* position: absolute; */
+    /* bottom: 0; */
     width: 100%;
 }
 

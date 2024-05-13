@@ -29,11 +29,23 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->validate([
+            'phone' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
-        $request->session()->regenerate();
+        // $request->authenticate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // $request->session()->regenerate();
+
+        if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password], $request->filled('remember'))) {
+            $request->session()->regenerate();
+    
+            return redirect('/');
+        }
+
+        // return redirect()->intended(route('dashboard', absolute: false));
+        return redirect('/');
     }
 
     /**

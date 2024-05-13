@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\FixtureController;
 use App\Http\Controllers\TipController;
@@ -9,11 +10,17 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\WhiteNinjaController;
 use App\Http\Controllers\BlackNinjaController;
 use App\Http\Controllers\RedNinjaController;
+use App\Http\Controllers\PreviousResultController;
+use App\Http\Controllers\UserController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+// Route::post('register', [RegisteredUserController::class, 'store']);
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users-count', [UserController::class, 'count']);
 
 Route::get('/leagues', [LeagueController::class, 'index']);
 Route::post('/leagues', [LeagueController::class, 'store']);
@@ -57,3 +64,9 @@ Route::post('/black-ninjas', [BlackNinjaController::class, 'store']);
 Route::get('/black-ninjas/{id}', [BlackNinjaController::class, 'show']);
 Route::delete('/black-ninjas/{id}', [BlackNinjaController::class, 'destroy']);
 Route::put('/black-ninjas/{id}', [BlackNinjaController::class, 'update']);
+
+Route::get('/previous-results', [PreviousResultController::class, 'index']);
+Route::post('/previous-results', [PreviousResultController::class, 'store']);
+Route::get('/previous-results/{id}', [PreviousResultController::class, 'show']);
+Route::delete('/previous-results/{id}', [PreviousResultController::class, 'destroy']);
+Route::put('/previous-results/{id}', [PreviousResultController::class, 'update']);
