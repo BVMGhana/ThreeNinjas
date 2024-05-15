@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ButtonController;
 use App\Http\Controllers\LeagueController;
 use App\Http\Controllers\FixtureController;
 use App\Http\Controllers\TipController;
@@ -21,6 +22,12 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users-count', [UserController::class, 'count']);
+
+Route::get('/buttons', [ButtonController::class, 'index']);
+Route::post('/buttons', [ButtonController::class, 'store']);
+Route::get('/buttons/{id}', [ButtonController::class, 'show']);
+Route::delete('/buttons/{id}', [ButtonController::class, 'destroy']);
+Route::put('/buttons/{id}', [ButtonController::class, 'update']);
 
 Route::get('/leagues', [LeagueController::class, 'index']);
 Route::post('/leagues', [LeagueController::class, 'store']);
