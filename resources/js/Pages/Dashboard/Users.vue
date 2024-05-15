@@ -36,7 +36,17 @@ stateUrl.value = url;
 <template>
     <section class="mainSection">
         <main class="prediction-main">
-
+            <div class="right">
+                <div class="top">
+                    <button id="menu-btn" class="hidden">
+                        <span class="material-icons-sharp">menu</span>
+                    </button>
+                    <div class="theme-toggler">
+                        <span class="material-icons-sharp active">light_mode</span>
+                        <span class="material-icons-sharp">dark_mode</span>
+                    </div>
+                </div>
+            </div>
             <div>
                 <h1 class="heading text-center">Available Users</h1>
                 <table class="predictions">
@@ -46,7 +56,7 @@ stateUrl.value = url;
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Type</th>
-                            <th>Date Registered</th>
+                            <th class="hidden md:inline-block">Date Registered</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,7 +65,7 @@ stateUrl.value = url;
                             <td>{{ user.name }}</td>
                             <td>{{ user.phone }}</td>
                             <td>Premium</td>
-                            <td>{{ user.created_at.split("T")[0] }}</td>
+                            <td class="hidden md:inline-block">{{ user.created_at.split("T")[0] }}</td>
                         </tr>
                     </tbody>
                 </table>

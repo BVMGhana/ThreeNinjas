@@ -12,12 +12,9 @@ const redNinja = ref(null);
 const previousResults = ref(null);
 const topBanner = ref(null);
 const bottomBanner = ref(null);
+const buttons = ref(null);
 
 onMounted(() => {
-// let menuBtn1 = document.querySelector('#menuBtn1');
-// let menuBtn2 = document.querySelector('#menuBtn2');
-// console.log({menuBtn1, menuBtn2})
-
   menuBtn.value.addEventListener('click', () => {
     navLinks.value.classList.toggle('mobile-menu');
   });
@@ -109,6 +106,11 @@ const getNinjas = async () => {
     response = await axios.get('previous-results');
     previousResults.value = response.data;
 
+    response = await axios.get('buttons');
+    const buttonsArray = response.data;
+    buttonsArray.sort((a, b) => a.priority - b.priority);
+    buttons.value = buttonsArray;
+
   } catch (error) {
     console.error('There was an error fetching the data: ', error);
   }
@@ -138,13 +140,13 @@ getNinjas();
         
         <div class="flex items-center justify-between lg:p-[20px] bg-[#000]">
           <Link href="/" class="logo fixed lg:static top-[30px] left-[30px] text-[30px] lg:text-[25px]">3Ninjas</Link>
-          <!-- <img src="/images/menu-btn.png" alt="Menu button" class=""> -->
-          <span class="material-icons-sharp text-[3.5rem] cursor-pointer fixed lg:static 
-            top-[30px] right-[30px] w-[40px] cursor-pointer lg:hidden w-[40px]" 
-            v-if="isOpen===false" @click="toggleMenu" ref="menuBtn" id="menuBtn1">menu</span>
-          <span class="material-icons-sharp text-[3.5rem] cursor-pointer fixed lg:static 
-            top-[30px] right-[30px] w-[40px] cursor-pointer lg:hidden w-[40px]" 
-            v-if="isOpen===true" @click="toggleMenu" ref="menuBtn" id="menuBtn2">close</span>
+          <div id="menuButton" @click="toggleMenu" ref="menuBtn" class="flex items-center fixed lg:static 
+            top-[20px] right-[40px] w-[40px] lg:hidden w-[40px] cursor-pointer">
+            <span class="material-icons-sharp text-[3.5rem]" 
+              v-if="isOpen===false">menu</span>
+            <span class="material-icons-sharp text-[3.5rem]" 
+              v-if="isOpen===true">close</span>
+          </div>
         </div>
 
         <ul ref="navLinks" class="nav-links list-none flex flex-col lg:flex-row w-screen lg:w-auto 
@@ -220,6 +222,167 @@ getNinjas();
           <div class="item accordion-active">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
+                <div>PREVIOUS RESULTS</div>
+                <div>Prediction Results</div>
+              </div>
+              <div>
+                <i class="fas fa-chevron-up active-icon"></i>
+                <i class="fas fa-chevron-down inactive-icon"></i>
+              </div>
+            </div>
+            <div class="content bg-slate-800 w-full transition-all duration-500">
+              <div class="mb-2">
+                <table class="shadow-2xl border md:border-2 w-full">
+                  <thead class="text-black">
+                    <tr class="text-left">
+                      <th class="py-3 px-2 bg-cyan-200">#</th>
+                      <th class="py-3 px-2 bg-cyan-200">League</th>
+                      <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
+                      <th class="py-3 px-2 bg-cyan-200">Tips</th>
+                      <th class="py-3 px-2 bg-cyan-200">Results</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-300">
+                    <tr v-for="(item, index) in previousResults" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                      <td class="py-3 px-2">{{ index + 1 }}</td>
+                      <td class="py-3 px-2">{{ item.league.title }}</td>
+                      <td class="py-3 px-2">{{item.fixtures}}</td>
+                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">
+                        <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
+                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="p-4 w-full flex flex-col items-center gap-10">
+                  <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
+                    <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
+                      :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                      target="_blank">
+                      {{ button.title }}
+                    </a>
+                  </div>
+                  <Link v-if="!$page.props.auth.user" 
+                    class="no-underline bg-cyan-200 text-[black] rounded-[5px] text-[13px] font-bold text-whitesmoke 
+                    py-[10px] px-[45px]" target="_blank"  href="/login">
+                    LOGIN FOR EXTRA VIP FREE SLIPS
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item accordion-active">
+            <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
+              <div>
+                <div>RED NINJA</div>
+                <div>High Risk Bet</div>
+              </div>
+              <div>
+                <i class="fas fa-chevron-up active-icon"></i>
+                <i class="fas fa-chevron-down inactive-icon"></i>
+              </div>
+            </div>
+            <div class="content bg-slate-800 w-full transition-all duration-500">
+              <div class="mb-2">
+                <table class="shadow-2xl border md:border-2 w-full">
+                  <thead class="text-black">
+                    <tr class="text-left">
+                      <th class="py-3 px-2 bg-cyan-200">#</th>
+                      <th class="py-3 px-2 bg-cyan-200">League</th>
+                      <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
+                      <th class="py-3 px-2 bg-cyan-200">Tips</th>
+                      <th class="py-3 px-2 bg-cyan-200">Results</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-300">
+                    <tr v-for="(item, index) in redNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                      <td class="py-3 px-2">{{ index + 1 }}</td>
+                      <td class="py-3 px-2">{{ item.league.title }}</td>
+                      <td class="py-3 px-2">{{item.fixtures}}</td>
+                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">
+                        N/A
+                        <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
+                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="p-4 w-full flex flex-col items-center gap-10">
+                  <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
+                    <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
+                      :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                      target="_blank">
+                      {{ button.title }}
+                    </a>
+                  </div>
+                  <Link v-if="!$page.props.auth.user" 
+                    class="no-underline bg-cyan-200 text-[black] rounded-[5px] text-[13px] font-bold text-whitesmoke 
+                    py-[10px] px-[45px]" target="_blank"  href="/login">
+                    LOGIN FOR EXTRA VIP FREE SLIPS
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
+            <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
+              <div>
+                <div>BLACK NINJA</div>
+                <div>Average Risk Bet</div>
+              </div>
+              <div>
+                <i class="fas fa-chevron-up active-icon"></i>
+                <i class="fas fa-chevron-down inactive-icon"></i>
+              </div>
+            </div>
+            <div class="content bg-slate-800 w-full transition-all duration-500">
+              <div class="mb-2">
+                <table class="shadow-2xl border md:border-2 w-full">
+                  <thead class="text-black">
+                    <tr class="text-left">
+                      <th class="py-3 px-2 bg-cyan-200">#</th>
+                      <th class="py-3 px-2 bg-cyan-200">League</th>
+                      <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
+                      <th class="py-3 px-2 bg-cyan-200">Tips</th>
+                      <th class="py-3 px-2 bg-cyan-200">Results</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-300">
+                    <tr v-for="(item, index) in blackNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                      <td class="py-3 px-2">{{ index + 1 }}</td>
+                      <td class="py-3 px-2">{{ item.league.title }}</td>
+                      <td class="py-3 px-2">{{ item.fixtures }}</td>
+                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">
+                        N/A
+                        <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
+                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="p-4 w-full flex flex-col items-center gap-10">
+                  <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
+                    <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
+                      :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                      target="_blank">
+                      {{ button.title }}
+                    </a>
+                  </div>
+                  <Link v-if="!$page.props.auth.user" 
+                    class="no-underline bg-cyan-200 text-[black] rounded-[5px] text-[13px] font-bold text-whitesmoke 
+                    py-[10px] px-[45px]" target="_blank"  href="/login">
+                    LOGIN FOR EXTRA VIP FREE SLIPS
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
+            <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
+              <div>
                 <div>WHITE NINJA</div>
                 <div>Low Risk Bet</div>
               </div>
@@ -254,163 +417,18 @@ getNinjas();
                     </tr>
                   </tbody>
                 </table>
-                <div class="p-4 w-full flex flex-col items-center gap-4">
-                  <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
-                    BET DIRECTLY ON PRIDEBET
-                  </Link>
+                <div class="p-4 w-full flex flex-col items-center gap-10">
+                  <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
+                    <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
+                      :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                      target="_blank">
+                      {{ button.title }}
+                    </a>
+                  </div>
                   <Link v-if="!$page.props.auth.user" 
-                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke py-[10px] 
+                    class="no-underline bg-cyan-200 text-[black] rounded-[5px] text-[13px] font-bold text-whitesmoke py-[10px] 
                     px-[45px]" target="_blank"  href="/login">
-                    LOGIN FOR EXTRA FREE SLIPS
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
-              <div>
-                <div>BLACK NINJA</div>
-                <div>High Risk Bet</div>
-              </div>
-              <div>
-                <i class="fas fa-chevron-up active-icon"></i>
-                <i class="fas fa-chevron-down inactive-icon"></i>
-              </div>
-            </div>
-            <div class="content bg-slate-800 w-full transition-all duration-500">
-              <div class="mb-2">
-                <table class="shadow-2xl border md:border-2 w-full">
-                  <thead class="text-black">
-                    <tr class="text-left">
-                      <th class="py-3 px-2 bg-cyan-200">#</th>
-                      <th class="py-3 px-2 bg-cyan-200">League</th>
-                      <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
-                      <th class="py-3 px-2 bg-cyan-200">Tips</th>
-                      <th class="py-3 px-2 bg-cyan-200">Results</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-gray-300">
-                    <tr v-for="(item, index) in blackNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                      <td class="py-3 px-2">{{ index + 1 }}</td>
-                      <td class="py-3 px-2">{{ item.league.title }}</td>
-                      <td class="py-3 px-2">{{ item.fixtures }}</td>
-                      <td class="py-3 px-2">{{ item.tip.title }}</td>
-                      <td class="py-3 px-2">
-                        N/A
-                        <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="p-4 w-full flex flex-col items-center gap-4">
-                  <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
-                    BET DIRECTLY ON PRIDEBET
-                  </Link>
-                  <Link v-if="!$page.props.auth.user" 
-                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke 
-                    py-[10px] px-[45px]" target="_blank"  href="/login">
-                    LOGIN FOR EXTRA FREE SLIPS
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
-              <div>
-                <div>RED NINJA</div>
-                <div>Prediction</div>
-              </div>
-              <div>
-                <i class="fas fa-chevron-up active-icon"></i>
-                <i class="fas fa-chevron-down inactive-icon"></i>
-              </div>
-            </div>
-            <div class="content bg-slate-800 w-full transition-all duration-500">
-              <div class="mb-2">
-                <table class="shadow-2xl border md:border-2 w-full">
-                  <thead class="text-black">
-                    <tr class="text-left">
-                      <th class="py-3 px-2 bg-cyan-200">#</th>
-                      <th class="py-3 px-2 bg-cyan-200">League</th>
-                      <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
-                      <th class="py-3 px-2 bg-cyan-200">Tips</th>
-                      <th class="py-3 px-2 bg-cyan-200">Results</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-gray-300">
-                    <tr v-for="(item, index) in redNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                      <td class="py-3 px-2">{{ index + 1 }}</td>
-                      <td class="py-3 px-2">{{ item.league.title }}</td>
-                      <td class="py-3 px-2">{{item.fixtures}}</td>
-                      <td class="py-3 px-2">{{ item.tip.title }}</td>
-                      <td class="py-3 px-2">
-                        N/A
-                        <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="p-4 w-full flex flex-col items-center gap-4">
-                  <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
-                    BET DIRECTLY ON PRIDEBET
-                  </Link>
-                  <Link v-if="!$page.props.auth.user" 
-                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke 
-                    py-[10px] px-[45px]" target="_blank"  href="/login">
-                    LOGIN FOR EXTRA FREE SLIPS
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
-              <div>
-                <div>PREVIOUS RESULTS</div>
-                <div>Prediction Results</div>
-              </div>
-              <div>
-                <i class="fas fa-chevron-up active-icon"></i>
-                <i class="fas fa-chevron-down inactive-icon"></i>
-              </div>
-            </div>
-            <div class="content bg-slate-800 w-full transition-all duration-500">
-              <div class="mb-2">
-                <table class="shadow-2xl border md:border-2 w-full">
-                  <thead class="text-black">
-                    <tr class="text-left">
-                      <th class="py-3 px-2 bg-cyan-200">#</th>
-                      <th class="py-3 px-2 bg-cyan-200">League</th>
-                      <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
-                      <th class="py-3 px-2 bg-cyan-200">Tips</th>
-                      <th class="py-3 px-2 bg-cyan-200">Results</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-gray-300">
-                    <tr v-for="(item, index) in previousResults" :key="item.id" class="text-left text-[13px] md:text-[16px]">
-                      <td class="py-3 px-2">{{ index + 1 }}</td>
-                      <td class="py-3 px-2">{{ item.league.title }}</td>
-                      <td class="py-3 px-2">{{item.fixtures}}</td>
-                      <td class="py-3 px-2">{{ item.tip.title }}</td>
-                      <td class="py-3 px-2">
-                        <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
-                        <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="p-4 w-full flex flex-col items-center gap-4">
-                  <Link class="no-underline bg-[#fc036b] rounded-[30px] text-[13px] font-bold text-whitesmoke py-[3px] px-[45px]" target="_blank"  href="https://www.pridebet.com.gh/?affiliatetag=67_1190081&idprovider=399">
-                    BET DIRECTLY ON PRIDEBET
-                  </Link>
-                  <Link v-if="!$page.props.auth.user" 
-                    class="no-underline bg-[#009578] rounded-[5px] text-[13px] font-bold text-whitesmoke 
-                    py-[10px] px-[45px]" target="_blank"  href="/login">
-                    LOGIN FOR EXTRA FREE SLIPS
+                    LOGIN FOR EXTRA VIP FREE SLIPS
                   </Link>
                 </div>
               </div>

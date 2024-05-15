@@ -21,7 +21,7 @@ const loadInitialData = async () => {
 
 loadInitialData();
 
-const otherForm = useForm({
+const form = useForm({
     title: ''
 });
 
@@ -34,19 +34,19 @@ const submitData = async () => {
     if (stateUrl.value.includes("tips")) {
         try {
             if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`tips/${editDataId.value}`, otherForm.data());
+                const response = await axios.put(`tips/${editDataId.value}`, form);
                 if (response.status === 201) {
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('tips');
                     tips.value = result.data;
                 }
             } else {
-                const response = await axios.post('tips', otherForm.data());
+                const response = await axios.post('tips', form);
                 if (response.status === 201) {
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('tips');
                     tips.value = result.data;
-                    otherForm.reset();
+                    form.reset();
                 }
             }
         } catch (error) {
@@ -63,6 +63,7 @@ const deletePrediction = async id => {
                 displayMessage(response.data.message, 'success');
                 const result = await axios.get('tips');
                 tips.value = result.data;
+                addNewRecord();
             }
         } catch (error) {
             displayMessage(error.response.statusText, 'error');
@@ -85,7 +86,7 @@ const editData = async id => {
     }
     
     if (stateUrl.value.includes('leagues') || stateUrl.value.includes('fixtures') || stateUrl.value.includes('tips')) {
-        otherForm.title = data.title;
+        form.title = data.title;
     }
 };
 
@@ -98,7 +99,7 @@ const addNewRecord = () => {
         editDataId.value = null;
 
         if (stateUrl.value.includes('leagues') || stateUrl.value.includes('fixtures') || stateUrl.value.includes('tips')) {
-            otherForm.reset();
+            form.reset();
         }
     }
 };
@@ -108,13 +109,23 @@ const addNewRecord = () => {
 <template>
     <section class="mainSection">
         <main class="prediction-main">
-            
+            <div class="right">
+                <div class="top">
+                    <button id="menu-btn" class="hidden">
+                        <span class="material-icons-sharp">menu</span>
+                    </button>
+                    <div class="theme-toggler">
+                        <span class="material-icons-sharp active">light_mode</span>
+                        <span class="material-icons-sharp">dark_mode</span>
+                    </div>
+                </div>
+            </div>
             <div class="add-record">
                 <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Tip</h1>
                 <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Tip</h1>
                 <form action="" @submit.prevent="submitData">
                     <label class="heading-2" for="tips">Tips</label>
-                    <input type="text" id="tips" v-model="otherForm.title" name="tips" placeholder="Tips">
+                    <input type="text" id="tips" v-model="form.title" name="tips" placeholder="Tips">
                 
                     <div class="form-buttons">
                         <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>

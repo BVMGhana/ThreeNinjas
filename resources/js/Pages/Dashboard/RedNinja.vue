@@ -9,11 +9,20 @@ import axios from '../../axiosConfig';
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
 const redNinjas = ref(null);
+const leagues = ref(null);
+const tips = ref(null);
 
 const loadInitialData = async () => {
   try {
-    const response = await axios.get('red-ninjas');
+    let response;
+    response = await axios.get('red-ninjas');
     redNinjas.value = response.data;
+
+    response = await axios.get('leagues');
+    leagues.value = response.data;
+
+    response = await axios.get('tips');
+    tips.value = response.data;
 
   } catch (error) {
     displayMessage(error.response.statusText, 'error');
@@ -67,6 +76,7 @@ const deletePrediction = async id => {
                 displayMessage(response.data.message, 'success');
                 const result = await axios.get('red-ninjas');
                 redNinjas.value = result.data;
+                addNewRecord();
             }
         } catch (error) {
             displayMessage(error.response.statusText, 'error');
@@ -117,7 +127,17 @@ const addNewRecord = () => {
 <template>
     <section class="mainSection">
         <main class="prediction-main">
-
+            <div class="right">
+                <div class="top">
+                    <button id="menu-btn" class="hidden">
+                        <span class="material-icons-sharp">menu</span>
+                    </button>
+                    <div class="theme-toggler">
+                        <span class="material-icons-sharp active">light_mode</span>
+                        <span class="material-icons-sharp">dark_mode</span>
+                    </div>
+                </div>
+            </div>
             <div class="add-record">
                 <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Prediction</h1>
                 <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Prediction</h1>

@@ -8,11 +8,20 @@ import axios from '../../axiosConfig';
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
 const previousResults = ref(null);
+const leagues = ref(null);
+const tips = ref(null);
 
 const loadInitialData = async () => {
-  try {    
-    const response = await axios.get('previous-results');
+  try {
+    let response;
+    response = await axios.get('previous-results');
     previousResults.value = response.data;
+
+    response = await axios.get('leagues');
+    leagues.value = response.data;
+
+    response = await axios.get('tips');
+    tips.value = response.data;
 
   } catch (error) {
     displayMessage(error.response.statusText, 'error');
@@ -21,7 +30,7 @@ const loadInitialData = async () => {
 
 loadInitialData();
 
-const form2 = useForm({
+const form = useForm({
     league_id: '',
     fixtures: '',
     tip_id: '',
@@ -37,19 +46,19 @@ const submitPrediction = async () => {
     if (stateUrl.value.includes("previous-results")) {
         try {
             if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`previous-results/${editDataId.value}`, form2.data());
+                const response = await axios.put(`previous-results/${editDataId.value}`, form.data());
                 if (response.status === 201) {
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('previous-results');
                     previousResults.value = result.data;
                 }
             } else {
-                const response = await axios.post('previous-results', form2.data());
+                const response = await axios.post('previous-results', form.data());
                 if (response.status === 201) {
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('previous-results');
                     previousResults.value = result.data;
-                    form2.reset();
+                    form.reset();
                 }
             }
         } catch (error) {
@@ -65,6 +74,7 @@ const deletePrediction = async id => {
             displayMessage(response.data.message, 'success');
             const result = await axios.get('previous-results');
             previousResults.value = result.data;
+            addNewRecord();
         } else {
             displayMessage(response.data.message, 'error');
         }
@@ -86,10 +96,10 @@ const editData = async id => {
     }
 
     if (stateUrl.value.includes('previous-results')) {
-        form2.league_id = data.league_id;
-        form2.fixtures = data.fixtures;
-        form2.tip_id = data.tip_id;
-        form2.results = data.results === true ? 1 : 0;
+        form.league_id = data.league_id;
+        form.fixtures = data.fixtures;
+        form.tip_id = data.tip_id;
+        form.results = data.results === true ? 1 : 0;
     }
 };
 
@@ -102,7 +112,7 @@ const addNewRecord = () => {
         editDataId.value = null;
 
         if (stateUrl.value.includes('previous-results')) {
-            form2.reset();
+            form.reset();
         }
     }
 };
@@ -112,27 +122,37 @@ const addNewRecord = () => {
 <template>
     <section class="mainSection">
         <main class="prediction-main">
-            
+            <div class="right">
+                <div class="top">
+                    <button id="menu-btn" class="hidden">
+                        <span class="material-icons-sharp">menu</span>
+                    </button>
+                    <div class="theme-toggler">
+                        <span class="material-icons-sharp active">light_mode</span>
+                        <span class="material-icons-sharp">dark_mode</span>
+                    </div>
+                </div>
+            </div>
             <div class="add-record">
                 <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Prediction Result</h1>
                 <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Prediction Result</h1>
                 <form action="" @submit.prevent="submitPrediction">
                     <label class="heading-2" for="league">League</label>
-                    <select id="league" name="league" v-model="form2.league_id">
+                    <select id="league" name="league" v-model="form.league_id">
                         <option value="">Select League</option>
                         <option v-for="league in leagues" :key="league.id" :value="league.id">{{league.title}}</option>
                     </select>
 
                     <label class="heading-2" for="fixtures">Fixtures</label>
-                    <input type="text" id="fixtures" v-model="form2.fixtures" name="fixtures" placeholder="Fixtures">
+                    <input type="text" id="fixtures" v-model="form.fixtures" name="fixtures" placeholder="Fixtures">
 
-                    <select id="league" name="tips" v-model="form2.tip_id">
+                    <select id="league" name="tips" v-model="form.tip_id">
                         <option value="">Select Tip</option>
                         <option v-for="tip in tips" :key="tip.id" :value="tip.id">{{tip.title}}</option>
                     </select>
 
                     <label class="heading-2" for="result">Results</label>
-                    <select id="result" name="country" v-model="form2.results">
+                    <select id="result" name="country" v-model="form.results">
                         <option value="">Select Result</option>
                         <option value="1">Success</option>
                         <option value="0">Failure</option>
@@ -166,7 +186,7 @@ const addNewRecord = () => {
                             <td>{{ item?.league?.title }}</td>
                             <td>{{ item.fixtures }}</td>
                             <td>{{ item.tip.title }}</td>
-                            <td class="py-3 px-2">
+                            <td class="py-3 px-2 text-center">
                                 <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                                 <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
                             </td>

@@ -3,16 +3,18 @@ import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { onMounted, watch, ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { ColorPicker } from "vue3-colorpicker";
+import "vue3-colorpicker/style.css";
 import axios from '../../axiosConfig';
 
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
-const banners = ref(null);
+const buttons = ref(null);
 
 const loadInitialData = async () => {
   try {
-    const response = await axios.get('banners');
-    banners.value = response.data;
+    const response = await axios.get('buttons');
+    buttons.value = response.data;
 
   } catch (error) {
     displayMessage(error.response.statusText, 'error');
@@ -21,11 +23,12 @@ const loadInitialData = async () => {
 
 loadInitialData();
 
-const bannerForm = useForm({
-    name: '',
-    position: '',
-    file: '',
-    url: ''
+const form = useForm({
+    title: '',
+    url: '',
+    background: '#2097f3',
+    foreground: '#0d0d0d',
+    priority: ''
 });
 
 const { url } = usePage();
@@ -33,32 +36,24 @@ const stateUrl = ref(null);
 stateUrl.value = url;
 const editDataId = ref(null);
 
-const fileInput = ref(null);
 const submitData = async () => {
-    if (stateUrl.value.includes("banners")) {
-        const form = bannerForm.data();
-        const formData = new FormData();
-        formData.append('name', form.name);
-        formData.append('position', form.position);
-        formData.append('file', form.file);
-        formData.append('url', form.url);
+    if (stateUrl.value.includes("buttons")) {
         
         try {
             if (stateUrl.value.includes('edit=true') && editDataId) {
-                const response = await axios.put(`banners/${editDataId.value}`, formData);
+                const response = await axios.put(`buttons/${editDataId.value}`, form);
                 if (response.status === 201) {
                     displayMessage(response.data.message, 'success');
-                    const result = await axios.get('banners');
-                    banners.value = result.data;
+                    const result = await axios.get('buttons');
+                    buttons.value = result.data;
                 }
             } else {
-                const response = await axios.post('banners', formData);
+                const response = await axios.post('buttons', form);
                 if (response.status === 201) {
                     displayMessage(response.data.message, 'success');
-                    const result = await axios.get('banners');
-                    banners.value = result.data;
-                    fileInput.value.value = '';
-                    bannerForm.reset();
+                    const result = await axios.get('buttons');
+                    buttons.value = result.data;
+                    form.reset();
                 } else {
                     displayMessage(response.data.message, 'warning');
                 }
@@ -70,13 +65,14 @@ const submitData = async () => {
 };
 
 const deletePrediction = async id => {
-    if (stateUrl.value.includes("banners")) {
+    if (stateUrl.value.includes("buttons")) {
         try {
-            const response = await axios.delete(`banners/${id}`);
+            const response = await axios.delete(`buttons/${id}`);
             if (response.data.success) {
                 displayMessage(response.data.message, 'success');
-                const result = await axios.get('banners');
-                banners.value = result.data;
+                const result = await axios.get('buttons');
+                buttons.value = result.data;
+                addNewRecord();
             }
         } catch (error) {
             displayMessage(error.response.statusText, 'error');
@@ -93,18 +89,18 @@ const editData = async id => {
     editDataId.value = id;
 
     let data;
-
-    if (stateUrl.value.includes('banners')) {
-        const response = await axios.get(`banners/${id}`);
+    if (stateUrl.value.includes('buttons')) {
+        const response = await axios.get(`buttons/${id}`);
         data = response.data;
     }
 
 
-    if (stateUrl.value.includes('banner')) {
-        bannerForm.name = data.name;
-        bannerForm.position = data.position;
-        bannerForm.url = data.url;
-        bannerForm.file = data.filename;
+    if (stateUrl.value.includes('buttons')) {
+        form.title = data.title;
+        form.url = data.url;
+        form.background = data.background;
+        form.foreground = data.foreground;
+        form.priority = data.priority;
     }
 };
 
@@ -116,52 +112,71 @@ const addNewRecord = () => {
         window.history.pushState({ path: newUrl }, '', newUrl);
         editDataId.value = null;
 
-        if (stateUrl.value.includes('banners')) {
-            bannerForm.reset();
+        if (stateUrl.value.includes('buttons')) {
+            form.reset();
         }
     }
 };
 
-const setBannerName = event => {
-    if (event.target.value === 'top') {
-        bannerForm.name = 'Top Banner';
-    } else if (event.target.value === 'bottom') {
-        bannerForm.name = 'Bottom Banner';
-    }
-};
-
-const attachFile = event => {
-    bannerForm.file = event.target.files[0];
-}
 </script>
 
 <template>
     <section class="mainSection">
         <main class="prediction-main">
-            
+            <div class="right">
+                <div class="top">
+                    <button id="menu-btn" class="hidden">
+                        <span class="material-icons-sharp">menu</span>
+                    </button>
+                    <div class="theme-toggler">
+                        <span class="material-icons-sharp active">light_mode</span>
+                        <span class="material-icons-sharp">dark_mode</span>
+                    </div>
+                </div>
+            </div>
             <div class="add-record">
-                <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Banner</h1>
-                <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Banner</h1>
+                <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Button</h1>
+                <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Button</h1>
                 <form action="" @submit.prevent="submitData">
-                    <label class="heading-2" for="name">Name</label>
-                    <input type="text" id="name" v-model="bannerForm.name" name="name" placeholder="Name" disabled>
-                    <InputError :message="bannerForm.errors.name" />
-
-                    <label class="heading-2" for="position">Position</label>
-                    <select id="position" name="position" @change="setBannerName" v-model="bannerForm.position">
-                        <option value="">Select Position</option>
-                        <option value="top">Top</option>
-                        <option value="bottom">Bottom</option>
-                    </select>
-                    <InputError :message="bannerForm.errors.position" />
-
-                    <label class="heading-2 block" for="banner">Banner</label>
-                    <input type="file" ref="fileInput" id="banner" @change="attachFile" name="banner" placeholder="Banner">
-                    <InputError :message="bannerForm.errors.file" />
+                    <label class="heading-2 block" for="title">Title</label>
+                    <input type="text" id="title" v-model="form.title" name="title" placeholder="Title">
+                    <InputError :message="form.errors.title" />
 
                     <label class="heading-2 block" for="url">Link</label>
-                    <input type="text" id="url" v-model="bannerForm.url" name="url" placeholder="Link">
-                    <InputError :message="bannerForm.errors.url" />
+                    <input type="text" id="url" v-model="form.url" name="url" placeholder="Link">
+                    <InputError :message="form.errors.url" />
+
+                    <section class="flex justify-between md:justify-around my-5">
+                        <div>
+                            <label class="heading-2 block">Background</label>
+                            <ColorPicker picker-type="fk" format="hex" theme="black" disable-alpha v-model:pureColor="form.background" />
+                        </div>
+                        
+                        <div>
+                            <label class="heading-2 block">Foreground</label>
+                            <ColorPicker picker-type="fk" format="hex" theme="black" disable-alpha v-model:pureColor="form.foreground" />
+                        </div>
+                    </section>
+                    <section class="flex flex-col items-center" v-if="form.title">
+                        <label class="heading-2 block" for="url">Button Preview</label>
+                        <a :href="form.url" :style="{ backgroundColor: form.background, color: form.foreground }" 
+                            :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                            target="_blank">
+                            {{ form.title }}
+                        </a>
+                    </section>
+
+                    <label class="heading-2" for="priority">Priority</label>
+                    <select v-if="!stateUrl.includes('edit=true')" id="priority" name="priority" v-model="form.priority">
+                        <option value="">Select Priority</option>
+                        <option :value="item" v-for="(item, index) in (buttons?.length + 1) || 1" :key="index">Priority {{ index + 1 }}</option>
+                    </select>
+                    <select v-if="stateUrl.includes('edit=true')" id="priority" name="priority" v-model="form.priority">
+                        <option value="">Select Priority</option>
+                        <option :value="item" v-for="(item, index) in buttons?.length" :key="index">Priority {{ index + 1 }}</option>
+                    </select>
+                    <InputError :message="form.errors.priority" />
+
 
                     <div class="form-buttons">
                         <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
@@ -179,18 +194,26 @@ const attachFile = event => {
                     <thead>
                         <tr class="text-left text-[13px] md:text-[16px]">
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Image</th>
+                            <th class="hidden lg:inline-block">Title</th>
+                            <th class="hidden lg:inline-block">Link</th>
+                            <th>Preview</th>
+                            <th class="text-center">Priority</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in banners" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                        <tr v-for="(item, index) in buttons" :key="item.id" class="text-left text-[13px] md:text-[16px]">
                             <td>{{ index + 1 }}</td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.position }}</td>
-                            <td>{{ item.filename }}</td>
-                            <!-- <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td> -->
+                            <td class="uppercase hidden lg:inline-block">{{ item.title }}</td>
+                            <td class=" hidden lg:inline-block">{{ item.url }}</td>
+                            <td>
+                                <a :style="{ backgroundColor: item.background, color: item.foreground }" 
+                                    class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[15px] lg:px-[45px]"
+                                    target="_blank">
+                                    {{ item.title }}
+                                </a>
+                            </td>
+                            <td class="text-center">{{ item.priority }}</td>
+                            <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td>
                             <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
                         </tr>
                     </tbody>

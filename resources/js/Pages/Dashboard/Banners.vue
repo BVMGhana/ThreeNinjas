@@ -21,7 +21,7 @@ const loadInitialData = async () => {
 
 loadInitialData();
 
-const bannerForm = useForm({
+const form = useForm({
     name: '',
     position: '',
     file: '',
@@ -36,7 +36,6 @@ const editDataId = ref(null);
 const fileInput = ref(null);
 const submitData = async () => {
     if (stateUrl.value.includes("banners")) {
-        const form = bannerForm.data();
         const formData = new FormData();
         formData.append('name', form.name);
         formData.append('position', form.position);
@@ -58,7 +57,7 @@ const submitData = async () => {
                     const result = await axios.get('banners');
                     banners.value = result.data;
                     fileInput.value.value = '';
-                    bannerForm.reset();
+                    form.reset();
                 } else {
                     displayMessage(response.data.message, 'warning');
                 }
@@ -77,6 +76,7 @@ const deletePrediction = async id => {
                 displayMessage(response.data.message, 'success');
                 const result = await axios.get('banners');
                 banners.value = result.data;
+                form.reset();
             }
         } catch (error) {
             displayMessage(error.response.statusText, 'error');
@@ -101,10 +101,10 @@ const editData = async id => {
 
 
     if (stateUrl.value.includes('banner')) {
-        bannerForm.name = data.name;
-        bannerForm.position = data.position;
-        bannerForm.url = data.url;
-        bannerForm.file = data.filename;
+        form.name = data.name;
+        form.position = data.position;
+        form.url = data.url;
+        form.file = data.filename;
     }
 };
 
@@ -117,51 +117,61 @@ const addNewRecord = () => {
         editDataId.value = null;
 
         if (stateUrl.value.includes('banners')) {
-            bannerForm.reset();
+            form.reset();
         }
     }
 };
 
 const setBannerName = event => {
     if (event.target.value === 'top') {
-        bannerForm.name = 'Top Banner';
+        form.name = 'Top Banner';
     } else if (event.target.value === 'bottom') {
-        bannerForm.name = 'Bottom Banner';
+        form.name = 'Bottom Banner';
     }
 };
 
 const attachFile = event => {
-    bannerForm.file = event.target.files[0];
+    form.file = event.target.files[0];
 }
 </script>
 
 <template>
     <section class="mainSection">
         <main class="prediction-main">
-            
+            <div class="right">
+                <div class="top">
+                    <button id="menu-btn" class="hidden">
+                        <span class="material-icons-sharp">menu</span>
+                    </button>
+                    <div class="theme-toggler">
+                        <span class="material-icons-sharp active">light_mode</span>
+                        <span class="material-icons-sharp">dark_mode</span>
+                    </div>
+                </div>
+            </div>
             <div class="add-record">
                 <h1 v-if="!stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Add Banner</h1>
                 <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Banner</h1>
                 <form action="" @submit.prevent="submitData">
                     <label class="heading-2" for="name">Name</label>
-                    <input type="text" id="name" v-model="bannerForm.name" name="name" placeholder="Name" disabled>
-                    <InputError :message="bannerForm.errors.name" />
+                    <input type="text" id="name" v-model="form.name" name="name" placeholder="Name" disabled>
+                    <InputError :message="form.errors.name" />
 
                     <label class="heading-2" for="position">Position</label>
-                    <select id="position" name="position" @change="setBannerName" v-model="bannerForm.position">
+                    <select id="position" name="position" @change="setBannerName" v-model="form.position">
                         <option value="">Select Position</option>
                         <option value="top">Top</option>
                         <option value="bottom">Bottom</option>
                     </select>
-                    <InputError :message="bannerForm.errors.position" />
+                    <InputError :message="form.errors.position" />
 
                     <label class="heading-2 block" for="banner">Banner</label>
                     <input type="file" ref="fileInput" id="banner" @change="attachFile" name="banner" placeholder="Banner">
-                    <InputError :message="bannerForm.errors.file" />
+                    <InputError :message="form.errors.file" />
 
                     <label class="heading-2 block" for="url">Link</label>
-                    <input type="text" id="url" v-model="bannerForm.url" name="url" placeholder="Link">
-                    <InputError :message="bannerForm.errors.url" />
+                    <input type="text" id="url" v-model="form.url" name="url" placeholder="Link">
+                    <InputError :message="form.errors.url" />
 
                     <div class="form-buttons">
                         <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
@@ -181,7 +191,7 @@ const attachFile = event => {
                             <th>#</th>
                             <th>Name</th>
                             <th>Position</th>
-                            <th>Image</th>
+                            <th class="hidden lg:inline-block">Image</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -189,7 +199,7 @@ const attachFile = event => {
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.position }}</td>
-                            <td>{{ item.filename }}</td>
+                            <td class="hidden lg:inline-block">{{ item.filename }}</td>
                             <!-- <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td> -->
                             <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
                         </tr>

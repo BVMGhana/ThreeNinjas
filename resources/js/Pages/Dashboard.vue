@@ -39,13 +39,14 @@ onMounted(() => {
     // change theme
     themeToggler?.addEventListener("click", () => {
         document.body.classList.toggle("dark-theme-variables");
+        console.log("clicked")
 
         themeToggler.querySelector('span:nth-child(1)').classList.toggle('active');
         themeToggler.querySelector('span:nth-child(2)').classList.toggle('active');
     });
 });
 
-const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
+const displayMessage = (message, type) => toast(message, { autoClose: 1000, type });
 
 const dashboardUrl = '/dashboard';
 const usersUrl = '/dashboard/users';
@@ -80,67 +81,67 @@ stateUrl.value = url;
                     </div>
                 </div>
                 <div class="sidebar">
-                    <Link href="/dashboard" :class="{ 'active': $page.url=== dashboardUrl }">
-                        <span class="material-icons-sharp">grid_view</span>
-                        <h3 class="heading">Dashboard</h3>
+                    <Link href="/dashboard" :class="{ 'active': $page.url === dashboardUrl }">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3 class="heading">Dashboard</h3>
                     </Link>
                     <Link href="/dashboard/users" :class="{ 'active': $page.url.includes(usersUrl) }">
-                        <span class="material-icons-sharp">account_circle</span>
-                        <h3>Users</h3>
+                    <span class="material-icons-sharp">account_circle</span>
+                    <h3>Users</h3>
                     </Link>
                     <Link href="/dashboard/white-ninja" :class="{ 'active': $page.url.includes(whiteNinjaUrl) }">
-                        <span class="material-icons-sharp">person_outline</span>
-                        <h3>White Ninja</h3>
+                    <span class="material-icons-sharp">person_outline</span>
+                    <h3>White Ninja</h3>
                     </Link>
                     <Link href="/dashboard/red-ninja" :class="{ 'active': $page.url.includes(redNinjaUrl) }">
-                        <span class="material-icons-sharp">grid_view</span>
-                        <h3>Red Ninja</h3>
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Red Ninja</h3>
                     </Link>
                     <Link href="/dashboard/black-ninja" :class="{ 'active': $page.url.includes(blackNinjaUrl) }">
-                        <span class="material-icons-sharp">person_add</span>
-                        <h3>Black Ninja</h3>
+                    <span class="material-icons-sharp">person_add</span>
+                    <h3>Black Ninja</h3>
                     </Link>
                     <Link href="/dashboard/previous-results" :class="{ 'active': $page.url.includes(previousResultUrl) }">
-                        <span class="material-icons-sharp">preview</span>
-                        <h3>Previous Results</h3>
+                    <span class="material-icons-sharp">preview</span>
+                    <h3>Previous Results</h3>
                     </Link>
                     <Link href="/dashboard/leagues" :class="{ 'active': $page.url.includes(leaguesUrl) }">
-                        <span class="material-icons-sharp">insights</span>
-                        <h3>Leagues</h3>
+                    <span class="material-icons-sharp">insights</span>
+                    <h3>Leagues</h3>
                     </Link>
                     <!-- <Link href="/dashboard/fixtures">
                         <span class="material-icons-sharp">settings</span>
                         <h3>Fixtures</h3>
                     </Link> -->
                     <Link href="/dashboard/tips" :class="{ 'active': $page.url.includes(tipsUrl) }">
-                        <span class="material-icons-sharp">analytics</span>
-                        <h3>Tips</h3>
+                    <span class="material-icons-sharp">analytics</span>
+                    <h3>Tips</h3>
                     </Link>
                     <Link href="/dashboard/banners" :class="{ 'active': $page.url.includes(bannersUrl) }">
-                        <span class="material-icons-sharp">stay_current_landscape</span>
-                        <h3>Banners</h3>
+                    <span class="material-icons-sharp">stay_current_landscape</span>
+                    <h3>Banners</h3>
                     </Link>
                     <Link href="/dashboard/buttons" :class="{ 'active': $page.url.includes(buttonsUrl) }">
-                        <span class="material-icons-sharp">smart_button</span>
-                        <h3>Buttons</h3>
+                    <span class="material-icons-sharp">smart_button</span>
+                    <h3>Buttons</h3>
                     </Link>
                     <Link href="/">
-                        <span class="material-icons-sharp">home</span>
-                        <h3>Homepage</h3>
+                    <span class="material-icons-sharp">home</span>
+                    <h3>Homepage</h3>
                     </Link>
                     <Link :href="route('logout')" method="post">
-                        <span class="material-icons-sharp">logout</span>
-                        <h3>Logout</h3>
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
                     </Link>
                 </div>
             </aside>
             <!-- End of aside -->
-            
+
             <article>
                 <Dashboard v-if="$page.url === dashboardUrl">
 
                 </Dashboard>
-                
+
                 <Users v-if="$page.url.startsWith(usersUrl)">
 
                 </Users>
@@ -156,7 +157,7 @@ stateUrl.value = url;
                 <BlackNinja v-if="$page.url.startsWith(blackNinjaUrl)">
 
                 </BlackNinja>
-                
+
                 <PreviousResult v-if="$page.url.startsWith(previousResultUrl)">
 
                 </PreviousResult>
@@ -164,7 +165,7 @@ stateUrl.value = url;
                 <Leagues v-if="$page.url.startsWith(leaguesUrl)">
 
                 </Leagues>
-                
+
                 <Fixtures v-if="$page.url.startsWith(fixturesUrl)">
 
                 </Fixtures>
@@ -175,7 +176,7 @@ stateUrl.value = url;
 
                 </Banners>
                 <Buttons v-if="$page.url.startsWith(buttonsUrl)">
-                    
+
                 </Buttons>
             </article>
         </div>
@@ -196,14 +197,15 @@ stateUrl.value = url;
     box-sizing: border-box;
 }
 
-input[type=text], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+input[type=text],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .form-buttons {
@@ -213,17 +215,18 @@ input[type=text], select {
 }
 
 .form-buttons button {
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-.form-buttons button[type=reset], button[type=button] {
+.form-buttons button[type=reset],
+button[type=button] {
     background-color: salmon;
     width: 20%;
 }
@@ -234,7 +237,7 @@ input[type=text], select {
 }
 
 input[type=submit]:hover {
-  background-color: #45a049;
+    background-color: #45a049;
 }
 
 div.add-record {
@@ -243,7 +246,7 @@ div.add-record {
     background: var(--color-white);
     border-radius: var(--card-border-radius);
     padding: 20px;
-    margin-top: 10px;
+    margin-top: 40px;
     margin-bottom: 50px;
 }
 
@@ -251,7 +254,7 @@ div.add-record {
     div.add-record {
         width: 100%;
         /* margin: auto; */
-        margin: 30px auto 60px;
+        margin: 50px auto 60px;
     }
 }
 
@@ -268,7 +271,8 @@ div.add-record:hover {
     background: var(--color-white);
     width: 100%;
     border-radius: var(--card-border-radius);
-    /* padding: var(--card-padding); */ /* why*/
+    /* padding: var(--card-padding); */
+    /* why*/
     text-align: center;
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
@@ -299,7 +303,7 @@ div.add-record:hover {
     width: 100%;
     margin: 0 auto;
     gap: 1.8rem;
-    grid-template-columns: 14rem auto;   
+    grid-template-columns: 14rem auto;
 }
 
 a {
@@ -489,7 +493,7 @@ aside .sidebar .message-count {
 
 main.prediction-main {
     width: 100%;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 main {
@@ -515,7 +519,7 @@ main .insights {
     gap: 1.6rem
 }
 
-main .insights > div {
+main .insights>div {
     background: var(--color-white);
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
@@ -524,11 +528,11 @@ main .insights > div {
     transition: all 300ms ease;
 }
 
-main .insights > div:hover {
+main .insights>div:hover {
     box-shadow: none;
 }
 
-main .insights > div span {
+main .insights>div span {
     background: var(--color-primary);
     padding: 0.5rem;
     border-radius: 50%;
@@ -536,22 +540,22 @@ main .insights > div span {
     font-size: 2rem;
 }
 
-main .insights > div.expenses span {
+main .insights>div.expenses span {
     background: var(--color-danger);
 }
 
-main .insights > div.income span {
+main .insights>div.income span {
     background: var(--color-success);
 }
 
-main .insights > div .middle {
+main .insights>div .middle {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-main .insights > div .middle .left h1,
-main .insights > div .middle .left h3 {
+main .insights>div .middle .left h1,
+main .insights>div .middle .left h3 {
     color: var(--color-dark);
 }
 
@@ -629,7 +633,8 @@ main .recent-subscriptions table {
     background: var(--color-white);
     width: 100%;
     border-radius: var(--card-border-radius);
-    /* padding: var(--card-padding); */ /* why*/
+    /* padding: var(--card-padding); */
+    /* why*/
     text-align: center;
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
@@ -648,20 +653,27 @@ main table tbody td {
     height: 2.8rem;
     border-bottom: 1px solid var(--color-light);
     color: var(--color-dark-variant);
-    padding: var(--padding-small); /* Why*/
+    padding: var(--padding-small);
+    /* Why*/
 }
 
 main table tbody tr:last-child td {
     border: none;
 }
 
+main.prediction-main table tbody tr td:first-child,
+main.prediction-main table thead tr th:first-child {
+    padding-left: var(--padding-1)
+}
+
 @media screen and (max-width: 768px) {
     main table thead th {
-        padding: var(--card-padding) var(--padding-small);
+        padding: var(--card-padding) var(--padding-semi-small);
     }
 
     main table tbody td {
-        padding: var(--padding-small) var(--padding-small); /* Why*/
+        padding: var(--padding-small) var(--padding-semi-small);
+        /* Why*/
     }
 }
 
@@ -720,6 +732,7 @@ main .recent-subscriptions a {
     gap: 2rem;
     text-align: right;
 }
+
 /* End of right top */
 
 .right .recent-updates {
@@ -909,15 +922,21 @@ main .recent-subscriptions a {
         position: absolute;
         bottom: 5rem;
     }
-    
+
     aside .close {
         display: inline-block;
         cursor: pointer;
     }
 
     main {
+        width: 100%;
         margin-top: 8rem;
         padding: 0 1rem;
+    }
+
+    main.prediction-main {
+        width: 100%;
+        margin-top: 30px;
     }
 
     main .recent-subscriptions {
@@ -934,6 +953,18 @@ main .recent-subscriptions a {
     .right {
         width: 94%;
         margin: 0 auto 4rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3.5rem;
+        z-index: 2;
+        box-shadow: 0 1rem 1rem var(--color-light);
+    }
+
+    main.prediction-main .right {
+        width: 100%;
+        margin: 0 auto 2rem;
+        padding: 0;
     }
 
     .right .top {
@@ -947,6 +978,12 @@ main .recent-subscriptions a {
         margin: 0;
         z-index: 2;
         box-shadow: 0 1rem 1rem var(--color-light);
+    }
+
+    main.prediction-main .right .top {
+        margin: 30px;
+        padding: 0;
+        /* box-shadow: 0 1rem 1rem var(--color-light); */
     }
 
     .right .top .theme-toggler {
@@ -975,5 +1012,4 @@ main .recent-subscriptions a {
 
 /* main .recent-subscriptions table {
     padding: 1.8rem;
-} */
-</style>
+} */</style>
