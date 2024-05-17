@@ -38,6 +38,10 @@ class TipController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+
         try {
 
             $tip = new Tip(['title' => $request->title]);
@@ -82,6 +86,10 @@ class TipController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+        
         try {
             $tip = Tip::findOrFail($id);
             $tip->title = $request->title;
