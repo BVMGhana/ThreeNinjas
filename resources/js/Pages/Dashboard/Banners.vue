@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import axios from '../../axiosConfig';
+import InputError from '@/Components/InputError.vue';
 
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
@@ -32,6 +33,7 @@ const { url } = usePage();
 const stateUrl = ref(null);
 stateUrl.value = url;
 const editDataId = ref(null);
+const errors = ref(null);
 
 const fileInput = ref(null);
 const submitData = async () => {
@@ -63,7 +65,8 @@ const submitData = async () => {
                 }
             }
         } catch (error) {
-            displayMessage(error.response.statusText, 'error');
+            errors.value = error.response.data.errors;
+            displayMessage(error.response.data.message, 'error');
         }
     }
 };
@@ -155,7 +158,7 @@ const attachFile = event => {
                 <form action="" @submit.prevent="submitData">
                     <label class="heading-2" for="name">Name</label>
                     <input type="text" id="name" v-model="form.name" name="name" placeholder="Name" disabled>
-                    <InputError :message="form.errors.name" />
+                    <InputError v-if="errors && errors.name" class="text-center" :message="errors.name[0]" />
 
                     <label class="heading-2" for="position">Position</label>
                     <select id="position" name="position" @change="setBannerName" v-model="form.position">
@@ -163,15 +166,16 @@ const attachFile = event => {
                         <option value="top">Top</option>
                         <option value="bottom">Bottom</option>
                     </select>
-                    <InputError :message="form.errors.position" />
+                    <InputError v-if="errors && errors.position" class="text-center" :message="errors.position[0]" />
 
                     <label class="heading-2 block" for="banner">Banner</label>
                     <input type="file" ref="fileInput" id="banner" @change="attachFile" name="banner" placeholder="Banner">
-                    <InputError :message="form.errors.file" />
+                    <InputError v-if="errors && errors.file" class="text-center" :message="errors.file[0]" />
 
                     <label class="heading-2 block" for="url">Link</label>
                     <input type="text" id="url" v-model="form.url" name="url" placeholder="Link">
-                    <InputError :message="form.errors.url" />
+                    <InputError v-if="errors && errors.url" class="text-center" :message="errors.url[0]" />
+                    
 
                     <div class="form-buttons">
                         <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
