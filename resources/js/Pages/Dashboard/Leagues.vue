@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import axios from '../../axiosConfig';
+import InputError from '@/Components/InputError.vue';
 
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
@@ -29,6 +30,7 @@ const { url } = usePage();
 const stateUrl = ref(null);
 stateUrl.value = url;
 const editDataId = ref(null);
+const errors = ref(null);
 
 const submitData = async () => {
     if (stateUrl.value.includes("leagues")) {
@@ -50,7 +52,8 @@ const submitData = async () => {
                 }
             }
         } catch (error) {
-            displayMessage(error.response.statusText, 'error');
+            errors.value = error.response.data.errors;
+            displayMessage(error.response.data.message, 'error');
         }
     }
 };
@@ -118,6 +121,7 @@ const addNewRecord = () => {
                 <form action="" @submit.prevent="submitData">
                     <label class="heading-2" for="league">League</label>
                     <input type="text" id="league" v-model="form.title" name="league" placeholder="League">
+                    <InputError v-if="errors && errors.title" class="text-center" :message="errors.title[0]" />
                 
                     <div class="form-buttons">
                         <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
