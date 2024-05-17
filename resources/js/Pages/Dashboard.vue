@@ -20,11 +20,18 @@ import RedNinja from './Dashboard/RedNinja.vue';
 import PreviousResult from './Dashboard/PreviousResult.vue';
 
 onMounted(() => {
-
     const sideMenu = document.querySelector("aside");
     const menuBtn = document.querySelector("#menu-btn");
     const closeBtn = document.querySelector("#close-btn");
     const themeToggler = document.querySelector(".theme-toggler");
+
+    if (document.body.classList.value==="dark-theme-variables") {
+        themeToggler.querySelector('span:nth-child(1)').classList.remove('active');
+        themeToggler.querySelector('span:nth-child(2)').classList.add('active');
+    } else {
+        themeToggler.querySelector('span:nth-child(2)').classList.remove('active');
+        themeToggler.querySelector('span:nth-child(1)').classList.add('active');
+    }
 
     // show sidebar
     menuBtn?.addEventListener("click", () => {
