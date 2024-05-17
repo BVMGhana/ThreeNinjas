@@ -139,7 +139,7 @@ getNinjas();
         bg-[black] h-[100px] lg:h-fit text-white p-0 m-0">
         
         <div class="flex items-center justify-between lg:p-[20px] bg-[#000]">
-          <Link href="/" class="logo fixed lg:static top-[30px] left-[30px] text-[30px] lg:text-[25px]">3Ninjas</Link>
+          <Link href="/" class="logo fixed lg:static top-[30px] left-[30px] text-[30px] lg:text-[25px] text-[#fff]">3Ninjas</Link>
           <div id="menuButton" @click="toggleMenu" ref="menuBtn" class="flex items-center fixed lg:static 
             top-[20px] right-[40px] w-[40px] lg:hidden w-[40px] cursor-pointer">
             <span class="material-icons-sharp text-[3.5rem]" 
@@ -164,15 +164,15 @@ getNinjas();
               <Link href="/">VIP</Link>
             </li> -->
             <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
-              <Link href="#about">About Us</Link>
+              <Link class="text-[#fff]" href="#about">About Us</Link>
             </li>
             <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
-              <Link href="#contact">Contact Us</Link>
+              <Link class="text-[#fff]" href="#contact">Contact Us</Link>
             </li>
             <li class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]"
               v-if="$page.props.auth && $page.props.auth?.user?.is_admin"
             >
-              <Link href="/dashboard">Dashboard</Link>
+              <Link class="text-[#fff]" href="/dashboard">Dashboard</Link>
             </li>
           </article>
           <article class="flex flex-col lg:flex-row">
@@ -484,20 +484,20 @@ getNinjas();
         <div class="w-[85%] m-auto flex flex-wrap items-start justify-between">
           <div id="about" class="basis-[100%] md:basis-[25%] mb-[20px] p-[10px]">
             <!-- <img src="/images/logo.jpg" alt="logo" class="w-[80px] mb-[30px]"> -->
-            <h1 class="text-[24px] mb-[20px] md:mb-[40px]">3 Ninjas Co.</h1>
-            <p>Subscribe to 3 Ninjas to get exclusive insights for betting. You can choose the VIP package for special offers.</p>
+            <h1 class="text-[24px] mb-[20px] md:mb-[40px] text-[#fff]">3 Ninjas Co.</h1>
+            <p class="text-[#fff]">Subscribe to 3 Ninjas to get exclusive insights for betting. You can choose the VIP package for special offers.</p>
           </div>
           <div id="contact" class="basis-[100%] md:basis-[15%] mb-[20px] p-[10px]">
             <h3 class="w-fit mb-[20px] md:mb-[40px] relative">
               Address <div class="w-full h-[5px] bg-[#767676] rounded-[3px] absolute left-0 overflow-hidden">
                 <span class="w-[15px] h-[100%] bg-white rounded-[3px] absolute top-0 left-[10px] moving"></span></div>
             </h3>
-            <p>3 Ninjas Co.</p>
-            <p>Suite No. 2007</p>
-            <p>Osu-Oxford Street</p>
-            <p>Accra- Ghana </p>
-            <p class="w-fit my-[20px] mx-0 border-b border-[#ccc]">threeninjas@gmail.com</p>
-            <h4>0241039238</h4>
+            <p class="text-[#fff]">3 Ninjas Co.</p>
+            <p class="text-[#fff]">Suite No. 2007</p>
+            <p class="text-[#fff]">Osu-Oxford Street</p>
+            <p class="text-[#fff]">Accra- Ghana </p>
+            <p class="w-fit my-[20px] mx-0 border-b border-[#ccc] text-[#fff]">threeninjas@gmail.com</p>
+            <h4 class="text-[#fff]">0241039238</h4>
           </div>
           <div class="basis-[100%] md:basis-[15%] mb-[20px] p-[10px]">
             <h3 class="w-fit mb-[20px] md:mb-[40px] relative">
@@ -531,7 +531,7 @@ getNinjas();
           </div>
         </div>
         <hr class="w-[90%] border-0 border-b-2 border-solid border-[#ccc] my-[20px] mx-auto">
-        <p class="text-center">3 Ninjas Co. &copy; 2024 - All Rights Reserved</p>
+        <p class="text-center text-[#fff]">3 Ninjas Co. &copy; 2024 - All Rights Reserved</p>
       </footer>
     </div>
 </template>
