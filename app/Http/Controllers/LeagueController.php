@@ -38,6 +38,10 @@ class LeagueController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+
         try {
 
             $league = new League(['title' => $request->title]);
@@ -82,6 +86,10 @@ class LeagueController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+        
         try {
             $league = League::findOrFail($id);
             $league->title = $request->title;
