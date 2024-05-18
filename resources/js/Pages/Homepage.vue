@@ -443,28 +443,28 @@ getNinjas();
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
-            <i class="fas fa-users-cog text-[#009578] text-[2.5em]"></i>
+            <i class="fas fa-users-cog text-[#fc036b] text-[2.5em]"></i>
             <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="400">000</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Subscribed Clients</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
-            <i class="fas fa-glasses text-[#009578] text-[2.5em]"></i>
+            <i class="fas fa-glasses text-[#fc036b] text-[2.5em]"></i>
             <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="340">000</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Predictions</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
-            <i class="fas fa-users text-[#009578] text-[2.5em]"></i>
+            <i class="fas fa-users text-[#fc036b] text-[2.5em]"></i>
             <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="225">000</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Satisfied Clients</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
-            <i class="fas fa-star text-[#009578] text-[2.5em]"></i>
+            <i class="fas fa-star text-[#fc036b] text-[2.5em]"></i>
             <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="280">000</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Five Stars</span>
           </div>
