@@ -38,8 +38,15 @@ class ButtonController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'url' => 'required|url',
+            'background' => 'required|string|max:7',
+            'foreground' => 'required|string|max:7',
+            'priority' => 'required|numeric',
+        ]);
 
+        try {
             $button = new Button([
                 'title' => $request->title, 'url' => $request->url,
                 'background' => $request->background, 'foreground' => $request->foreground,
