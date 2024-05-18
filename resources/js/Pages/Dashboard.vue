@@ -75,7 +75,7 @@ stateUrl.value = url;
 <template>
     <Head title="Dashboard" />
 
-    <section id="mainContainer" class="">
+    <section id="mainContainer" class="fade-in">
         <div class="container">
             <aside>
                 <div class="top">
@@ -201,6 +201,15 @@ stateUrl.value = url;
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 input[type=text],
