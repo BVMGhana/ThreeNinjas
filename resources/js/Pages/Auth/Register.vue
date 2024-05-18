@@ -90,7 +90,7 @@ const submit = () => {
                                 peer-focus:-translate-y-6">Confirm Password</label>
                             <InputError class="mt-2" :message="form.errors.password_confirmation" />
                         </div>
-                        <button class="w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-emerald-800 
+                        <button class="w-full mb-4 text-[18px] mt-6 rounded-[40px] bg-white text-emerald-800 
                             hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300"
                             :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
                             type="submit">Register</button>

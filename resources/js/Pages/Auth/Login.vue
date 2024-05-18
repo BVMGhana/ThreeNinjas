@@ -66,7 +66,7 @@ const submit = () => {
                             <Link href="" class="text-blue-500">Forgot Password?</Link>
                             <!-- <Link :href="route('password.request')" class="text-blue-500">Forgot Password?</Link> -->
                         </div>
-                        <button :disabled="form.processing" class="w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-emerald-800 hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300" type="submit">Login</button>
+                        <button :disabled="form.processing" class="w-full mb-4 text-[18px] mt-6 rounded-[40px] bg-white text-emerald-800 hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300" type="submit">Login</button>
                         <div class="text-center">
                             <span class="m-4">New Here? <Link class="text-blue-500" :href="route('register')">Create an account</Link></span>
                         </div>
