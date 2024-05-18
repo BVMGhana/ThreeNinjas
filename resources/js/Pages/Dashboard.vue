@@ -89,7 +89,7 @@ stateUrl.value = url;
                 <div class="sidebar">
                     <Link href="/dashboard" :class="{ 'active': $page.url === dashboardUrl }">
                     <span class="material-icons-sharp">grid_view</span>
-                    <h3 class="heading">Dashboard</h3>
+                    <h3>Dashboard</h3>
                     </Link>
                     <Link href="/dashboard/users" :class="{ 'active': $page.url.includes(usersUrl) }">
                     <span class="material-icons-sharp">account_circle</span>
