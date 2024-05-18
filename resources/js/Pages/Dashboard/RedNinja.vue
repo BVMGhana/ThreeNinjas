@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import axios from '../../axiosConfig';
+import InputError from '@/Components/InputError.vue';
 
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
@@ -42,6 +43,7 @@ const { url } = usePage();
 const stateUrl = ref(null);
 stateUrl.value = url;
 const editDataId = ref(null);
+const errors = ref(null);
 
 const submitPrediction = async () => {
     if (stateUrl.value.includes("red-ninja")) {
@@ -63,7 +65,8 @@ const submitPrediction = async () => {
                 }
             }
         } catch (error) {
-            displayMessage(error.response.statusText, 'error');
+            errors.value = error.response.data.errors;
+            displayMessage(error.response.data.message, 'error');
         }
     }
 };
@@ -147,14 +150,18 @@ const addNewRecord = () => {
                         <option value="">Select League</option>
                         <option v-for="league in leagues" :key="league.id" :value="league.id">{{league.title}}</option>
                     </select>
+                    <InputError v-if="errors && errors.league_id" class="text-center" :message="errors.league_id[0]" />
 
                     <label class="heading-2" for="fixtures">Fixtures</label>
                     <input type="text" id="fixtures" v-model="form.fixtures" name="fixtures" placeholder="Fixtures">
+                    <InputError v-if="errors && errors.fixtures" class="text-center" :message="errors.fixtures[0]" />
 
-                    <select id="league" name="tips" v-model="form.tip_id">
+                    <label class="heading-2" for="tips">Tip</label>
+                    <select id="tips" name="tips" v-model="form.tip_id">
                         <option value="">Select Tip</option>
                         <option v-for="tip in tips" :key="tip.id" :value="tip.id">{{tip.title}}</option>
                     </select>
+                    <InputError v-if="errors && errors.tip_id" class="text-center" :message="errors.tip_id[0]" />
 
                     <!-- <label class="heading-2" for="result">Results</label>
                     <select id="result" name="country" v-model="form.results">
