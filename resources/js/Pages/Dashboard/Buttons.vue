@@ -6,6 +6,7 @@ import 'vue3-toastify/dist/index.css';
 import { ColorPicker } from "vue3-colorpicker";
 import "vue3-colorpicker/style.css";
 import axios from '../../axiosConfig';
+import InputError from '@/Components/InputError.vue';
 
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
@@ -35,6 +36,7 @@ const { url } = usePage();
 const stateUrl = ref(null);
 stateUrl.value = url;
 const editDataId = ref(null);
+const errors = ref(null);
 
 const submitData = async () => {
     if (stateUrl.value.includes("buttons")) {
@@ -59,7 +61,8 @@ const submitData = async () => {
                 }
             }
         } catch (error) {
-            displayMessage(error.response.statusText, 'error');
+            errors.value = error.response.data.errors;
+            displayMessage(error.response.data.message, 'error');
         }
     }
 };
@@ -140,11 +143,11 @@ const addNewRecord = () => {
                 <form action="" @submit.prevent="submitData">
                     <label class="heading-2 block" for="title">Title</label>
                     <input type="text" id="title" v-model="form.title" name="title" placeholder="Title">
-                    <InputError :message="form.errors.title" />
+                    <InputError v-if="errors && errors.title" class="text-center" :message="errors.title[0]" />
 
                     <label class="heading-2 block" for="url">Link</label>
                     <input type="text" id="url" v-model="form.url" name="url" placeholder="Link">
-                    <InputError :message="form.errors.url" />
+                    <InputError v-if="errors && errors.url" class="text-center" :message="errors.url[0]" />
 
                     <section class="flex justify-between md:justify-around my-5">
                         <div>
@@ -175,7 +178,7 @@ const addNewRecord = () => {
                         <option value="">Select Priority</option>
                         <option :value="item" v-for="(item, index) in buttons?.length" :key="index">Priority {{ index + 1 }}</option>
                     </select>
-                    <InputError :message="form.errors.priority" />
+                    <InputError v-if="errors && errors.priority" class="text-center" :message="errors.priority[0]" />
 
 
                     <div class="form-buttons">
