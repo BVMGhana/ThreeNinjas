@@ -523,10 +523,10 @@ getNinjas();
               <button type="submit" class="bg-transparent border-0 outline-none cursor-pointer"><i class="fas fa-arrow-right"></i></button>
             </form>
             <div>
-              <Link href="" class="w-[20px] h-[20px] rounded-[50%] text-center p-[5px] text-[20px] text-black bg-white mx-[8px] cursor-pointer"><i class="fab fa-facebook"></i></Link>
-              <Link href="" class="w-[20px] h-[20px] rounded-[50%] text-center p-[5px] text-[20px] text-black bg-white mx-[8px] cursor-pointer"><i class="fab fa-twitter"></i></Link>
-              <Link href="" class="w-[20px] h-[20px] rounded-[50%] text-center p-[5px] text-[20px] text-black bg-white mx-[8px] cursor-pointer"><i class="fab fa-whatsapp"></i></Link>
-              <Link href="" class="w-[20px] h-[20px] rounded-[50%] text-center p-[5px] text-[20px] text-black bg-white mx-[8px] cursor-pointer"><i class="fab fa-pinterest"></i></Link>
+              <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-[blue] bg-white mx-[8px] cursor-pointer"><i class="fab fa-facebook"></i></Link>
+              <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-black bg-white mx-[8px] cursor-pointer"><i class="fa-brands fa-x-twitter"></i></Link>
+              <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-[green] bg-white mx-[8px] cursor-pointer"><i class="fab fa-whatsapp"></i></Link>
+              <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-[pink] bg-white mx-[8px] cursor-pointer"><i class="fab fa-pinterest"></i></Link>
             </div>
           </div>
         </div>
