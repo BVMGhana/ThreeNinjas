@@ -177,13 +177,13 @@ getNinjas();
           </article>
           <article class="flex flex-col lg:flex-row">
             <li v-if="$page.props.auth.user && $page.props.auth.user.name!==''" class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
-              <Link :href="route('logout')" method="post" as="button">Logout</Link>
+              <Link class="text-[#fff]" :href="route('logout')" method="post" as="button">Logout</Link>
             </li>
             <li v-if="!$page.props.auth.user" class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
-              <Link :href="route('login')">Login</Link>
+              <Link class="text-[#fff]" :href="route('login')">Login</Link>
             </li>
             <li v-if="!$page.props.auth.user" class="my-[20px] mx-auto lg:my-0 lg:mx-[30px] text-[30px] lg:text-[20px]">
-              <Link :href="route('register')">Sign Up</Link>
+              <Link class="text-[#fff]" :href="route('register')">Sign Up</Link>
             </li>
           </article>
         </ul>
@@ -196,7 +196,7 @@ getNinjas();
           <h1 class="text-[7vmin] mt-[120px] md:mt-[70px]">Welcome to 3Ninjas Hub</h1>
           <div class="line w-[150px] h-[4px] bg-[#fc036b] my-[10px] mx-auto rounded-[5px]"></div>
           <h2 class="text-[4vmin] mt-[50px] mb-[50px]">Get insights for betting.</h2>
-          <Link href="/" class="no-underline bg-[#fc036b] rounded-[30px] text-whitesmoke py-[8px] px-[15px]">Learn more</Link>
+          <Link href="/" class="no-underline bg-[#fc036b] rounded-[30px] text-[#FFF] py-[8px] px-[15px]">Learn more</Link>
         </div>
       </header>
 
