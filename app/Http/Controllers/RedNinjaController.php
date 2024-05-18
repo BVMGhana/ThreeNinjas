@@ -39,6 +39,13 @@ class RedNinjaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'league_id' => 'required|numeric',
+            'fixtures' => 'required|string|max:255',
+            'tip_id' => 'required|numeric',
+            'results' => 'required|boolean'
+        ]);
+        
         try {
 
             $red_ninja = new RedNinja([
@@ -88,6 +95,13 @@ class RedNinjaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'league_id' => 'required|numeric',
+            'fixtures' => 'required|string|max:255',
+            'tip_id' => 'required|numeric',
+            'results' => 'required|boolean'
+        ]);
+
         try {
             $red_ninja = RedNinja::findOrFail($id);
             $red_ninja->league_id = $request->league_id;
