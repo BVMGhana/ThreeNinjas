@@ -151,7 +151,8 @@ const addNewRecord = () => {
                     <input type="text" id="fixtures" v-model="form.fixtures" name="fixtures" placeholder="Fixtures">
                     <InputError v-if="errors && errors.fixtures" class="text-center" :message="errors.fixtures[0]" />
 
-                    <select id="league" name="tips" v-model="form.tip_id">
+                    <label class="heading-2" for="tips">Tip</label>
+                    <select id="tips" name="tips" v-model="form.tip_id">
                         <option value="">Select Tip</option>
                         <option v-for="tip in tips" :key="tip.id" :value="tip.id">{{tip.title}}</option>
                     </select>
