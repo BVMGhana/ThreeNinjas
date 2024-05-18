@@ -39,7 +39,7 @@ const submit = () => {
         </div>
         <div id="main-bg" class="fade-in">
             <div class="text-white h-screen flex flex-col justify-center items-center gap-4">
-                <Link href="/" class="text-[32px] text-center">3 Ninjas Home</Link>
+                <Link href="/" class="text-[32px] text-center text-[#fff]">3 Ninjas Home</Link>
                 <div class="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
                     <h1 class="text-4xl font-bold text-center mb-6">Login</h1>
                     <form @submit.prevent="submit">
@@ -79,7 +79,7 @@ const submit = () => {
 
 <style scoped>
 #main-bg {
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg.jpg) no-repeat scroll center center /cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg_login.jpg) no-repeat scroll center center /cover;
 }
 
 .fade-in {
