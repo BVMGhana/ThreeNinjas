@@ -14,7 +14,7 @@ class ButtonController extends Controller
     {
         try {
 
-            $buttons = Button::all();
+            $buttons = Button::orderBy('priority')->get();
             return response()->json($buttons);
 
         } catch (Exception $e) {
