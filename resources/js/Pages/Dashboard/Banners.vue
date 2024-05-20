@@ -195,7 +195,7 @@ const attachFile = event => {
                             <th>#</th>
                             <th>Name</th>
                             <th>Position</th>
-                            <th class="hidden lg:inline-block">Image</th>
+                            <th class="hidden lg:table-cell">Image</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -203,7 +203,7 @@ const attachFile = event => {
                             <td>{{ index + 1 }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.position }}</td>
-                            <td class="hidden lg:inline-block">{{ item.filename }}</td>
+                            <td class="hidden lg:table-cell">{{ item.filename }}</td>
                             <!-- <td><span class="material-icons-sharp text-[14px] text-[green]" @click="editData(item.id)">edit</span></td> -->
                             <td><span class="material-icons-sharp text-[14px] text-[red]" @click="deletePrediction(item.id)">delete</span></td>
                         </tr>
@@ -216,17 +216,6 @@ const attachFile = event => {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    outline: 0;
-    appearance: none;
-    border: 0;
-    text-decoration: none;
-    list-style: none;
-    box-sizing: border-box;
-}
 
 .fade-in {
   animation: fadeIn 0.6s ease-in-out;
@@ -540,150 +529,6 @@ main {
     margin-top: 1.4rem;
 }
 
-main .date {
-    display: inline-block;
-    background: var(--color-light);
-    border-radius: var(--border-radius-1);
-    margin-top: 1rem;
-    padding: 0.5rem 1.6rem;
-}
-
-main .date input[type="date"] {
-    background: transparent;
-    color: var(--color-dark);
-}
-
-main .insights {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.6rem
-}
-
-main .insights>div {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    margin-top: 1rem;
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-}
-
-main .insights>div:hover {
-    box-shadow: none;
-}
-
-main .insights>div span {
-    background: var(--color-primary);
-    padding: 0.5rem;
-    border-radius: 50%;
-    color: var(--color-white);
-    font-size: 2rem;
-}
-
-main .insights>div.expenses span {
-    background: var(--color-danger);
-}
-
-main .insights>div.income span {
-    background: var(--color-success);
-}
-
-main .insights>div .middle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-main .insights>div .middle .left h1,
-main .insights>div .middle .left h3 {
-    color: var(--color-dark);
-}
-
-main .insights h3 {
-    margin: 1rem 0 0.6rem;
-    font-size: 1rem;
-}
-
-main .insights .progress {
-    position: relative;
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
-}
-
-main .insights svg {
-    width: 7rem;
-    height: 7rem;
-}
-
-main .insights svg circle {
-    fill: none;
-    stroke: var(--color-primary);
-    stroke-width: 14;
-    stroke-linecap: round;
-    transform: translate(5px, 5px);
-    stroke-dasharray: 110;
-    stroke-dashoffset: 92;
-}
-
-main .insights .sales svg circle {
-    stroke-dashoffset: -30;
-    stroke-dasharray: 200;
-}
-
-main .insights .expenses svg circle {
-    stroke-dashoffset: 20;
-    stroke-dasharray: 80;
-}
-
-main .insights .income svg circle {
-    stroke-dashoffset: 35;
-    stroke-dasharray: 110;
-}
-
-main .insights .progress .number {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-main .insights .progress .number p {
-    color: var(--color-dark);
-}
-
-main .insights small {
-    margin-top: 1.6rem;
-    display: block;
-}
-
-main .recent-subscriptions {
-    margin-top: 2rem;
-}
-
-main .recent-subscriptions h2 {
-    margin-bottom: 0.8rem;
-}
-
-main .recent-subscriptions table {
-    background: var(--color-white);
-    width: 100%;
-    border-radius: var(--card-border-radius);
-    /* padding: var(--card-padding); */
-    /* why*/
-    text-align: center;
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-}
-
-main .recent-subscriptions table:hover {
-    box-shadow: none;
-}
-
 main table thead th {
     padding: var(--card-padding) var(--padding-small);
     color: var(--color-dark);
@@ -715,13 +560,6 @@ main.prediction-main table thead tr th:first-child {
         padding: var(--padding-small) var(--padding-semi-small);
         /* Why*/
     }
-}
-
-main .recent-subscriptions a {
-    text-align: center;
-    display: block;
-    margin: 1rem auto;
-    color: var(--color-primary);
 }
 
 /* End of main */
@@ -767,111 +605,7 @@ main .recent-subscriptions a {
     border-radius: var(--border-radius-1);
 }
 
-.right .top .profile {
-    display: flex;
-    gap: 2rem;
-    text-align: right;
-}
-
 /* End of right top */
-
-.right .recent-updates {
-    margin-top: 1rem;
-}
-
-.right .recent-updates h2 {
-    margin-bottom: 0.8rem;
-}
-
-.right .recent-updates .updates {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-}
-
-.right recent-updates .updates:hover {
-    box-shadow: none;
-}
-
-.right .recent-updates .updates .update {
-    display: grid;
-    grid-template-columns: 2.6rem auto;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.right .analytics {
-    margin-top: 2rem;
-}
-
-.right .analytics h2 {
-    margin-bottom: 0.8rem;
-}
-
-.right .analytics .item {
-    background: var(--color-white);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.7rem;
-    padding: 1.4rem var(--card-padding);
-    border-radius: var(--border-radius-3);
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-}
-
-.right .analytics .item:hover {
-    box-shadow: none;
-}
-
-.right .analytics .item .right {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin: 0;
-    width: 100%;
-}
-
-.right .analytics .item .icon {
-    padding: 0.6rem;
-    color: white;
-    border-radius: 50%;
-    background: var(--color-primary);
-    display: flex;
-}
-
-.right .analytics .item.offline .icon {
-    background: var(--color-danger);
-}
-
-.right .analytics .item.customers .icon {
-    background: var(--color-success);
-}
-
-.right .analytics .info h3 {
-    color: var(--color-dark);
-}
-
-.right .analytics .add-product {
-    background: transparent;
-    border: 2px dashed var(--color-primary);
-    color: var(--color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.right .analytics .add-product div {
-    display: flex;
-    align-content: center;
-    gap: 0.6rem;
-}
-
-.right .analytics .add-product div h3 {
-    font-weight: 600;
-}
 
 @media screen and (max-width: 1200px) {
     .container {
@@ -999,6 +733,7 @@ main .recent-subscriptions a {
         height: 3.5rem;
         z-index: 2;
         box-shadow: 0 1rem 1rem var(--color-light);
+        background: var(--color-white);
     }
 
     main.prediction-main .right {

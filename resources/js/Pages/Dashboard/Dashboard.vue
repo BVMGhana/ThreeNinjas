@@ -4,11 +4,21 @@ import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import axios from '../../axiosConfig';
+import TimeAgo from 'javascript-time-ago';
+
+// English.
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addDefaultLocale(en)
+
+// Create formatter (English).
+const timeAgo = new TimeAgo('en-US')
 
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
 const users = ref(null);
 const usersCount = ref(null);
+const recentUsers = ref(null);
 
 const loadInitialData = async () => {
   try {
@@ -19,6 +29,9 @@ const loadInitialData = async () => {
 
     response = await axios.get('users-count');
     usersCount.value = response.data;
+    
+    response = await axios.get('recent-users');
+    recentUsers.value = response.data;
 
   } catch (error) {
     displayMessage(error.response.statusText, 'error');
@@ -115,8 +128,8 @@ stateUrl.value = url;
                         <tr class="text-left">
                             <th>Customer Name</th>
                             <th>Customer Number</th>
+                            <th>Registered</th>
                             <th>Payment</th>
-                            <th>Status</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -124,8 +137,8 @@ stateUrl.value = url;
                         <tr v-for="user in users" :key="user.id" class="text-left">
                             <td>{{user.name}}</td>
                             <td>{{user.phone}}</td>
-                            <td>Done</td>
-                            <td class="warning">Pending</td>
+                            <td>{{timeAgo.format(new Date(user.created_at))}}</td>
+                            <td class="success">Done</td>
                             <td class="primary">Details</td>
                         </tr>
                     </tbody>
@@ -150,7 +163,7 @@ stateUrl.value = url;
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
-                        <img src="/images/profile-1.jpg" alt="profile picture">
+                        <img src="/images/default-profile.png" alt="profile picture">
                     </div>
                 </div>
             </div>
@@ -159,31 +172,13 @@ stateUrl.value = url;
             <div class="recent-updates">
                 <h2 class="heading">Recent Updates</h2>
                 <div class="updates">
-                    <div class="update">
+                    <div class="update" v-for="user in recentUsers" :key="user.id">
                         <div class="profile-photo">
-                            <img src="/images/profile-2.jpg" alt="profile picture">
+                            <img src="/images/default-profile.png" alt="profile picture">
                         </div>
                         <div class="message">
-                            <p><b>Joshua Gato</b><span class="text-[gray]"> Paid for premium subscription</span></p>
-                            <small class="text-muted">2 minutes ago</small>
-                        </div>
-                    </div>
-                    <div class="update">
-                        <div class="profile-photo">
-                            <img src="/images/profile-3.jpg" alt="profile picture">
-                        </div>
-                        <div class="message">
-                            <p><b>Joshua Gato</b><span class="text-[gray]"> Paid for premium subscription</span></p>
-                            <small class="text-muted">2 minutes ago</small>
-                        </div>
-                    </div>
-                    <div class="update">
-                        <div class="profile-photo">
-                            <img src="/images/profile-4.jpg" alt="profile picture">
-                        </div>
-                        <div class="message">
-                            <p><b>Joshua Gato</b><span class="text-[gray]"> Paid for premium subscription</span></p>
-                            <small class="text-muted">2 minutes ago</small>
+                            <p><b>{{user.name}}</b><span class="text-[gray]"> Paid for premium subscription</span></p>
+                            <small class="text-muted">{{timeAgo.format(new Date(user.created_at))}}</small>
                         </div>
                     </div>
                 </div>
@@ -202,7 +197,7 @@ stateUrl.value = url;
                             <small class="text-muted">Last 24 hours</small>
                         </div>
                         <h5 class="success">+39%</h5>
-                        <h3>3849</h3>
+                        <h3 class="text-visible">3849</h3>
                     </div>
                 </div>
                 <div class="item offline">
@@ -215,7 +210,7 @@ stateUrl.value = url;
                             <small class="text-muted">Last 24 hours</small>
                         </div>
                         <h5 class="danger">-17%</h5>
-                        <h3>1100</h3>
+                        <h3 class="text-visible">1100</h3>
                     </div>
                 </div>
                 <div class="item customers">
@@ -227,16 +222,16 @@ stateUrl.value = url;
                             <h3>New Customers</h3>
                             <small class="text-muted">Last 24 hours</small>
                         </div>
-                        <h5 class="">+25%</h5>
-                        <h3>849</h3>
+                        <h5 class="primary">+25%</h5>
+                        <h3 class="text-visible">849</h3>
                     </div>
                 </div>
-                <div class="item add-product">
+                <!-- <div class="item add-product">
                     <div>
                         <span class="material-icons-sharp">add</span>
                         <h3>Add Product</h3>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -417,6 +412,10 @@ small {
 
 .text-muted {
     color: var(--color-info-dark);
+}
+
+.text-visible {
+    color: var(--color-dark);
 }
 
 p {
@@ -745,17 +744,11 @@ main.prediction-main table thead tr th:first-child {
     }
 }
 
-main .recent-subscriptions a {
-    text-align: center;
-    display: block;
-    margin: 1rem auto;
-    color: var(--color-primary);
-}
-
 /* End of main */
 
 .right {
     margin-top: 1.4rem;
+    background: var(--color-white);
 }
 
 .right .top {

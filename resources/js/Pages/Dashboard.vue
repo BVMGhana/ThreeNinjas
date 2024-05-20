@@ -88,56 +88,56 @@ stateUrl.value = url;
                 </div>
                 <div class="sidebar">
                     <Link href="/dashboard" :class="{ 'active': $page.url === dashboardUrl }">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Dashboard</h3>
+                        <span class="material-icons-sharp">grid_view</span>
+                        <h3>Dashboard</h3>
                     </Link>
                     <Link href="/dashboard/users" :class="{ 'active': $page.url.includes(usersUrl) }">
-                    <span class="material-icons-sharp">account_circle</span>
-                    <h3>Users</h3>
+                        <span class="material-icons-sharp">account_circle</span>
+                        <h3>Users</h3>
                     </Link>
                     <Link href="/dashboard/white-ninja" :class="{ 'active': $page.url.includes(whiteNinjaUrl) }">
-                    <span class="material-icons-sharp">person_outline</span>
-                    <h3>White Ninja</h3>
+                        <span class="material-icons-sharp">person_outline</span>
+                        <h3>White Ninja</h3>
                     </Link>
                     <Link href="/dashboard/red-ninja" :class="{ 'active': $page.url.includes(redNinjaUrl) }">
-                    <span class="material-icons-sharp">grid_view</span>
-                    <h3>Red Ninja</h3>
+                        <span class="material-icons-sharp">grid_view</span>
+                        <h3>Red Ninja</h3>
                     </Link>
                     <Link href="/dashboard/black-ninja" :class="{ 'active': $page.url.includes(blackNinjaUrl) }">
-                    <span class="material-icons-sharp">person_add</span>
-                    <h3>Black Ninja</h3>
+                        <span class="material-icons-sharp">person_add</span>
+                        <h3>Black Ninja</h3>
                     </Link>
                     <Link href="/dashboard/previous-results" :class="{ 'active': $page.url.includes(previousResultUrl) }">
-                    <span class="material-icons-sharp">preview</span>
-                    <h3>Previous Results</h3>
+                        <span class="material-icons-sharp">preview</span>
+                        <h3>Previous Results</h3>
                     </Link>
                     <Link href="/dashboard/leagues" :class="{ 'active': $page.url.includes(leaguesUrl) }">
-                    <span class="material-icons-sharp">insights</span>
-                    <h3>Leagues</h3>
+                        <span class="material-icons-sharp">insights</span>
+                        <h3>Leagues</h3>
                     </Link>
                     <!-- <Link href="/dashboard/fixtures">
                         <span class="material-icons-sharp">settings</span>
                         <h3>Fixtures</h3>
                     </Link> -->
                     <Link href="/dashboard/tips" :class="{ 'active': $page.url.includes(tipsUrl) }">
-                    <span class="material-icons-sharp">analytics</span>
-                    <h3>Tips</h3>
+                        <span class="material-icons-sharp">analytics</span>
+                        <h3>Tips</h3>
                     </Link>
                     <Link href="/dashboard/banners" :class="{ 'active': $page.url.includes(bannersUrl) }">
-                    <span class="material-icons-sharp">stay_current_landscape</span>
-                    <h3>Banners</h3>
+                        <span class="material-icons-sharp">stay_current_landscape</span>
+                        <h3>Banners</h3>
                     </Link>
                     <Link href="/dashboard/buttons" :class="{ 'active': $page.url.includes(buttonsUrl) }">
-                    <span class="material-icons-sharp">smart_button</span>
-                    <h3>Buttons</h3>
+                        <span class="material-icons-sharp">smart_button</span>
+                        <h3>Buttons</h3>
                     </Link>
                     <Link href="/">
-                    <span class="material-icons-sharp">home</span>
-                    <h3>Homepage</h3>
+                        <span class="material-icons-sharp">home</span>
+                        <h3>Homepage</h3>
                     </Link>
                     <Link :href="route('logout')" method="post">
-                    <span class="material-icons-sharp">logout</span>
-                    <h3>Logout</h3>
+                        <span class="material-icons-sharp">logout</span>
+                        <h3>Logout</h3>
                     </Link>
                 </div>
             </aside>
@@ -192,7 +192,7 @@ stateUrl.value = url;
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-* {
+/* * {
     margin: 0;
     padding: 0;
     outline: 0;
@@ -201,7 +201,7 @@ stateUrl.value = url;
     text-decoration: none;
     list-style: none;
     box-sizing: border-box;
-}
+} */
 
 .fade-in {
   animation: fadeIn 0.6s ease-in-out;
@@ -514,192 +514,6 @@ main.prediction-main {
 main {
     margin-top: 1.4rem;
 }
-
-main .date {
-    display: inline-block;
-    background: var(--color-light);
-    border-radius: var(--border-radius-1);
-    margin-top: 1rem;
-    padding: 0.5rem 1.6rem;
-}
-
-main .date input[type="date"] {
-    background: transparent;
-    color: var(--color-dark);
-}
-
-main .insights {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.6rem
-}
-
-main .insights>div {
-    background: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    margin-top: 1rem;
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-}
-
-main .insights>div:hover {
-    box-shadow: none;
-}
-
-main .insights>div span {
-    background: var(--color-primary);
-    padding: 0.5rem;
-    border-radius: 50%;
-    color: var(--color-white);
-    font-size: 2rem;
-}
-
-main .insights>div.expenses span {
-    background: var(--color-danger);
-}
-
-main .insights>div.income span {
-    background: var(--color-success);
-}
-
-main .insights>div .middle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-main .insights>div .middle .left h1,
-main .insights>div .middle .left h3 {
-    color: var(--color-dark);
-}
-
-main .insights h3 {
-    margin: 1rem 0 0.6rem;
-    font-size: 1rem;
-}
-
-main .insights .progress {
-    position: relative;
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
-}
-
-main .insights svg {
-    width: 7rem;
-    height: 7rem;
-}
-
-main .insights svg circle {
-    fill: none;
-    stroke: var(--color-primary);
-    stroke-width: 14;
-    stroke-linecap: round;
-    transform: translate(5px, 5px);
-    stroke-dasharray: 110;
-    stroke-dashoffset: 92;
-}
-
-main .insights .sales svg circle {
-    stroke-dashoffset: -30;
-    stroke-dasharray: 200;
-}
-
-main .insights .expenses svg circle {
-    stroke-dashoffset: 20;
-    stroke-dasharray: 80;
-}
-
-main .insights .income svg circle {
-    stroke-dashoffset: 35;
-    stroke-dasharray: 110;
-}
-
-main .insights .progress .number {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-main .insights .progress .number p {
-    color: var(--color-dark);
-}
-
-main .insights small {
-    margin-top: 1.6rem;
-    display: block;
-}
-
-main .recent-subscriptions {
-    margin-top: 2rem;
-}
-
-main .recent-subscriptions h2 {
-    margin-bottom: 0.8rem;
-}
-
-main .recent-subscriptions table {
-    background: var(--color-white);
-    width: 100%;
-    border-radius: var(--card-border-radius);
-    /* padding: var(--card-padding); */
-    /* why*/
-    text-align: center;
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-}
-
-main .recent-subscriptions table:hover {
-    box-shadow: none;
-}
-
-main table thead th {
-    padding: var(--card-padding) var(--padding-small);
-    color: var(--color-dark);
-}
-
-main table tbody td {
-    height: 2.8rem;
-    border-bottom: 1px solid var(--color-light);
-    color: var(--color-dark-variant);
-    padding: var(--padding-small);
-    /* Why*/
-}
-
-main table tbody tr:last-child td {
-    border: none;
-}
-
-main.prediction-main table tbody tr td:first-child,
-main.prediction-main table thead tr th:first-child {
-    padding-left: var(--padding-1)
-}
-
-@media screen and (max-width: 768px) {
-    main table thead th {
-        padding: var(--card-padding) var(--padding-semi-small);
-    }
-
-    main table tbody td {
-        padding: var(--padding-small) var(--padding-semi-small);
-        /* Why*/
-    }
-}
-
-main .recent-subscriptions a {
-    text-align: center;
-    display: block;
-    margin: 1rem auto;
-    color: var(--color-primary);
-}
-
-/* End of main */
 
 .right {
     margin-top: 1.4rem;

@@ -13,6 +13,8 @@ const previousResults = ref(null);
 const topBanner = ref(null);
 const bottomBanner = ref(null);
 const buttons = ref(null);
+const usersCount = ref(null);
+const predictionsCount = ref(null);
 
 onMounted(() => {
   menuBtn.value.addEventListener('click', () => {
@@ -115,6 +117,12 @@ const toggleMenu = () => isOpen.value = !isOpen.value;
 const getNinjas = async () => {
   try {
     let response;
+
+    response = await axios.get('users-count');
+    usersCount.value = response.data;
+    
+    response = await axios.get('predictions-count');
+    predictionsCount.value = response.data;
 
     response = await axios.get('banners');
     topBanner.value = getBanner(response.data, 'top');
@@ -326,7 +334,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
                 <div>RED NINJA</div>
-                <div>High Risk Bet</div>
+                <div>High Risk, Big Reward</div>
               </div>
               <div>
                 <i class="fas fa-chevron-up active-icon"></i>
@@ -380,7 +388,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
                 <div>BLACK NINJA</div>
-                <div>Average Risk Bet</div>
+                <div>Fair Bet</div>
               </div>
               <div>
                 <i class="fas fa-chevron-up active-icon"></i>
@@ -434,7 +442,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
                 <div>WHITE NINJA</div>
-                <div>Low Risk Bet</div>
+                <div>Assured Bet</div>
               </div>
               <div>
                 <i class="fas fa-chevron-up active-icon"></i>
@@ -494,32 +502,33 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
             <i class="fas fa-users-cog text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="400">000</span>
+            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="usersCount">0</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Subscribed Clients</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
             <i class="fas fa-glasses text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="340">000</span>
+            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="predictionsCount">0</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Predictions</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
             <i class="fas fa-users text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="225">000</span>
+            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="usersCount">0</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Satisfied Clients</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b]">
             <i class="fas fa-star text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" data-val="280">000</span>
+            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="usersCount">0</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Five Stars</span>
           </div>
         </div>
       </section>
+      <p class="text-[black]">{{ usersCount }}</p>
 
       <!-- Bottom Banner Section -->
       <section v-if="bottomBanner?.id" class="w-full my-10 lg:my-15 flex justify-center">
@@ -556,7 +565,6 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
             </h3>
             <ul>
               <li class="list-none mb-[12px]"><Link href="/" class="no-underline text-[#fff]">Home</Link></li>
-              <li class="list-none mb-[12px]"><Link href="/" class="no-underline text-[#fff]">VIP</Link></li>
               <li class="list-none mb-[12px]"><Link href="#about" class="no-underline text-[#fff]">About Us</Link></li>
               <li class="list-none mb-[12px]"><Link href="#contact" class="no-underline text-[#fff]">Contact Us</Link></li>
               <li class="list-none mb-[12px]"><Link href="/" class="no-underline text-[#fff]">Features</Link></li>

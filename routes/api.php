@@ -22,6 +22,8 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users-count', [UserController::class, 'count']);
+Route::get('/predictions-count', [UserController::class, 'count_all']);
+Route::get('/recent-users', [UserController::class, 'recent']);
 
 Route::get('/buttons', [ButtonController::class, 'index']);
 Route::post('/buttons', [ButtonController::class, 'store']);
