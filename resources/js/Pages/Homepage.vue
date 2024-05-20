@@ -62,7 +62,33 @@ onMounted(() => {
   const target = document.querySelector('#analytics');
   observer.observe(target);
 
+  const slides = document.querySelectorAll('#center .images .slide');
+  const sliderButtons = document.querySelectorAll('#slider-buttons a');
+  let counter = 0;
+
+  setInterval(() => {
+    document.querySelector("#center .img1").style.marginLeft = (counter * -20) + '%';
+    sliderButtons[counter].classList.add("active-slide");
+
+    const siblings = getSiblings(sliderButtons[counter]);
+    siblings.forEach(sibling => sibling.classList.remove("active-slide"));
+    counter++;
+
+    if (counter > slides.length - 1) {
+      counter = 0;
+    }
+  }, 3000);
+
 });
+
+const getSiblings = element => {
+  const parent = element.parentNode;
+
+  // Filter out the original element from the list of all children
+  const siblings = Array.from(parent.children).filter(child => child !== element);
+
+  return siblings;
+}
 
 defineProps({
     canLogin: {
@@ -118,14 +144,18 @@ const getNinjas = async () => {
 
 getNinjas();
 
+const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
 
-// function handleImageError() {
-//     document.getElementById('screenshot-container')?.classList.add('!hidden');
-//     document.getElementById('docs-card')?.classList.add('!row-span-1');
-//     document.getElementById('docs-card-content')?.classList.add('!flex-row');
-//     document.getElementById('background')?.classList.add('!hidden');
-// }
+  const slideImage = event => {
+    const targetElement = event.target;
+    const btnNumber = event.target.classList.value.split(' ')[0].split('btn')[1];
+    const marginValue = ((btnNumber - 1) * -20);
 
+    const siblings = getSiblings(targetElement);
+    targetElement.classList.add("active-slide");
+    siblings.forEach(sibling => sibling.classList.remove("active-slide"));
+    document.querySelector("#center .img1").style.marginLeft = `${marginValue}%`;
+  };
 
 </script>
 
@@ -136,7 +166,7 @@ getNinjas();
 
       <!-- Navbar Section -->
       <nav class="navbar fixed top-0 left-0 w-full flex justify-between align-center 
-        bg-[black] h-[100px] lg:h-fit text-white p-0 m-0">
+        bg-[black] h-[100px] lg:h-fit text-white p-0 m-0 z-50">
         
         <div class="flex items-center justify-between lg:p-[20px] bg-[#000]">
           <Link href="/" class="logo fixed lg:static top-[30px] left-[30px] text-[30px] lg:text-[25px] text-[#fff]">3Ninjas</Link>
@@ -190,7 +220,7 @@ getNinjas();
       </nav>
 
       <!-- Header Section -->
-      <header class="w-[100%] h-screen bg-center bg-cover text-white flex items-center justify-center 
+      <!-- <header class="w-[100%] h-screen bg-center bg-cover text-white flex items-center justify-center 
       md:rounded-br-[15%] rounded-br-[10px]">
         <div class="header-content mb-[150px] text-whitesmoke text-center">
           <h1 class="text-[7vmin] mt-[120px] md:mt-[70px]">Welcome to 3Ninjas Hub</h1>
@@ -198,7 +228,27 @@ getNinjas();
           <h2 class="text-[4vmin] mt-[50px] mb-[50px]">Get insights for betting.</h2>
           <Link href="/" class="no-underline bg-[#fc036b] rounded-[30px] text-[#FFF] py-[8px] px-[15px]">Learn more</Link>
         </div>
-      </header>
+      </header> -->
+
+      <div id="center">
+        <div class="images">
+          <!-- <div class="slide img1"> -->
+          <div v-for="(image, index) in sliderImages" :key="index" :class="`slide ${index=== 0 ? 'img1' : ''}`">
+            <div class="bg-image" :style="{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: 'cover' }">
+              <div class="header-content mb-[150px] text-whitesmoke text-center">
+                <h1 class="text-[7vmin] mt-[120px] md:mt-[70px]">Welcome to 3Ninjas Hub</h1>
+                <div class="line w-[150px] h-[4px] bg-[#fc036b] my-[10px] mx-auto rounded-[5px]"></div>
+                <h2 class="text-[4vmin] mt-[50px] mb-[50px]">Get insights for betting.</h2>
+                <Link href="/" class="no-underline bg-[#fc036b] rounded-[30px] text-[#FFF] py-[8px] px-[15px]">Learn more</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="slider-buttons">
+          <a href="#" v-for="(btn, index) in sliderImages" :key="index" @click="slideImage($event)" :class="`btn${index+1}`"></a>
+        </div>
+      </div>
 
       <!-- Top Banner Section -->
       <section v-if="topBanner?.id" class="w-full my-10 lg:my-15 flex justify-center">
@@ -537,6 +587,72 @@ getNinjas();
 </template>
 
 <style scoped>
+
+#center {
+  height: 100%;
+  width: 100%;
+  margin-top: 77px;
+  position: relative;
+  box-shadow: 0px 5px 8px rgba(0,0,0,.3);
+  overflow: hidden;
+}
+
+#center .images {
+  height: 100%;
+  width: 500%;
+  display: flex;
+}
+
+#center .images .slide {
+  width: 20%;
+  transition: 1s;
+}
+
+#center .images div.bg-image {
+  height: 100%;
+  width: 100%;
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a.active-slide {
+  transition: .5s;
+  transform: scale(0.999);
+  background: white;
+  animation: animate .4s;
+}
+
+#slider-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+#slider-buttons a {
+  height: 8px;
+  width: 30px;
+  border: 2px solid white;
+  margin: 0 5px;
+  border-radius: 10px;
+}
+
+@keyframes animate {
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+#slider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
 header {
   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg.jpg) no-repeat scroll center center /cover; 
 }
