@@ -744,6 +744,13 @@ main.prediction-main table thead tr th:first-child {
     }
 }
 
+main .recent-subscriptions a {
+    text-align: center;
+    display: block;
+    margin: 1rem auto;
+    color: var(--color-primary);
+}
+
 /* End of main */
 
 .right {
