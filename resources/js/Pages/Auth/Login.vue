@@ -14,6 +14,7 @@ defineProps({
     status: {
         type: String,
     },
+    errors: Object
 });
 
 const form = useForm({
@@ -40,9 +41,12 @@ const submit = () => {
         <div id="main-bg" class="fade-in">
             <div class="text-white h-screen flex flex-col justify-center items-center gap-4">
                 <Link href="/" class="text-[32px] text-center text-[#fff]">3 Ninjas Home</Link>
-                <div class="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
+                <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
                     <h1 class="text-4xl font-bold text-center mb-6">Login</h1>
                     <form @submit.prevent="submit">
+                        <div v-if="errors.login" class="block my-7 text-[12px] text-[red] text-center">
+                            {{ errors.login }}
+                        </div>
                         <div class="relative my-4">
                             <input type="text" 
                                 class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:text-white peer" 
@@ -63,8 +67,8 @@ const submit = () => {
                                 <input type="checkbox" id="remember-me" :checked="form.remember">
                                 <label for="remember-me">Remember Me</label>
                             </div>
-                            <Link href="" class="text-blue-500">Forgot Password?</Link>
-                            <!-- <Link :href="route('password.request')" class="text-blue-500">Forgot Password?</Link> -->
+                            <!-- <Link href="" class="text-blue-500">Forgot Password?</Link> -->
+                            <Link :href="route('password.request')" class="text-blue-500">Forgot Password?</Link>
                         </div>
                         <button :disabled="form.processing" class="w-full mb-4 text-[18px] mt-6 rounded-[40px] bg-white text-emerald-800 hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300" type="submit">Login</button>
                         <div class="text-center">

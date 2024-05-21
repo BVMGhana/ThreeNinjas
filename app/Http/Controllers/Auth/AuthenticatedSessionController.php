@@ -45,7 +45,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         // return redirect()->intended(route('dashboard', absolute: false));
-        return redirect('/');
+        return redirect('/login')->withErrors(['login' => 'The provided credentials do not match our records.']);
     }
 
     /**

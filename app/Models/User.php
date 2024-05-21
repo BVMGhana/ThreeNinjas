@@ -19,12 +19,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        // 'email',
+        'email',
         'phone',
         'password',
     ];
 
-    protected $unique = ['phone'];
+    protected $unique = ['phone', 'email'];
 
     protected $casts = ['is_admin' => 'boolean'];
 

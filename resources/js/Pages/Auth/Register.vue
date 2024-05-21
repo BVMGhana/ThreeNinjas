@@ -10,7 +10,7 @@ import axios from '../../axiosConfig';
 
 const form = useForm({
     name: '',
-    // email: '',
+    email: '',
     phone: '',
     password: '',
     password_confirmation: '',
@@ -41,7 +41,7 @@ const submit = () => {
         <div id="main-bg" class="fade-in">
             <div class="text-white h-screen flex flex-col justify-center items-center gap-4">
                 <Link href="/" class="text-[32px] text-center text-[#fff]">3 Ninjas Home</Link>
-                <div class="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
+                <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
                     <h1 class="text-4xl font-bold text-center mb-6">Register</h1>
                     <form @submit.prevent="submit">
                         <div class="relative my-4">
@@ -65,6 +65,17 @@ const submit = () => {
                                 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 
                                 peer-focus:-translate-y-6">Your Phone Number</label>
                             <InputError class="mt-2" :message="form.errors.phone" />
+                        </div>
+                        <div class="relative my-8">
+                            <input type="email" v-model="form.email" class="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 
+                                border-b-2 border-gray-300 appearance-none dark:focus:border-blue-500 
+                                focus:outline-none focus:ring-0 focus:text-white peer" placeholder="">
+                            <label for="" class="absolute text-sm duration-300 transform -translate-y-6 scale-75 
+                                top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 
+                                peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
+                                peer-placeholder-shown:translate-y-0 peer-focus:scale-75 
+                                peer-focus:-translate-y-6">Your Email</label>
+                            <InputError class="mt-2" :message="form.errors.email" />
                         </div>
                         <div class="relative my-8">
                             <input type="password" v-model="form.password" class="block w-72 py-2.3 px-0 text-sm 

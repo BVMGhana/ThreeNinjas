@@ -567,7 +567,6 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
               <li class="list-none mb-[12px]"><Link href="/" class="no-underline text-[#fff]">Home</Link></li>
               <li class="list-none mb-[12px]"><Link href="#about" class="no-underline text-[#fff]">About Us</Link></li>
               <li class="list-none mb-[12px]"><Link href="#contact" class="no-underline text-[#fff]">Contact Us</Link></li>
-              <li class="list-none mb-[12px]"><Link href="/" class="no-underline text-[#fff]">Features</Link></li>
             </ul>
           </div>
           <div class="basis-[100%] md:basis-[25%] mb-[20px] p-[10px]">

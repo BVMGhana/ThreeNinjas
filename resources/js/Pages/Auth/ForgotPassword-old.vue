@@ -22,10 +22,10 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout id="main-bg" class="fade-in">
+    <GuestLayout>
         <Head title="Forgot Password" />
 
-        <div class="mb-4 text-sm text-white dark:text-gray-400">
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             Forgot your password? No problem. Just let us know your email address and we will email you a password reset
             link that will allow you to choose a new one.
         </div>
@@ -36,7 +36,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel class="text-white" for="email" value="Email" />
+                <InputLabel for="email" value="Email" />
 
                 <TextInput
                     id="email"
@@ -59,18 +59,3 @@ const submit = () => {
         </form>
     </GuestLayout>
 </template>
-
-<style scoped>
-#main-bg {
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg_login.jpg) no-repeat scroll center center /cover;
-}
-
-.fade-in {
-    animation: fadeIn 0.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-</style>

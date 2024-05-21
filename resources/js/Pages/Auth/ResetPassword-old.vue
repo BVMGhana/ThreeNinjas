@@ -32,12 +32,12 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout id="main-bg" class="fade-in">
+    <GuestLayout>
         <Head title="Reset Password" />
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel class="text-white" for="email" value="Email" />
+                <InputLabel for="email" value="Email" />
 
                 <TextInput
                     id="email"
@@ -53,7 +53,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel class="text-white" for="password" value="Password" />
+                <InputLabel for="password" value="Password" />
 
                 <TextInput
                     id="password"
@@ -68,7 +68,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel class="text-white" for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirm Password" />
 
                 <TextInput
                     id="password_confirmation"
@@ -90,18 +90,3 @@ const submit = () => {
         </form>
     </GuestLayout>
 </template>
-
-<style scoped>
-#main-bg {
-    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg_register.jpg) no-repeat scroll center center /cover;
-}
-
-.fade-in {
-    animation: fadeIn 0.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-</style>
