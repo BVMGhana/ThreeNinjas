@@ -2,6 +2,8 @@
 import Checkbox from '@/Components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
+import SubmitButton from '@/Components/SubmitButton.vue';
+import NavBar from '@/Components/NavBar.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
@@ -35,12 +37,13 @@ const submit = () => {
     <!-- <GuestLayout> -->
         <Head title="Log in" />
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
+        <NavBar />
+
+        <div v-if="status" class="py-2 mt-[100px] lg:mt-[77.5px] font-medium text-sm text-center text-[#00b041]">
             {{ status }}
         </div>
         <div id="main-bg" class="fade-in">
             <div class="text-white h-screen flex flex-col justify-center items-center gap-4">
-                <Link href="/" class="text-[32px] text-center text-[#fff]">3 Ninjas Home</Link>
                 <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
                     <h1 class="text-4xl font-bold text-center mb-6">Login</h1>
                     <form @submit.prevent="submit">
@@ -70,7 +73,9 @@ const submit = () => {
                             <!-- <Link href="" class="text-blue-500">Forgot Password?</Link> -->
                             <Link :href="route('password.request')" class="text-blue-500">Forgot Password?</Link>
                         </div>
-                        <button :disabled="form.processing" class="w-full mb-4 text-[18px] mt-6 rounded-[40px] bg-white text-emerald-800 hover:bg-emerald-600 hover:text-white py-2 transition-colors duration-300" type="submit">Login</button>
+                        <SubmitButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Login
+                        </SubmitButton>
                         <div class="text-center">
                             <span class="m-4">New Here? <Link class="text-blue-500" :href="route('register')">Create an account</Link></span>
                         </div>
