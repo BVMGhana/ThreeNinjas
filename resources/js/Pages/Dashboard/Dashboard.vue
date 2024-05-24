@@ -28,7 +28,7 @@ const loadInitialData = async () => {
     response = await axios.get('users-count');
     usersCount.value = response.data;
 
-    response = await axios.get('subscriptions/count');
+    response = await axios.get('subscriptions-count');
     subscribersCount.value = response.data;
 
     response = await axios.get('users');
@@ -227,7 +227,7 @@ stateUrl.value = url;
                             <small class="text-muted">Last 24 hours</small>
                         </div>
                         <h5 class="primary">+25%</h5>
-                        <h3 class="text-visible">849</h3>
+                        <h3 class="text-visible">{{usersCount}}</h3>
                     </div>
                 </div>
                 <!-- <div class="item add-product">

@@ -89,6 +89,6 @@ Route::put('/betcodes/{id}', [BetcodeController::class, 'update']);
 Route::delete('/betcodes/{id}', [BetcodeController::class, 'destroy']);
 
 Route::get('/subscriptions', [SubscriptionController::class, 'index']);
-Route::get('/subscriptions/count', [SubscriptionController::class, 'count']);
+Route::get('/subscriptions-count', [SubscriptionController::class, 'count']);
 Route::post('/subscriptions', [SubscriptionController::class, 'store']);
 Route::delete('/subscriptions/{email}', [SubscriptionController::class, 'destroy']);

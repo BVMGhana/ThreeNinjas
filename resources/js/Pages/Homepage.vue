@@ -13,6 +13,7 @@ const topBanner = ref(null);
 const bottomBanner = ref(null);
 const buttons = ref(null);
 const usersCount = ref(null);
+const subscribersCount = ref(null);
 const predictionsCount = ref(null);
 
 onMounted(() => {
@@ -114,6 +115,9 @@ const getNinjas = async () => {
 
     response = await axios.get('users-count');
     usersCount.value = response.data;
+
+    response = await axios.get('subscriptions-count');
+    subscribersCount.value = response.data;
     
     response = await axios.get('predictions-count');
     predictionsCount.value = response.data;
@@ -444,7 +448,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
               bg-[#21242b] border-b-[10px] border-solid border-[#fc036b]">
             <i class="fas fa-users-cog text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="usersCount">0</span>
+            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="subscribersCount">0</span>
             <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Subscribed Clients</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
