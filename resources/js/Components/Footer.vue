@@ -1,5 +1,29 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+import axios from '../axiosConfig';
+
+const form = useForm({
+    email: ''
+});
+
+const displayMessage = (message, type) => toast(message, { autoClose: 1000, type });
+
+const submitData = async () => {
+    try {
+        const response = await axios.post('subscriptions', form);
+        if (response.status === 201) {
+            displayMessage(response.data.message, 'success');
+            form.reset();
+        } else {
+            displayMessage(response.data.message, 'warning');
+        }
+    } catch (error) {
+        displayMessage(error.response.data.message, 'error');
+    }
+};
+
 </script>
 
 <template>
@@ -39,9 +63,9 @@ import { Link } from '@inertiajs/vue3';
               Newsletter <div class="w-full h-[5px] bg-[#767676] rounded-[3px] absolute left-0 overflow-hidden">
                 <span class="w-[15px] h-[100%] bg-white rounded-[3px] absolute top-0 left-[10px] moving"></span></div>
             </h3>
-            <form action="" @submit.prevent="" class="pb-[15px] flex items-center justify-between border-b border-[#ccc] mb-[50px]">
+            <form action="" @submit.prevent="submitData" class="pb-[15px] flex items-center justify-between border-b border-[#ccc] mb-[50px]">
               <i class="far fa-envelope text-[18px] mr-[10px]"></i>
-              <input type="email" placeholder="Enter your email" class="w-full bg-transparent text-[#ccc] border-0 outline-none mx-2" required>
+              <input type="email" placeholder="Enter your email" v-model="form.email" class="w-full bg-transparent text-[#ccc] border-0 outline-0 appearance-none focus:outline-none focus:ring-0 mx-2" required>
               <button type="submit" class="bg-transparent border-0 outline-none cursor-pointer"><i class="fas fa-arrow-right"></i></button>
             </form>
             <div>
