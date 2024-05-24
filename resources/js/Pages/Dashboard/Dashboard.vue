@@ -16,19 +16,23 @@ const timeAgo = new TimeAgo('en-US')
 
 const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
 
-const users = ref(null);
 const usersCount = ref(null);
+const subscribersCount = ref(null);
+const users = ref(null);
 const recentUsers = ref(null);
 
 const loadInitialData = async () => {
   try {
     let response;
 
-    response = await axios.get('users');
-    users.value = response.data;
-
     response = await axios.get('users-count');
     usersCount.value = response.data;
+
+    response = await axios.get('subscriptions/count');
+    subscribersCount.value = response.data;
+
+    response = await axios.get('users');
+    users.value = response.data;
     
     response = await axios.get('recent-users');
     recentUsers.value = response.data;
@@ -83,7 +87,7 @@ stateUrl.value = url;
                     <div class="middle">
                         <div class="left">
                             <h3>Subscribed</h3>
-                            <h1>{{usersCount}}</h1>
+                            <h1>{{subscribersCount}}</h1>
                         </div>
                         <div class="progress">
                             <svg class="w-[7rem] h-[7rem]">
@@ -126,19 +130,19 @@ stateUrl.value = url;
                 <table id="dashboard-table">
                     <thead>
                         <tr class="text-left">
-                            <th>Customer Name</th>
+                            <th class="customer-name">Customer Name</th>
                             <th>Customer Number</th>
                             <th>Registered</th>
-                            <th>Payment</th>
+                            <th class="hidden md:table-cell">Payment</th>
                             <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="user in users" :key="user.id" class="text-left">
-                            <td>{{user.name}}</td>
+                            <td class="customer-name">{{user.name}}</td>
                             <td>{{user.phone}}</td>
                             <td>{{timeAgo.format(new Date(user.created_at))}}</td>
-                            <td class="success">Done</td>
+                            <td class="success hidden md:table-cell">Done</td>
                             <td class="primary">Details</td>
                         </tr>
                     </tbody>
@@ -329,46 +333,6 @@ div.add-record:hover {
     box-shadow: none;
 }
 
-
-.mainSection main table {
-    background: var(--color-white);
-    width: 100%;
-    border-radius: var(--card-border-radius);
-    /* padding: var(--card-padding); */
-    /* why*/
-    text-align: center;
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-}
-
-.mainSection main table:hover {
-    box-shadow: none;
-}
-
-.mainSection main table tbody td span {
-    cursor: pointer;
-}
-
-/* w-screen h-screen bg-color-background text-[14px] text-color-dark select-none overflow-x-hidden */
-#mainContainer {
-    width: 100vw;
-    height: 100vh;
-    font-family: poppins, sans-serif;
-    font-size: 0.88rem;
-    background: var(--color-background);
-    user-select: none;
-    overflow-x: hidden;
-}
-
-
-.container {
-    display: grid;
-    width: 100%;
-    margin: 0 auto;
-    gap: 1.8rem;
-    grid-template-columns: 14rem auto;
-}
-
 a {
     color: var(--color-dark);
 }
@@ -549,21 +513,10 @@ aside .sidebar .message-count {
     width: 100%;
 }
 
-.mainSection {
-    display: grid;
-    grid-template-columns: auto;
-    gap: 1.8rem;
-    width: 100%;
-}
-
 /* main */
 
-main.prediction-main {
-    width: 100%;
-    margin-top: 10px;
-}
-
 main {
+    /* width: 100%; */
     margin-top: 1.4rem;
 }
 
@@ -728,14 +681,14 @@ main table tbody tr:last-child td {
     border: none;
 }
 
-main.prediction-main table tbody tr td:first-child,
-main.prediction-main table thead tr th:first-child {
-    padding-left: var(--padding-1)
-}
-
 @media screen and (max-width: 768px) {
     main table thead th {
         padding: var(--card-padding) var(--padding-semi-small);
+    }
+
+    main table thead th.customer-name,
+    main table tbody td.customer-name {
+        padding-left: var(--padding-quarter-small);
     }
 
     main table tbody td {
@@ -755,7 +708,6 @@ main .recent-subscriptions a {
 
 .right {
     margin-top: 1.4rem;
-    background: var(--color-white);
 }
 
 .right .top {
@@ -819,7 +771,7 @@ main .recent-subscriptions a {
     transition: all 300ms ease;
 }
 
-.right recent-updates .updates:hover {
+.right .recent-updates .updates:hover {
     box-shadow: none;
 }
 
@@ -902,10 +854,6 @@ main .recent-subscriptions a {
 }
 
 @media screen and (max-width: 1200px) {
-    .container {
-        grid-template-columns: 7rem auto 23rem;
-    }
-
     aside .sidebar h3 {
         display: none;
     }
@@ -925,31 +873,26 @@ main .recent-subscriptions a {
     }
 
     main .recent-subscriptions {
-        width: 94%;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        margin: 2rem 0 0 8.8rem;
+        width: 100%;
+        /* position: absolute; */
+        /* left: 50%; */
+        /* transform: translateX(-50%); */
+        /* margin: 2rem 0 0 8.8rem; */
+        margin: 2rem auto;
     }
 
     main .recent-subscriptions table {
-        width: 83vw;
+        /* width: 83vw; */
+        /* width: 83%; */
     }
 
     main table#dashboard-table thead tr th:last-child,
-    main table#dashboard-table thead tr th:first-child,
-    main table#dashboard-table tbody tr td:last-child,
-    main table#dashboard-table tbody tr td:first-child {
+    main table#dashboard-table tbody tr td:last-child {
         display: none;
     }
 }
 
 @media screen and (max-width: 768px) {
-    .container {
-        width: 100%;
-        grid-template-columns: 1fr;
-    }
-
     aside {
         position: fixed;
         left: -100%;
@@ -998,13 +941,12 @@ main .recent-subscriptions a {
 
     main {
         width: 100%;
-        margin-top: 8rem;
-        padding: 0 1rem;
+        margin: 4rem auto 0;
+        padding: 0 0.5rem;
     }
 
-    main.prediction-main {
-        width: 100%;
-        margin-top: 30px;
+    #mainSection {
+        grid-template-columns: 1fr;
     }
 
     main .recent-subscriptions {
@@ -1019,20 +961,13 @@ main .recent-subscriptions a {
     }
 
     .right {
-        width: 94%;
+        width: 100%;
         margin: 0 auto 4rem;
-        position: fixed;
+        /* position: fixed;
         top: 0;
         left: 0;
         height: 3.5rem;
-        z-index: 2;
-        box-shadow: 0 1rem 1rem var(--color-light);
-    }
-
-    main.prediction-main .right {
-        width: 100%;
-        margin: 0 auto 2rem;
-        padding: 0;
+        z-index: 2; */
     }
 
     .right .top {
@@ -1045,13 +980,6 @@ main .recent-subscriptions a {
         width: 100%;
         margin: 0;
         z-index: 2;
-        box-shadow: 0 1rem 1rem var(--color-light);
-    }
-
-    main.prediction-main .right .top {
-        margin: 30px;
-        padding: 0;
-        /* box-shadow: 0 1rem 1rem var(--color-light); */
     }
 
     .right .top .theme-toggler {
@@ -1076,8 +1004,19 @@ main .recent-subscriptions a {
     .right .top button span {
         font-size: 2rem;
     }
+
+    .right .recent-updates,
+    .right .analytics {
+        padding: 0 1rem;
+    }
+
+    .right .updates {
+        /* display: none; */
+    }
+
+    .right .analytics {
+        /* display: none; */
+    }
 }
 
-/* main .recent-subscriptions table {
-    padding: 1.8rem;
-} */</style>
+</style>
