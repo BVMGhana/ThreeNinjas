@@ -449,7 +449,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
               bg-[#21242b] border-b-[10px] border-solid border-[#fc036b]">
             <i class="fas fa-users-cog text-[#fc036b] text-[2.5em]"></i>
             <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="subscribersCount">0</span>
-            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Subscribed Clients</span>
+            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Subscribed Users</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
@@ -463,7 +463,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
               bg-[#21242b] border-b-[10px] border-solid border-[#fc036b]">
             <i class="fas fa-users text-[#fc036b] text-[2.5em]"></i>
             <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="usersCount">0</span>
-            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Satisfied Clients</span>
+            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Satisfied Users</span>
           </div>
           <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
