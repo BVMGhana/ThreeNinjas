@@ -14,6 +14,7 @@ use App\Http\Controllers\RedNinjaController;
 use App\Http\Controllers\PreviousResultController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BetcodeController;
+use App\Http\Controllers\SubscriptionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -86,3 +87,8 @@ Route::post('/betcodes', [BetcodeController::class, 'store']);
 Route::get('/betcodes/{id}', [BetcodeController::class, 'show']);
 Route::put('/betcodes/{id}', [BetcodeController::class, 'update']);
 Route::delete('/betcodes/{id}', [BetcodeController::class, 'destroy']);
+
+Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+Route::get('/subscriptions/count', [SubscriptionController::class, 'count']);
+Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+Route::delete('/subscriptions/{email}', [SubscriptionController::class, 'destroy']);
