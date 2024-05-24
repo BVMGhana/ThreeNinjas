@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Betcode;
 use Illuminate\Http\Request;
 
+function transform($string) {
+    return ucfirst($string) . " Ninja";
+}
+
 class BetcodeController extends Controller
 {
     /**
@@ -44,6 +48,11 @@ class BetcodeController extends Controller
         ]);
 
         try {
+            $existing_betcode = Betcode::where('ninja', $request->ninja)->first();
+            if ($existing_betcode) {
+                $ninja_name = transform($existing_betcode->ninja);
+                return response()->json(['message' => "{$ninja_name} already exists"]);
+            }
 
             $betcode = new Betcode(['ninja' => $request->ninja, 'code' => $request->code]);
             $betcode->save();

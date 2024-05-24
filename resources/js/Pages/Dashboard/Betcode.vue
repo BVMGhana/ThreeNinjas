@@ -139,11 +139,16 @@ const transform = string => string.charAt(0).toUpperCase() + string.slice(1) + "
                 <h1 v-if="stateUrl.includes('edit=true')" class="heading text-center text-[13px] md:text-[16px]">Update Code</h1>
                 <form action="" @submit.prevent="submitData">
                     <label class="heading-2" for="ninja">Ninja</label>
-                    <select id="ninja" name="ninja" v-model="form.ninja">
+                    <select v-if="!stateUrl.includes('edit=true')" id="ninja" name="ninja" v-model="form.ninja">
                         <option value="">Select Ninja</option>
                         <option :value="ninja" v-for="(ninja, index) in ninjas" :key="index">{{ transform(ninja) }}</option>
                     </select>
                     <InputError v-if="errors && errors.ninja" class="text-center" :message="errors.ninja[0]" />
+                    <select v-if="stateUrl.includes('edit=true')" id="ninja" name="ninja" v-model="form.ninja" disabled>
+                        <option value="">Select Ninja</option>
+                        <option :value="ninja" v-for="(ninja, index) in ninjas" :key="index">{{ transform(ninja) }}</option>
+                    </select>
+                    <InputError v-if="stateUrl.includes('edit=true')" class="text-center" message="You can't change ninja while Editing" />
 
                     <label class="heading-2 block" for="title">Code</label>
                     <input type="text" id="code" v-model="form.code" name="code" placeholder="Code">
