@@ -29,8 +29,8 @@ const submitData = async () => {
 <template>
     <footer class="w-screen bottom-[unset] md:bottom-0 bg-gradient-to-r-from-black-to-brown text-white 
         pt-[100px] px-0 pb-[30px] rounded-tl-[125px] text-[13px] leading-[20px]">
-        <div class="w-[85%] m-auto flex flex-wrap items-start justify-between">
-          <div id="about" class="basis-[100%] md:basis-[25%] mb-[20px] p-[10px]">
+        <div class="w-[85%] md:w-[97%] lg:w-[95%] m-auto flex flex-wrap items-start justify-between gap-1">
+          <div id="about" class="basis-[100%] md:basis-[21%] mb-[20px] p-[10px]">
             <!-- <img src="/images/logo.jpg" alt="logo" class="w-[80px] mb-[30px]"> -->
             <h1 class="text-[24px] mb-[20px] md:mb-[40px] text-[#fff]">3 Ninjas Co.</h1>
             <p class="text-[#fff]">Subscribe to 3 Ninjas to get exclusive insights for betting. You can choose the VIP package for special offers.</p>
@@ -58,7 +58,7 @@ const submitData = async () => {
               <li class="list-none mb-[12px]"><Link href="#contact" class="no-underline text-[#fff]">Contact Us</Link></li>
             </ul>
           </div>
-          <div class="basis-[100%] md:basis-[25%] mb-[20px] p-[10px]">
+          <div class="basis-[100%] md:basis-[29%] mb-[20px] p-[10px]">
             <h3 class="w-fit mb-[20px] md:mb-[40px] relative">
               Newsletter <div class="w-full h-[5px] bg-[#767676] rounded-[3px] absolute left-0 overflow-hidden">
                 <span class="w-[15px] h-[100%] bg-white rounded-[3px] absolute top-0 left-[10px] moving"></span></div>
