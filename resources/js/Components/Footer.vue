@@ -72,7 +72,7 @@ const submitData = async () => {
               <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-[blue] bg-white mx-[8px] cursor-pointer"><i class="fab fa-facebook"></i></Link>
               <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-black bg-white mx-[8px] cursor-pointer"><i class="fa-brands fa-x-twitter"></i></Link>
               <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-[green] bg-white mx-[8px] cursor-pointer"><i class="fab fa-whatsapp"></i></Link>
-              <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-[pink] bg-white mx-[8px] cursor-pointer"><i class="fab fa-pinterest"></i></Link>
+              <Link href="" class="w-[20px] h-[20px] rounded-[5px] text-center p-[5px] text-[20px] text-[#fc036b] bg-white mx-[8px] cursor-pointer"><i class="fab fa-instagram"></i></Link>
             </div>
           </div>
         </div>
