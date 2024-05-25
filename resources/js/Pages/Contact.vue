@@ -75,7 +75,7 @@ import Footer from '@/Components/Footer.vue';
     position: absolute;
     inset: 0;
     background: repeating-conic-gradient(from var(--a), #fc036b 0%, #fc036b 10%, transparent 10%, transparent 50%);
-    animation: animate 3s linear infinite;
+    animation: animate 6s linear infinite;
     animation-delay: -1.5s;
 }
 
