@@ -11,5 +11,5 @@ class Button extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    protected $fillable = ['title', 'url', 'background', 'foreground', 'priority'];
+    protected $fillable = ['title', 'url', 'background', 'foreground', 'priority', 'company', 'code', 'ninja'];
 }
