@@ -5,6 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Button;
 use Illuminate\Http\Request;
 
+function capitalize($string) {
+    return ucfirst($string);
+}
+
+function transform($string) {
+    $words = explode('-', $string);
+    $formattedWords = array_map('ucfirst', $words);
+    return implode(' ', $formattedWords);
+}
+
 class ButtonController extends Controller
 {
     /**
@@ -44,13 +54,34 @@ class ButtonController extends Controller
             'background' => 'required|string|max:7',
             'foreground' => 'required|string|max:7',
             'priority' => 'required|numeric',
+            'company' => 'required|string|max:100',
+            'code' => 'required|string|max:30',
+            'ninja' => 'required|string|max:50'
         ]);
 
         try {
+
+            $existing_button = Button::where(['ninja' => $request->ninja, 'company' => $request->company])->first();
+
+            if ($existing_button) {
+                $company_name = transform($existing_button->company);
+                $ninja_name = capitalize($existing_button->ninja);
+                return response()->json(['message' => "Button already exists for {$company_name} under {$ninja_name} Ninjas"]);
+            }
+
+            $existing_button = Button::where(['ninja' => $request->ninja, 'priority' => $request->priority])->first();
+            
+            if ($existing_button) {
+                $priority = $existing_button->priority;
+                $ninja_name = capitalize($existing_button->ninja);
+                return response()->json(['message' => "Button already exists for Priority {$priority} under {$ninja_name} Ninjas"]);
+            }
+
             $button = new Button([
                 'title' => $request->title, 'url' => $request->url,
                 'background' => $request->background, 'foreground' => $request->foreground,
-                'priority' => $request->priority
+                'priority' => $request->priority, 'company' => $request->company, 'code' => $request->code,
+                'ninja' => $request->ninja
             ]);
             $button->save();
             return response()->json(['success' => true, 'message' => 'Button added.'], 201);
@@ -93,6 +124,17 @@ class ButtonController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'url' => 'required|url',
+            'background' => 'required|string|max:7',
+            'foreground' => 'required|string|max:7',
+            'priority' => 'required|numeric',
+            'company' => 'required|string|max:100',
+            'code' => 'required|string|max:30',
+            'ninja' => 'required|string|max:50'
+        ]);
+
         try {
             $button = Button::findOrFail($id);
             $button->title = $request->title;
@@ -100,6 +142,9 @@ class ButtonController extends Controller
             $button->background = $request->background;
             $button->foreground = $request->foreground;
             $button->priority = $request->priority;
+            $button->company = $request->company;
+            $button->code = $request->code;
+            $button->ninja = $request->ninja;
             $button->save();
 
             return response()->json(['success' => true, 'message' => 'Button updated.'], 201);
