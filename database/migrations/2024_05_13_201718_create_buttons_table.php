@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('background');
             $table->string('foreground');
             $table->integer('priority');
+            $table->string('company');
+            $table->string('code');
+            $table->string('ninja');
             $table->timestamps();
         });
     }
