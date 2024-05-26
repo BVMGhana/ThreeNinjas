@@ -1,6 +1,6 @@
 <script setup>
 import { Head, useForm, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ColorPicker } from "vue3-colorpicker";
@@ -29,7 +29,10 @@ const form = useForm({
     url: '',
     background: '#2097f3',
     foreground: '#0d0d0d',
-    priority: ''
+    priority: '',
+    company: '',
+    code: '',
+    ninja: ''
 });
 
 const { url } = usePage();
@@ -104,6 +107,9 @@ const editData = async id => {
         form.background = data.background;
         form.foreground = data.foreground;
         form.priority = data.priority;
+        form.ninja = data.ninja;
+        form.company = data.company;
+        form.code = data.code;
     }
 };
 
@@ -120,6 +126,13 @@ const addNewRecord = () => {
         }
     }
 };
+
+const ninjas = ['white', 'black', 'red'];
+const companies = ['pride-bet', 'bet-way', 'sporty-bet', 'premier-bet'];
+
+const capitalize = string => string.charAt(0).toUpperCase() + string.substring(1);
+const transform = string => string.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+const countBtn = (array, ninja) => array?.filter(item => item.ninja === ninja).length;
 
 </script>
 
@@ -167,21 +180,38 @@ const addNewRecord = () => {
                         <a :href="form.url" :style="{ backgroundColor: form.background, color: form.foreground }" 
                             class="text-center no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[25px]"
                             target="_blank">
-                            {{ form.title }}
+                            <span class="mr-2">{{ form.title }}</span> | <span class="ml-2">code: {{ form.code }}</span>
                         </a>
                     </section>
+
+                    <label class="heading-2" for="ninja">Ninja</label>
+                    <select id="ninja" name="ninja" v-model="form.ninja">
+                        <option value="">Select Ninja</option>
+                        <option :value="ninja" v-for="(ninja, index) in ninjas" :key="index">{{ capitalize(ninja) }}</option>
+                    </select>
+                    <InputError v-if="errors && errors.ninja" class="text-center" :message="errors.ninja[0]" />
 
                     <label class="heading-2" for="priority">Priority</label>
                     <select v-if="!stateUrl.includes('edit=true')" id="priority" name="priority" v-model="form.priority">
                         <option value="">Select Priority</option>
-                        <option :value="item" v-for="(item, index) in (buttons?.length + 1) || 1" :key="index">Priority {{ index + 1 }}</option>
+                        <option :value="item" v-for="(item, index) in (countBtn(buttons, form.ninja) + 1) || 1" :key="index">Priority {{ index + 1 }}</option>
                     </select>
                     <select v-if="stateUrl.includes('edit=true')" id="priority" name="priority" v-model="form.priority">
                         <option value="">Select Priority</option>
-                        <option :value="item" v-for="(item, index) in buttons?.length" :key="index">Priority {{ index + 1 }}</option>
+                        <option :value="item" v-for="(item, index) in countBtn(buttons, form.ninja)" :key="index">Priority {{ index + 1 }}</option>
                     </select>
                     <InputError v-if="errors && errors.priority" class="text-center" :message="errors.priority[0]" />
 
+                    <label class="heading-2" for="ninja">Betting Company</label>
+                    <select id="company" name="company" v-model="form.company">
+                        <option value="">Select Company</option>
+                        <option :value="company" v-for="(company, index) in companies" :key="index">{{ transform(company) }}</option>
+                    </select>
+                    <InputError v-if="errors && errors.ninja" class="text-center" :message="errors.ninja[0]" />
+
+                    <label class="heading-2 block" for="code">Betting Code</label>
+                    <input type="text" id="code" v-model="form.code" name="code" placeholder="Betting Code">
+                    <InputError v-if="errors && errors.code" class="text-center" :message="errors.code[0]" />
 
                     <div class="form-buttons">
                         <button v-if="!stateUrl.includes('edit=true')" type="reset">Clear</button>
@@ -200,7 +230,9 @@ const addNewRecord = () => {
                         <tr class="text-left text-[13px] md:text-[16px]">
                             <th>#</th>
                             <th class="hidden lg:table-cell">Title</th>
-                            <th class="hidden lg:table-cell">Link</th>
+                            <!-- <th class="hidden lg:table-cell">Link</th> -->
+                            <th class="hidden lg:table-cell">Ninja</th>
+                            <th class="hidden lg:table-cell">Company</th>
                             <th>Preview</th>
                             <th class="text-center">Priority</th>
                         </tr>
@@ -209,12 +241,14 @@ const addNewRecord = () => {
                         <tr v-for="(item, index) in buttons" :key="item.id" class="text-left text-[13px] md:text-[16px]">
                             <td>{{ index + 1 }}</td>
                             <td class="uppercase hidden lg:table-cell">{{ item.title }}</td>
-                            <td class="hidden lg:table-cell">{{ item.url }}</td>
+                            <!-- <td class="hidden lg:table-cell">{{ item.url }}</td> -->
+                            <td class="hidden lg:table-cell">{{ capitalize(item.ninja) }}</td>
+                            <td class="hidden lg:table-cell">{{ transform(item.company) }}</td>
                             <td>
                                 <a :style="{ backgroundColor: item.background, color: item.foreground }" 
                                     class="text-center no-underline uppercase rounded-[20px] text-[13px] font-bold py-[3px] px-[15px]"
                                     target="_blank">
-                                    {{ item.title }}
+                                    <span class="mr-2">{{ item.title }}</span> | <span class="ml-2">code: {{ item.code }}</span>
                                 </a>
                             </td>
                             <td class="text-center">{{ item.priority }}</td>
