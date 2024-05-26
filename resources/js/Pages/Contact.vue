@@ -1,7 +1,41 @@
 <script setup>
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import NavBar from '@/Components/NavBar.vue';
 import Footer from '@/Components/Footer.vue';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+import axios from '../axiosConfig';
+import InputError from '@/Components/InputError.vue';
+
+const displayMessage = (message, type) => toast(message, { autoClose: 1000, type});
+
+const form = useForm({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+});
+
+const { url } = usePage();
+const stateUrl = ref(null);
+stateUrl.value = url;
+const errors = ref(null);
+
+const submitData = async () => {
+    if (stateUrl.value.includes("contact")) {
+        try {
+            const response = await axios.post('contact-us', form);
+            if (response.status === 201) {
+                displayMessage(response.data.message, 'success');
+                form.reset();
+            }
+        } catch (error) {
+            errors.value = error.response.data.errors;
+            displayMessage(error.response.data.message, 'error');
+        }
+    }
+};
 
 </script>
 
@@ -13,9 +47,8 @@ import Footer from '@/Components/Footer.vue';
         <!-- Navbar section -->
         <NavBar />
 
-        <section class="mt-100px lg:mt-[77.5px] w-full">
-            <div id="border" class="flex flex-col items-center w-[98%] lg:w-[90%] mx-auto bg-[#101010] 
-                mt-[10rem] mb-[6rem]">
+        <section class="mt-100px lg:mt-[77.5px] w-full from-back">
+            <div id="border" class="flex flex-col items-center w-[98%] lg:w-[90%] mx-auto bg-[#101010] mt-[10rem] mb-[6rem]">
                 <article class="my-10 text-center flex flex-col items-center text-white w-full px-5 z-10">
                     <h2 class="text-[42px]">Get In <span class="text-[#fc036b]">Touch</span></h2>
                     <p class="w-[98%] lg:w-[80%] text-[18px]">
@@ -23,27 +56,40 @@ import Footer from '@/Components/Footer.vue';
                         Whether you're a cautious player or a high-risk taker, our 3 Ninjas have diverse winning options tailored just for you.
                     </p>
                 </article>
-                <article class="mb-12 flex flex-col lg:flex-row justify-center p-5 gap-7 w-full z-10">
-                    <div class="w-full h-[650px]">
-                        <form action="" method="post" class="flex flex-col gap-4 text-white h-full">
-                            <h2 class="text-[#fc036b] text-[18px] font-extrabold text-center">Leave us a Message</h2>
+                <article class="mb-12 flex flex-col lg:flex-row justify-center p-2 lg:p-5 gap-7 w-full z-10">
+                    <div class="w-full h-[650px] bg-[#3c3c3c] px-2 lg:px-5">
+                        <form action="" @submit.prevent="submitData" class="flex flex-col gap-4 text-white h-full">
+                            <h2 class="text-[#fc036b] text-[18px] font-extrabold text-center mt-5">Leave us a Message</h2>
                             <label class="block" for="name"><span class="ml-2 text-[14px]">Your name</span>
-                                <input id="name" class="block w-full rounded-[7px] p-[15px] border-0 outline-0 focus:ring-0 bg-[#191919]" type="text" placeholder="Your Name">
+                                <input id="name" class="block w-full rounded-[7px] p-[12px] border-0 outline-0 
+                                    focus:ring-0 bg-[#191919]" type="text" placeholder="Your Name" 
+                                    v-model="form.name">
+                                    <InputError v-if="errors && errors.name" class="text-center" :message="errors.name[0]" />
                             </label>
                             
                             <label class="block" for="email"><span class="ml-2 text-[14px]">Email</span>
-                                <input id="email" class="block w-full rounded-[7px] p-[15px] border-0 outline-0 
-                                    focus:ring-0 bg-[#191919]" type="email" placeholder="Email">
+                                <input id="email" class="block w-full rounded-[7px] p-[12px] border-0 outline-0 
+                                    focus:ring-0 bg-[#191919]" type="email" placeholder="Email" 
+                                    v-model="form.email">
+                                    <InputError v-if="errors && errors.email" class="text-center" :message="errors.email[0]" />
                             </label>
+
                             <label class="block" for="subject"><span class="ml-2 text-[14px]">Subject</span>
-                                <input id="subject" class="block w-full rounded-[7px] p-[15px] border-0 outline-0 
-                                    focus:ring-0 bg-[#191919]" type="text" placeholder="Write a Subject">
+                                <input id="subject" class="block w-full rounded-[7px] p-[12px] border-0 outline-0 
+                                    focus:ring-0 bg-[#191919]" type="text" placeholder="Write a Subject" 
+                                    v-model="form.subject">
+                                    <InputError v-if="errors && errors.subject" class="text-center" :message="errors.subject[0]" />
                             </label>
-                            <label class="block" for="message"><span class="ml-2 text-[14px]">Subject</span>
-                                <textarea id="message" class="block w-full rounded-[7px] p-[15px] border-0 outline-0 
-                                    focus:ring-0 bg-[#191919] resize-none h-[200px]" cols="30" rows="10" placeholder="Your Message"></textarea>
+
+                            <label class="block" for="message"><span class="ml-2 text-[14px]">Message</span>
+                                <textarea id="message" class="block w-full rounded-[7px] p-[12px] border-0 outline-0 
+                                    focus:ring-0 bg-[#191919] resize-none h-[150px]" cols="30" rows="10" 
+                                    placeholder="Your Message" v-model="form.message"></textarea>
+                                    <InputError v-if="errors && errors.message" class="text-center" :message="errors.message[0]" />
                             </label>
-                            <button class="rounded-[7px] p-[20px] border-0 outline-0 bg-[#c9145f] hover:bg-[#fc036b] transition-colors duration-300 py-2" 
+
+                            <button class="rounded-[7px] p-[20px] border-0 outline-0 bg-[#c9145f] hover:bg-[#fc036b] 
+                                transition-colors duration-300 py-2 uppercase" 
                                 type="submit">Submit</button>
                         </form>
                     </div>
@@ -113,6 +159,15 @@ import Footer from '@/Components/Footer.vue';
   }
 }
 
+.from-back {
+  animation: fromBack 0.3s ease-in-out;
+}
+
+@keyframes fromBack {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 .fade-in {
   animation: fadeIn 0.2s ease-in-out;
 }
@@ -122,3 +177,6 @@ import Footer from '@/Components/Footer.vue';
   to { opacity: 1; }
 }
 </style>
+
+
+/* laravel 11 how to send email to an email  address joshuagato37@gmail.com from a contact form with the following details email, name, subject, message */
