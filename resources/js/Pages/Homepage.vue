@@ -1,8 +1,9 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { ref, onMounted, reactive } from 'vue';
-import Footer from '@/Components/Footer.vue';
 import NavBar from '@/Components/NavBar.vue';
+import Footer from '@/Components/Footer.vue';
+import Analytics from '@/Components/Analytics.vue';
 import axios from '../axiosConfig';
 
 const whiteNinja = ref(null);
@@ -13,9 +14,10 @@ const topBanner = ref(null);
 const bottomBanner = ref(null);
 const buttons = ref(null);
 const usersCount = ref(null);
-const subscribersCount = ref(null);
+// const subscribersCount = ref(null);
 const predictionsCount = ref(null);
 
+let intervalTracker;
 onMounted(() => {
   let accordionHeaders = document.querySelectorAll("#accordion .item .header");
   accordionHeaders.forEach(header => {
@@ -27,46 +29,13 @@ onMounted(() => {
     });
   });
 
-  const options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.5
-  };
-
-  let observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        let valueDisplays = document.querySelectorAll(".num");
-        let interval = 5000;
-        
-        valueDisplays.forEach(valueDisplay => {
-          let startValue = 0;
-          let endValue = parseInt(valueDisplay.getAttribute("data-val"));
-
-          if (endValue === 0) return;
-          
-          let duration = Math.floor(interval / endValue);
-          let counter = setInterval(() => {
-            startValue +=1;
-            valueDisplay.textContent = startValue;
-            if (startValue === endValue) {
-              clearInterval(counter);
-            }
-          }, duration);
-        });
-          observer.unobserve(entry.target);
-      }
-    });
-  }, options);
-
-  const target = document.querySelector('#analytics');
-  observer.observe(target);
+  
 
   const slides = document.querySelectorAll('#center .images .slide');
   const sliderButtons = document.querySelectorAll('#slider-buttons a');
   let counter = 0;
 
-  setInterval(() => {
+  intervalTracker = setInterval(() => {
     document.querySelector("#center .img1").style.marginLeft = (counter * -20) + '%';
     sliderButtons[counter].classList.add("active-slide");
 
@@ -116,8 +85,8 @@ const getNinjas = async () => {
     response = await axios.get('users-count');
     usersCount.value = response.data;
 
-    response = await axios.get('subscriptions-count');
-    subscribersCount.value = response.data;
+    // response = await axios.get('subscriptions-count');
+    // subscribersCount.value = response.data;
     
     response = await axios.get('predictions-count');
     predictionsCount.value = response.data;
@@ -163,6 +132,10 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
     document.querySelector("#center .img1").style.marginLeft = `${marginValue}%`;
   };
 
+onUnmounted(() => {
+  clearInterval(intervalTracker);
+});
+
 </script>
 
 <template>
@@ -187,7 +160,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
       <div id="center">
         <div class="images">
           <!-- <div class="slide img1"> -->
-          <div v-for="(image, index) in sliderImages" :key="index" :class="`slide ${index=== 0 ? 'img1' : ''}`">
+          <div v-for="(image, index) in sliderImages" :key="index" class="slide from-top" :class="`${index=== 0 ? 'img1' : ''}`">
             <div class="bg-image" :style="{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundSize: 'cover' }">
               <div class="header-content mb-[150px] text-whitesmoke text-center">
                 <h1 class="text-[7vmin] mt-[120px] md:mt-[70px]">Welcome to 3Ninjas Hub</h1>
@@ -442,38 +415,7 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
       </section>
 
       <!-- Analytics Section -->
-      <section id="analytics" class="w-full h-fit px-1 my-8">
-        <div class="wrapper w-full flex flex-wrap items-center justify-center gap-[10px]">
-          <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
-            flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
-              bg-[#21242b] border-b-[10px] border-solid border-[#fc036b]">
-            <i class="fas fa-users-cog text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="subscribersCount">0</span>
-            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Subscribed Users</span>
-          </div>
-          <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
-            flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
-              bg-[#21242b] border-b-[10px] border-solid border-[#fc036b]">
-            <i class="fas fa-glasses text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="predictionsCount">0</span>
-            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Predictions</span>
-          </div>
-          <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
-            flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
-              bg-[#21242b] border-b-[10px] border-solid border-[#fc036b]">
-            <i class="fas fa-users text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="usersCount">0</span>
-            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Satisfied Users</span>
-          </div>
-          <div class="container w-[185px] lg:w-[190px] w-[185px] lg:h-[190px]
-            flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
-              bg-[#21242b] border-b-[10px] border-solid border-[#fc036b]">
-            <i class="fas fa-star text-[#fc036b] text-[2.5em]"></i>
-            <span class="num text-[#fff] grid place-items-center font-semibold text-[3em]" :data-val="usersCount">0</span>
-            <span class="text text-[#e0e0e0] py-[0.7em] px-0 font-normal leading-[0]">Five Stars</span>
-          </div>
-        </div>
-      </section>
+      <Analytics :usersCount="usersCount" :predictionsCount="predictionsCount" />
 
       <!-- Bottom Banner Section -->
       <section v-if="bottomBanner?.id" class="w-full my-10 lg:my-15 flex justify-center">
@@ -488,6 +430,14 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
 </template>
 
 <style scoped>
+.from-top {
+  animation: fromTop 0.3s ease-in-out;
+}
+
+@keyframes fromTop {
+  from { opacity: 0; transform: translateY(-60px); }
+  to { opacity: 1; transform: translateY(0);}
+}
 
 #center {
   height: 100%;
