@@ -15,6 +15,7 @@ use App\Http\Controllers\PreviousResultController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BetcodeController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\ContactFormController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -92,3 +93,7 @@ Route::get('/subscriptions', [SubscriptionController::class, 'index']);
 Route::get('/subscriptions-count', [SubscriptionController::class, 'count']);
 Route::post('/subscriptions', [SubscriptionController::class, 'store']);
 Route::delete('/subscriptions/{email}', [SubscriptionController::class, 'destroy']);
+
+Route::get('/contact-us', [ContactFormController::class, 'index']);
+Route::get('/contact-us', [ContactFormController::class, 'show']);
+Route::post('/contact-us', [ContactFormController::class, 'store']);
