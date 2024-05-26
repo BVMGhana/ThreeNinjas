@@ -44,7 +44,8 @@ const submit = () => {
 
         <div id="main-bg" class="fade-in">
             <div class="text-white h-full flex flex-col justify-center items-center gap-4">
-                <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
+                <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter 
+                    backdrop-blur-sm bg-opacity-30 relative from-bottom">
                     <h1 class="text-4xl font-bold text-center mb-6">Register</h1>
                     <form @submit.prevent="submit">
                         <div class="relative my-2">
@@ -121,6 +122,15 @@ const submit = () => {
 #main-bg {
     height: 100vh;
     background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg_register.jpg) no-repeat scroll center center /cover;
+}
+
+.from-bottom {
+  animation: fromBottom 0.3s ease-in-out;
+}
+
+@keyframes fromBottom {
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0);}
 }
 
 .fade-in {

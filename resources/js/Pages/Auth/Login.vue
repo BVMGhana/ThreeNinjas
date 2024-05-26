@@ -44,7 +44,8 @@ const submit = () => {
         </div>
         <div id="main-bg" class="fade-in">
             <div class="text-white h-screen flex flex-col justify-center items-center gap-4">
-                <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
+                <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter 
+                    backdrop-blur-sm bg-opacity-30 relative from-bottom">
                     <h1 class="text-4xl font-bold text-center mb-6">Login</h1>
                     <form @submit.prevent="submit">
                         <div v-if="errors.login" class="block my-7 text-[12px] text-[red] text-center">
@@ -89,6 +90,15 @@ const submit = () => {
 <style scoped>
 #main-bg {
     background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(/images/bg_login.jpg) no-repeat scroll center center /cover;
+}
+
+.from-bottom {
+  animation: fromBottom 0.3s ease-in-out;
+}
+
+@keyframes fromBottom {
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0);}
 }
 
 .fade-in {
