@@ -43,14 +43,15 @@ getData();
 
         <section class="mt-100px lg:mt-[77.5px] w-full">
             <article class="w-full flex flex-col lg:flex-row items-center justify-center mt-[10rem] mb-[7rem] px-2 lg:px-0">
-              <div class="w-full lg:w-[41%] h-[600px] text-white bg-[#3c3c3c] flex flex-col justify-center gap-7 p-5">
+              <div class="w-full lg:w-[41%] h-[600px] text-white bg-[#3c3c3c] flex flex-col 
+                justify-center gap-7 p-5 from-top">
                 <h2 class="text-[#fc036b] text-[42px] text-center">Welcome to 3Ninja Odds Hub!</h2>
                 <p class="text-center text-[18px]">
                   Our mission is to offer you the best odds for maximizing your betting experience and winnings. 
                   Whether you're a cautious player or a high-risk taker, our 3 Ninjas have diverse winning options tailored just for you.
                 </p>
               </div>
-              <div id="bg-section" class="w-full lg:w-[41%] h-[600px]">
+              <div id="bg-section" class="w-full lg:w-[41%] h-[600px] from-bottom">
                 <!-- <img src="/images/about_us.png" alt="about us" width="100%" height="455"> -->
               </div>
             </article>
@@ -70,6 +71,24 @@ getData();
 <style scoped>
 #bg-section {
   background: url('/images/about_us.jpg') center center /cover;
+}
+
+.from-top {
+  animation: fromTop 0.3s ease-in-out;
+}
+
+@keyframes fromTop {
+  from { opacity: 0; transform: translateY(-60px); }
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.from-bottom {
+  animation: fromBottom 0.3s ease-in-out;
+}
+
+@keyframes fromBottom {
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0);}
 }
 
 .fade-in {
