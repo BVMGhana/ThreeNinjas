@@ -1,6 +1,6 @@
 <script setup>
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
-import { onMounted, watch, ref } from 'vue';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ColorPicker } from "vue3-colorpicker";
@@ -124,6 +124,8 @@ const addNewRecord = () => {
 </script>
 
 <template>
+    <Head title="Buttons" />
+
     <section class="mainSection">
         <main class="prediction-main">
             <div class="right">

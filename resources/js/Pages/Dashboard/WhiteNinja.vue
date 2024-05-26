@@ -127,6 +127,8 @@ const addNewRecord = () => {
 </script>
 
 <template>
+    <Head title="White Ninja" />
+
     <section class="mainSection">
         <main class="prediction-main">
             <div class="right">

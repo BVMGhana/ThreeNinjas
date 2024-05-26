@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -34,6 +34,8 @@ stateUrl.value = url;
 </script>
 
 <template>
+    <Head title="Users" />
+
     <section class="mainSection">
         <main class="prediction-main">
             <div class="right">

@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -106,6 +106,8 @@ const addNewRecord = () => {
 </script>
 
 <template>
+    <Head title="Fixtures" />
+
     <section class="mainSection">
         <main class="prediction-main">
             

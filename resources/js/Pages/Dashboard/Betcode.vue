@@ -1,6 +1,6 @@
 <script setup>
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
-import { onMounted, watch, ref } from 'vue';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import { ColorPicker } from "vue3-colorpicker";
@@ -121,6 +121,8 @@ const transform = string => string.charAt(0).toUpperCase() + string.slice(1) + "
 </script>
 
 <template>
+    <Head title="Bet Code" />
+
     <section class="mainSection">
         <main class="prediction-main">
             <div class="right">

@@ -1,6 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -128,6 +127,8 @@ const addNewRecord = () => {
 </script>
 
 <template>
+    <Head title="Red Ninja" />
+
     <section class="mainSection">
         <main class="prediction-main">
             <div class="right">
