@@ -18,7 +18,7 @@ import WhiteNinja from './Dashboard/WhiteNinja.vue';
 import BlackNinja from './Dashboard/BlackNinja.vue';
 import RedNinja from './Dashboard/RedNinja.vue';
 import PreviousResult from './Dashboard/PreviousResult.vue';
-import Betcode from './Dashboard/Betcode.vue';
+// import Betcode from './Dashboard/Betcode.vue';
 
 onMounted(() => {
     const sideMenu = document.querySelector("aside");
@@ -66,7 +66,7 @@ const fixturesUrl = '/dashboard/fixtures';
 const tipsUrl = '/dashboard/tips';
 const bannersUrl = '/dashboard/banners';
 const buttonsUrl = '/dashboard/buttons';
-const betcodeUrl = '/dashboard/betcodes';
+// const betcodeUrl = '/dashboard/betcodes';
 
 const { url } = usePage();
 const stateUrl = ref(null);
@@ -133,10 +133,10 @@ stateUrl.value = url;
                         <span class="material-icons-sharp">smart_button</span>
                         <h3>Buttons</h3>
                     </Link>
-                    <Link href="/dashboard/betcodes" :class="{ 'active': $page.url.includes(betcodeUrl) }">
+                    <!-- <Link href="/dashboard/betcodes" :class="{ 'active': $page.url.includes(betcodeUrl) }">
                         <span class="material-icons-sharp">password</span>
                         <h3>Bet Code</h3>
-                    </Link>
+                    </Link> -->
                     <Link href="/">
                         <span class="material-icons-sharp">home</span>
                         <h3>Homepage</h3>
@@ -190,9 +190,9 @@ stateUrl.value = url;
                 <Buttons v-if="$page.url.startsWith(buttonsUrl)">
 
                 </Buttons>
-                <Betcode v-if="$page.url.startsWith(betcodeUrl)">
+                <!-- <Betcode v-if="$page.url.startsWith(betcodeUrl)">
 
-                </Betcode>
+                </Betcode> -->
             </article>
         </div>
     </section>
