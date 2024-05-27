@@ -253,12 +253,12 @@ select {
 .form-buttons button[type=reset],
 button[type=button] {
     background-color: salmon;
-    width: 20%;
+    width: 25%;
 }
 
 .form-buttons button[type=submit] {
     background-color: green;
-    width: 70%;
+    width: 65%;
 }
 
 input[type=submit]:hover {
@@ -544,7 +544,7 @@ main table tbody tr:last-child td {
 
 main.prediction-main table tbody tr td:first-child,
 main.prediction-main table thead tr th:first-child {
-    padding-left: var(--padding-1)
+    padding-left: var(--padding-1);
 }
 
 @media screen and (max-width: 768px) {
@@ -555,6 +555,15 @@ main.prediction-main table thead tr th:first-child {
     main table tbody td {
         padding: var(--padding-small) var(--padding-semi-small);
         /* Why*/
+    }
+
+    main.prediction-main table tbody tr td:first-child,
+    main.prediction-main table thead tr th:first-child {
+        padding-left: var(--padding-quarter-small);
+    }
+
+    main.prediction-main table tbody tr td:last-child {
+        padding-left: var(--padding-quarter-small);
     }
 }
 
@@ -701,7 +710,7 @@ main.prediction-main table thead tr th:first-child {
     main {
         width: 100%;
         margin-top: 8rem;
-        padding: 0 1rem;
+        padding: 0 0.7rem;
     }
 
     main.prediction-main {
@@ -752,7 +761,7 @@ main.prediction-main table thead tr th:first-child {
     }
 
     main.prediction-main .right .top {
-        margin: 30px;
+        margin-block: 30px;
         padding: 0;
         /* box-shadow: 0 1rem 1rem var(--color-light); */
     }
@@ -760,7 +769,7 @@ main.prediction-main table thead tr th:first-child {
     .right .top .theme-toggler {
         width: 4.4rem;
         position: absolute;
-        left: 66%;
+        left: 75%;
     }
 
     .right .profile .info {

@@ -618,7 +618,7 @@ main.prediction-main table thead tr th:first-child {
     }
 
     main.prediction-main .right .top {
-        margin: 30px;
+        margin-block: 30px;
         padding: 0;
         /* box-shadow: 0 1rem 1rem var(--color-light); */
     }
@@ -626,7 +626,7 @@ main.prediction-main table thead tr th:first-child {
     .right .top .theme-toggler {
         width: 4.4rem;
         position: absolute;
-        left: 66%;
+        left: 75%;
     }
 
     .right .profile .info {

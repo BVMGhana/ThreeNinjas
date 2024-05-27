@@ -285,7 +285,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                       <th class="py-3 px-2 bg-cyan-200">League</th>
                       <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
                       <th class="py-3 px-2 bg-cyan-200">Tips</th>
-                      <th class="py-3 px-2 bg-cyan-200">Results</th>
+                      <th class="py-3 px-2 bg-cyan-200 text-center">Results</th>
                     </tr>
                   </thead>
                   <tbody class="text-gray-300">
@@ -294,7 +294,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                       <td class="py-3 px-2">{{ item.league.title }}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
                       <td class="py-3 px-2">{{ item.tip.title }}</td>
-                      <td class="py-3 px-2">
+                      <td class="py-3 px-2 text-center">
                         <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
@@ -307,9 +307,9 @@ const reportUserClick = async (user_id, ninja, company) => {
                     <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)" 
                       v-for="button in redNinjaButtons" :key="button.id" :href="button.url" 
                       :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] px-[20px]"
+                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
                       target="_blank">
-                      <span class="mr-2">{{ button.title }}</span> | <span class="ml-2">code: {{ button.code }}</span>
+                      <span class="mr-1 sm:mr-2">{{ button.title }}</span> | <span class="ml-1 sm:ml-2">code: {{ button.code }}</span>
                     </a>
                   </div>
                   <Link v-if="!$page.props.auth.user" 
@@ -343,7 +343,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                       <th class="py-3 px-2 bg-cyan-200">League</th>
                       <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
                       <th class="py-3 px-2 bg-cyan-200">Tips</th>
-                      <th class="py-3 px-2 bg-cyan-200">Results</th>
+                      <th class="py-3 px-2 bg-cyan-200 text-center">Results</th>
                     </tr>
                   </thead>
                   <tbody class="text-gray-300">
@@ -352,7 +352,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                       <td class="py-3 px-2">{{ item.league.title }}</td>
                       <td class="py-3 px-2">{{ item.fixtures }}</td>
                       <td class="py-3 px-2">{{ item.tip.title }}</td>
-                      <td class="py-3 px-2">
+                      <td class="py-3 px-2 text-center">
                         <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
@@ -365,9 +365,9 @@ const reportUserClick = async (user_id, ninja, company) => {
                     <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)"
                       v-for="button in blackNinaButtons" :key="button.id" :href="button.url" 
                       :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] px-[20px]"
+                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
                       target="_blank">
-                      <span class="mr-2">{{ button.title }}</span> | <span class="ml-2">code: {{ button.code }}</span>
+                      <span class="mr-1 sm:mr-2">{{ button.title }}</span> | <span class="ml-1 sm:ml-2">code: {{ button.code }}</span>
                     </a>
                   </div>
                   <!-- <Link v-if="!$page.props.auth.user" 
@@ -401,7 +401,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                       <th class="py-3 px-2 bg-cyan-200">League</th>
                       <th class="py-3 px-2 bg-cyan-200">Fixtures</th>
                       <th class="py-3 px-2 bg-cyan-200">Tips</th>
-                      <th class="py-3 px-2 bg-cyan-200">Results</th>
+                      <th class="py-3 px-2 bg-cyan-200 text-center">Results</th>
                     </tr>
                   </thead>
                   <tbody class="text-gray-300">
@@ -410,7 +410,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                       <td class="py-3 px-2">{{item.league.title}}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
                       <td class="py-3 px-2">{{ item.tip.title }}</td>
-                      <td class="py-3 px-2">
+                      <td class="py-3 px-2 text-center">
                         <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
@@ -423,9 +423,9 @@ const reportUserClick = async (user_id, ninja, company) => {
                     <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)"
                       v-for="button in whiteNinjaButtons" :key="button.id" :href="button.url" 
                       :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] px-[20px]"
+                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
                       target="_blank">
-                      <span class="mr-2">{{ button.title }}</span> | <span class="ml-2">code: {{ button.code }}</span>
+                      <span class="mr-1 sm:mr-2">{{ button.title }}</span> | <span class="ml-1 sm:ml-2">code: {{ button.code }}</span>
                     </a>
                   </div>
                   <!-- <Link v-if="!$page.props.auth.user" 
@@ -468,7 +468,7 @@ const reportUserClick = async (user_id, ninja, company) => {
 #center {
   height: 100%;
   width: 100%;
-  margin-top: 77px;
+  margin-top: 70px;
   position: relative;
   box-shadow: 0px 5px 8px rgba(0,0,0,.3);
   overflow: hidden;

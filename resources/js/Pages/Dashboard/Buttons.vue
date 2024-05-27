@@ -246,9 +246,9 @@ const countBtn = (array, ninja) => array?.filter(item => item.ninja === ninja).l
                             <td class="hidden lg:table-cell">{{ transform(item.company) }}</td>
                             <td>
                                 <a :style="{ backgroundColor: item.background, color: item.foreground }" 
-                                    class="text-center no-underline uppercase rounded-[20px] text-[13px] font-bold py-[3px] px-[15px]"
+                                    class="text-center no-underline uppercase rounded-[20px] text-[8px] lg:text-[13px] font-bold py-[3px] px-[5px] lg:px-[15px]"
                                     target="_blank">
-                                    <span class="mr-2">{{ item.title }}</span> | <span class="ml-2">code: {{ item.code }}</span>
+                                    <span class="mr-[1px] lg:mr-2">{{ item.title }}</span> | <span class="ml-[1px] lg:ml-2">code: {{ item.code }}</span>
                                 </a>
                             </td>
                             <td class="text-center">{{ item.priority }}</td>
@@ -305,12 +305,12 @@ select {
 .form-buttons button[type=reset],
 button[type=button] {
     background-color: salmon;
-    width: 20%;
+    width: 25%;
 }
 
 .form-buttons button[type=submit] {
     background-color: green;
-    width: 70%;
+    width: 65%;
 }
 
 input[type=submit]:hover {
@@ -608,6 +608,15 @@ main.prediction-main table thead tr th:first-child {
         padding: var(--padding-small) var(--padding-semi-small);
         /* Why*/
     }
+
+    main.prediction-main table tbody tr td:first-child,
+    main.prediction-main table thead tr th:first-child {
+        padding-left: var(--padding-quarter-small);
+    }
+
+    main.prediction-main table tbody tr td:last-child {
+        padding-left: var(--padding-quarter-small);
+    }
 }
 
 /* End of main */
@@ -804,7 +813,7 @@ main.prediction-main table thead tr th:first-child {
     }
 
     main.prediction-main .right .top {
-        margin: 30px;
+        margin-block: 30px;
         padding: 0;
         /* box-shadow: 0 1rem 1rem var(--color-light); */
     }
@@ -812,7 +821,7 @@ main.prediction-main table thead tr th:first-child {
     .right .top .theme-toggler {
         width: 4.4rem;
         position: absolute;
-        left: 66%;
+        left: 75%;
     }
 
     .right .profile .info {

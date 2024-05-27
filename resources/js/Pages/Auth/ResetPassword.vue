@@ -33,7 +33,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout id="main-bg" class="fade-in">
+    <GuestLayout id="main-bg" class="fade-in px-[7px]">
         <Head title="Reset Password" />
 
         <form @submit.prevent="submit">

@@ -992,7 +992,7 @@ main .recent-subscriptions a {
     main {
         width: 100%;
         margin: 4rem auto 0;
-        padding: 0 0.5rem;
+        padding: 0 1rem;
     }
 
     #mainSection {
@@ -1035,7 +1035,7 @@ main .recent-subscriptions a {
     .right .top .theme-toggler {
         width: 4.4rem;
         position: absolute;
-        left: 66%;
+        left: 62%;
     }
 
     .right .profile .info {

@@ -47,8 +47,8 @@ const submitData = async () => {
         <!-- Navbar section -->
         <NavBar />
 
-        <section class="mt-100px lg:mt-[77.5px] w-full from-back">
-            <div id="border" class="flex flex-col items-center w-[98%] lg:w-[90%] mx-auto bg-[#101010] mt-[10rem] mb-[6rem]">
+        <section class="mt-[70px] lg:mt-[77.5px] w-full from-back">
+            <div id="border" class="flex flex-col items-center w-[98%] lg:w-[90%] mx-auto bg-[#101010] mt-[7rem] mb-[6rem]">
                 <article class="my-10 text-center flex flex-col items-center text-white w-full px-5 z-10">
                     <h2 class="text-[42px]">Get In <span class="text-[#fc036b]">Touch</span></h2>
                     <p class="w-[98%] lg:w-[80%] text-[18px]">

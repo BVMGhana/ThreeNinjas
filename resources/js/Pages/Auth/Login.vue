@@ -39,7 +39,7 @@ const submit = () => {
 
         <NavBar />
 
-        <div v-if="status" class="py-2 mt-[100px] lg:mt-[77.5px] font-medium text-sm text-center text-[#00b041]">
+        <div v-if="status" class="py-2 mt-[70px] lg:mt-[77.5px] font-medium text-sm text-center text-[#00b041]">
             {{ status }}
         </div>
         <div id="main-bg" class="fade-in">

@@ -41,8 +41,8 @@ getData();
         <!-- Navbar section -->
         <NavBar />
 
-        <section class="mt-100px lg:mt-[77.5px] w-full">
-            <article class="w-full flex flex-col lg:flex-row items-center justify-center mt-[10rem] mb-[7rem] px-2 lg:px-0">
+        <section class="mt-[70px] lg:mt-[77.5px] w-full">
+            <article class="w-full flex flex-col lg:flex-row items-center justify-center mt-[7rem] mb-[7rem] px-2 lg:px-0">
               <div class="w-full lg:w-[41%] h-[600px] text-white bg-[#3c3c3c] flex flex-col 
                 justify-center gap-7 p-5 from-top">
                 <h2 class="text-[#fc036b] text-[42px] text-center">Welcome to 3Ninja Odds Hub!</h2>

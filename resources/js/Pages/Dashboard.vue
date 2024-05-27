@@ -311,10 +311,6 @@ b {
     color: var(--color-dark);
 }
 
-aside {
-    height: 100vh;
-}
-
 aside .top {
     background: white;
     display: flex;
@@ -460,6 +456,9 @@ aside .sidebar .message-count {
     aside .logo h2 {
         display: inline;
     }
+    aside .sidebar a:last-child {
+        margin-bottom: 10px;
+    }
 
     aside .sidebar h3 {
         display: inline;
@@ -468,11 +467,6 @@ aside .sidebar .message-count {
     aside .sidebar a {
         width: 100%;
         height: 3.4rem;
-    }
-
-    aside .sidebar a:last-child {
-        position: absolute;
-        bottom: 5rem;
     }
 
     aside .close {

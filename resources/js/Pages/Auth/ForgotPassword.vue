@@ -23,7 +23,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout id="main-bg" class="fade-in">
+    <GuestLayout id="main-bg" class="fade-in px-[7px]">
         <Head title="Forgot Password" />
 
         <div class="mb-4 text-sm text-white dark:text-gray-400">
