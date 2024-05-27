@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ButtonController;
 use App\Http\Controllers\LeagueController;
-use App\Http\Controllers\FixtureController;
+// use App\Http\Controllers\FixtureController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\WhiteNinjaController;
@@ -13,9 +13,10 @@ use App\Http\Controllers\BlackNinjaController;
 use App\Http\Controllers\RedNinjaController;
 use App\Http\Controllers\PreviousResultController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BetcodeController;
+// use App\Http\Controllers\BetcodeController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\ContactFormController;
+use App\Http\Controllers\BetButtonClickController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -40,11 +41,11 @@ Route::get('/leagues/{id}', [LeagueController::class, 'show']);
 Route::put('/leagues/{id}', [LeagueController::class, 'update']);
 Route::delete('/leagues/{id}', [LeagueController::class, 'destroy']);
 
-Route::get('/fixtures', [FixtureController::class, 'index']);
-Route::post('/fixtures', [FixtureController::class, 'store']);
-Route::get('/fixtures/{id}', [FixtureController::class, 'show']);
-Route::put('/fixtures/{id}', [FixtureController::class, 'update']);
-Route::delete('/fixtures/{id}', [FixtureController::class, 'destroy']);
+// Route::get('/fixtures', [FixtureController::class, 'index']);
+// Route::post('/fixtures', [FixtureController::class, 'store']);
+// Route::get('/fixtures/{id}', [FixtureController::class, 'show']);
+// Route::put('/fixtures/{id}', [FixtureController::class, 'update']);
+// Route::delete('/fixtures/{id}', [FixtureController::class, 'destroy']);
 
 Route::get('/tips', [TipController::class, 'index']);
 Route::post('/tips', [TipController::class, 'store']);
@@ -83,11 +84,11 @@ Route::get('/previous-results/{id}', [PreviousResultController::class, 'show']);
 Route::put('/previous-results/{id}', [PreviousResultController::class, 'update']);
 Route::delete('/previous-results/{id}', [PreviousResultController::class, 'destroy']);
 
-Route::get('/betcodes', [BetcodeController::class, 'index']);
-Route::post('/betcodes', [BetcodeController::class, 'store']);
-Route::get('/betcodes/{id}', [BetcodeController::class, 'show']);
-Route::put('/betcodes/{id}', [BetcodeController::class, 'update']);
-Route::delete('/betcodes/{id}', [BetcodeController::class, 'destroy']);
+// Route::get('/betcodes', [BetcodeController::class, 'index']);
+// Route::post('/betcodes', [BetcodeController::class, 'store']);
+// Route::get('/betcodes/{id}', [BetcodeController::class, 'show']);
+// Route::put('/betcodes/{id}', [BetcodeController::class, 'update']);
+// Route::delete('/betcodes/{id}', [BetcodeController::class, 'destroy']);
 
 Route::get('/subscriptions', [SubscriptionController::class, 'index']);
 Route::get('/subscriptions-count', [SubscriptionController::class, 'count']);
@@ -97,3 +98,6 @@ Route::delete('/subscriptions/{email}', [SubscriptionController::class, 'destroy
 Route::get('/contact-us', [ContactFormController::class, 'index']);
 Route::get('/contact-us', [ContactFormController::class, 'show']);
 Route::post('/contact-us', [ContactFormController::class, 'store']);
+
+Route::get('/bet-button-clicks/count/{company}', [BetButtonClickController::class, 'count']);
+Route::post('/bet-button-clicks', [BetButtonClickController::class, 'store']);
