@@ -12,7 +12,9 @@ const redNinja = ref(null);
 const previousResults = ref(null);
 const topBanner = ref(null);
 const bottomBanner = ref(null);
-const buttons = ref(null);
+const whiteNinjaButtons = ref(null);
+const blackNinaButtons = ref(null);
+const redNinjaButtons = ref(null);
 const usersCount = ref(null);
 // const subscribersCount = ref(null);
 const predictionsCount = ref(null);
@@ -77,6 +79,7 @@ defineProps({
 });
 
 const getBanner = (bannersList, position) => bannersList.filter(banner => banner.position === position)[0];
+const getNinjaButtons = (buttonList, ninja) => buttonList.filter(button => button.ninja === ninja);
 
 const getNinjas = async () => {
   try {
@@ -109,8 +112,11 @@ const getNinjas = async () => {
 
     response = await axios.get('buttons');
     const buttonsArray = response.data;
-    buttonsArray.sort((a, b) => a.priority - b.priority);
-    buttons.value = buttonsArray;
+    whiteNinjaButtons.value = getNinjaButtons(buttonsArray, 'white');
+    blackNinaButtons.value = getNinjaButtons(buttonsArray, 'black');
+    redNinjaButtons.value = getNinjaButtons(buttonsArray,'red');
+    // buttonsArray.sort((a, b) => a.priority - b.priority);
+    // buttons.value = buttonsArray;
 
   } catch (error) {
     console.error('There was an error fetching the data: ', error);
@@ -135,6 +141,12 @@ const sliderImages = ['/images/bg_1.jpg', '/images/bg_2.jpg'];
 onUnmounted(() => {
   clearInterval(intervalTracker);
 });
+
+const reportUserClick = async (user_id, ninja, company) => {
+  const response = await axios.post('bet-button-clicks', { user_id, ninja, company });
+
+  if (response.status === 201) console.log('Clicked');
+};
 
 </script>
 
@@ -196,6 +208,8 @@ onUnmounted(() => {
         <!-- <div class="w-full lg:w-[60%] rounded-lg overflow-hidden bg-slate-800 flex flex-col gap-[3px] lg:mx-5"> -->
       <section id="accordion" class="w-screen flex justify-center px-1 my-10 h-auto text-white">
         <div class="w-full lg:w-[80%] rounded-lg overflow-hidden bg-slate-800 flex flex-col gap-[3px] lg:mx-5">
+          
+          <!-- Previous Predictions -->
           <div class="item accordion-active">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
@@ -233,13 +247,13 @@ onUnmounted(() => {
                   </tbody>
                 </table>
                 <div class="p-4 w-full flex flex-col items-center gap-10">
-                  <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
+                  <!-- <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
                     <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
                       :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
                       target="_blank">
                       {{ button.title }}
                     </a>
-                  </div>
+                  </div> -->
                   <Link v-if="!$page.props.auth.user" 
                     class="no-underline bg-cyan-200 text-[black] rounded-[5px] text-[13px] font-bold text-whitesmoke 
                     py-[10px] px-[45px]" target="_blank"  href="/login">
@@ -249,6 +263,8 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
+          
+          <!-- Red Ninja -->
           <div class="item accordion-active">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
@@ -279,7 +295,7 @@ onUnmounted(() => {
                       <td class="py-3 px-2">{{item.fixtures}}</td>
                       <td class="py-3 px-2">{{ item.tip.title }}</td>
                       <td class="py-3 px-2">
-                        N/A
+                        <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
                       </td>
@@ -287,11 +303,13 @@ onUnmounted(() => {
                   </tbody>
                 </table>
                 <div class="p-4 w-full flex flex-col items-center gap-10">
-                  <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
-                    <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                  <div v-if="$page.props.auth.user && $page.props.auth.user.id" class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
+                    <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)" 
+                      v-for="button in redNinjaButtons" :key="button.id" :href="button.url" 
+                      :style="{ backgroundColor: button.background, color: button.foreground }" 
+                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] px-[20px]"
                       target="_blank">
-                      {{ button.title }}
+                      <span class="mr-2">{{ button.title }}</span> | <span class="ml-2">code: {{ button.code }}</span>
                     </a>
                   </div>
                   <Link v-if="!$page.props.auth.user" 
@@ -303,6 +321,8 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
+          
+          <!-- Black Ninja -->
           <div class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
@@ -333,7 +353,7 @@ onUnmounted(() => {
                       <td class="py-3 px-2">{{ item.fixtures }}</td>
                       <td class="py-3 px-2">{{ item.tip.title }}</td>
                       <td class="py-3 px-2">
-                        N/A
+                        <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
                       </td>
@@ -342,10 +362,12 @@ onUnmounted(() => {
                 </table>
                 <div class="p-4 w-full flex flex-col items-center gap-10">
                   <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
-                    <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                    <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)"
+                      v-for="button in blackNinaButtons" :key="button.id" :href="button.url" 
+                      :style="{ backgroundColor: button.background, color: button.foreground }" 
+                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] px-[20px]"
                       target="_blank">
-                      {{ button.title }}
+                      <span class="mr-2">{{ button.title }}</span> | <span class="ml-2">code: {{ button.code }}</span>
                     </a>
                   </div>
                   <!-- <Link v-if="!$page.props.auth.user" 
@@ -357,6 +379,8 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
+          
+          <!-- White Ninja -->
           <div class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
@@ -387,7 +411,7 @@ onUnmounted(() => {
                       <td class="py-3 px-2">{{item.fixtures}}</td>
                       <td class="py-3 px-2">{{ item.tip.title }}</td>
                       <td class="py-3 px-2">
-                        N/A
+                        <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i> -->
                       </td>
@@ -396,10 +420,12 @@ onUnmounted(() => {
                 </table>
                 <div class="p-4 w-full flex flex-col items-center gap-10">
                   <div class="flex flex-col lg:flex-row gap-4 flex-wrap justify-center">
-                    <a v-for="button in buttons" :key="button.id" :href="button.url" :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      :class="`no-underline uppercase rounded-[30px] text-[13px] font-bold py-[3px] px-[45px]`"
+                    <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)"
+                      v-for="button in whiteNinjaButtons" :key="button.id" :href="button.url" 
+                      :style="{ backgroundColor: button.background, color: button.foreground }" 
+                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] px-[20px]"
                       target="_blank">
-                      {{ button.title }}
+                      <span class="mr-2">{{ button.title }}</span> | <span class="ml-2">code: {{ button.code }}</span>
                     </a>
                   </div>
                   <!-- <Link v-if="!$page.props.auth.user" 
