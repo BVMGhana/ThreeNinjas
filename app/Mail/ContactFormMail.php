@@ -32,8 +32,8 @@ class ContactFormMail extends Mailable
         return new Envelope(
             // subject: 'Contact Form Mail',
             // from: new Address($this->details['email'], $this->details['name']),
-            from: new Address('info@3ninjaodds.com', $this->details['name']),
-            subject: $this->details['subject'],
+            from: new Address('osei@comsolpartners.com', $this->details['name']),
+            subject: $this->details['subject']
         );
     }
 
