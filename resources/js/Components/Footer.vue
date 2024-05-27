@@ -29,7 +29,7 @@ const submitData = async () => {
 <template>
     <footer class="w-screen bottom-[unset] md:bottom-0 bg-gradient-to-r-from-black-to-brown text-white 
         pt-[100px] px-0 pb-[30px] rounded-tl-[125px] text-[13px] leading-[20px]">
-        <div class="w-[85%] md:w-[97%] lg:w-[95%] m-auto flex flex-wrap items-start justify-between gap-1">
+        <div class="w-[85%] md:w-[97%] lg:w-[90%] m-auto flex flex-wrap items-start justify-between gap-1">
           <div id="about" class="basis-[100%] md:basis-[21%] mb-[20px] p-[10px]">
             <!-- <img src="/images/logo.jpg" alt="logo" class="w-[80px] mb-[30px]"> -->
             <h1 class="text-[24px] mb-[20px] md:mb-[40px] text-[#fff]">3 Ninjas Co.</h1>
