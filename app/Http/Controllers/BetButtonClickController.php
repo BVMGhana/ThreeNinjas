@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BetButtonClick;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class BetButtonClickController extends Controller
 {
@@ -11,8 +12,32 @@ class BetButtonClickController extends Controller
     public function count($company)
     {
         try {
+            $now = Carbon::now();
+            // $yesterday = $now->copy()->subDay();
+            $yesterday = $now->subDays(1);
+
+            $countLast24Hours = BetButtonClick::where('created_at', '>=', $yesterday)->where('company', $company)->count();
+
+            $countBefore24Hours = BetButtonClick::where('created_at', '<', $yesterday)->where('company', $company)->count();
+
+            $percentageLast24Hours = 0;
+            if ($countBefore24Hours > 0) {
+                $percentageLast24Hours = ($countLast24Hours / $countBefore24Hours) * 100;
+            } else {
+                if ($countLast24Hours == 0) {
+                    $percentageLast24Hours = 0;
+                } else {
+                    $percentageLast24Hours = 100;
+                }
+            }
+
             $clicks_count = BetButtonClick::where('company', $company)->count();
-            return response()->json($clicks_count);
+            return response()->json([
+                'clicks_count' => $clicks_count,
+                'countLast24Hours' => $countLast24Hours,
+                'countBefore24Hours' => $countBefore24Hours,
+                'percentageLast24Hours' => $percentageLast24Hours
+            ]);
             
         } catch (Exception $e) {
             // Writing detailed error message to the developer log and 
