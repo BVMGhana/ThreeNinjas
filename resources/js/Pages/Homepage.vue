@@ -441,7 +441,7 @@ const reportUserClick = async (user_id, ninja, company) => {
       </section>
 
       <!-- Analytics Section -->
-      <Analytics :usersCount="usersCount.users_count" :predictionsCount="predictionsCount" />
+      <Analytics :usersCount="usersCount?.users_count" :predictionsCount="predictionsCount" />
 
       <!-- Bottom Banner Section -->
       <section v-if="bottomBanner?.id" class="w-full my-10 lg:my-15 flex justify-center">

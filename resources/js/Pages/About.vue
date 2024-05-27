@@ -58,7 +58,7 @@ getData();
         </section>
 
         <!-- Analytics Section -->
-        <Analytics :usersCount="usersCount.users_count" :predictionsCount="predictionsCount" />
+        <Analytics :usersCount="usersCount?.users_count" :predictionsCount="predictionsCount" />
 
         <section class="w-full block mb-[7rem]"></section>
 
