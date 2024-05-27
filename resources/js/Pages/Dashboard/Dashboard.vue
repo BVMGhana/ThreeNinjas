@@ -20,6 +20,10 @@ const usersCount = ref(null);
 const subscribersCount = ref(null);
 const users = ref(null);
 const recentUsers = ref(null);
+const sportyBetClicks = ref(null);
+const prideBetClicks = ref(null);
+const betWayClicks = ref(null);
+const premierBetClicks = ref(null);
 
 const loadInitialData = async () => {
   try {
@@ -36,6 +40,18 @@ const loadInitialData = async () => {
     
     response = await axios.get('recent-users');
     recentUsers.value = response.data;
+
+    response = await axios.get(`bet-button-clicks/count/${'bet-way'}`);
+    betWayClicks.value = response.data;
+
+    response = await axios.get(`bet-button-clicks/count/${'pride-bet'}`);
+    prideBetClicks.value = response.data;
+
+    response = await axios.get(`bet-button-clicks/count/${'sporty-bet'}`);
+    sportyBetClicks.value = response.data;
+    
+    response = await axios.get(`bet-button-clicks/count/${'premier-bet'}`);
+    premierBetClicks.value = response.data;
 
   } catch (error) {
     displayMessage(error.response.statusText, 'error');
@@ -193,28 +209,54 @@ stateUrl.value = url;
                 <h2 class="heading">Analytics</h2>
                 <div class="item online">
                     <div class="icon">
-                        <span class="material-icons-sharp">shopping_cart</span>
+                        <span class="material-icons-sharp">ads_click</span>
                     </div>
                     <div class="right">
                         <div class="info">
                             <h3>PrideBet Clicks</h3>
                             <small class="text-muted">Last 24 hours</small>
                         </div>
-                        <h5 class="success">+39%</h5>
-                        <h3 class="text-visible">3849</h3>
+                        <h5 class="success">+{{prideBetClicks?.percentageLast24Hours}}%</h5>
+                        <h3 class="text-visible">{{prideBetClicks?.countLast24Hours}}</h3>
                     </div>
                 </div>
-                <div class="item offline">
+                <div class="item online">
                     <div class="icon">
-                        <span class="material-icons-sharp">local_mall</span>
+                        <span class="material-icons-sharp">ads_click</span>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>Sporty Bet Clicks</h3>
+                            <small class="text-muted">Last 24 hours</small>
+                        </div>
+                        <h5 class="success">+{{sportyBetClicks?.percentageLast24Hours}}%</h5>
+                        <h3 class="text-visible">{{sportyBetClicks?.countLast24Hours}}</h3>
+                    </div>
+                </div>
+                <div class="item online">
+                    <div class="icon">
+                        <span class="material-icons-sharp">ads_click</span>
                     </div>
                     <div class="right">
                         <div class="info">
                             <h3>Betway Clicks</h3>
                             <small class="text-muted">Last 24 hours</small>
                         </div>
-                        <h5 class="danger">-17%</h5>
-                        <h3 class="text-visible">1100</h3>
+                        <h5 class="success">+{{betWayClicks?.percentageLast24Hours}}%</h5>
+                        <h3 class="text-visible">{{betWayClicks?.countLast24Hours}}</h3>
+                    </div>
+                </div>
+                <div class="item online">
+                    <div class="icon">
+                        <span class="material-icons-sharp">ads_click</span>
+                    </div>
+                    <div class="right">
+                        <div class="info">
+                            <h3>Betway Clicks</h3>
+                            <small class="text-muted">Last 24 hours</small>
+                        </div>
+                        <h5 class="success">+{{premierBetClicks?.percentageLast24Hours}}%</h5>
+                        <h3 class="text-visible">{{premierBetClicks?.countLast24Hours}}</h3>
                     </div>
                 </div>
                 <div class="item customers">
