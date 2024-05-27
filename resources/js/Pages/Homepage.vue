@@ -468,7 +468,7 @@ const reportUserClick = async (user_id, ninja, company) => {
 #center {
   height: 100%;
   width: 100%;
-  margin-top: 70px;
+  margin-top: 69px;
   position: relative;
   box-shadow: 0px 5px 8px rgba(0,0,0,.3);
   overflow: hidden;

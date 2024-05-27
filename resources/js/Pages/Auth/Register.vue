@@ -42,7 +42,7 @@ const submit = () => {
 
         <NavBar />
 
-        <div id="main-bg" class="fade-in flex flex-col justify-end pt-[0.5rem] items-center mt-[70px] sm:mt-[77.5px]">
+        <div id="main-bg" class="fade-in flex flex-col justify-end pt-[0.5rem] items-center mt-[69px] sm:mt-[77.5px]">
             <div class="text-white h-full">
                 <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter 
                     backdrop-blur-sm bg-opacity-30 relative from-bottom">
