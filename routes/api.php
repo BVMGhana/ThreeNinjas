@@ -27,6 +27,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users-count', [UserController::class, 'count']);
 Route::get('/predictions-count', [UserController::class, 'count_all']);
+Route::get('/most-recent-users', [UserController::class, 'most_recent']);
 Route::get('/recent-users', [UserController::class, 'recent']);
 
 Route::get('/buttons', [ButtonController::class, 'index']);
@@ -100,4 +101,5 @@ Route::get('/contact-us', [ContactFormController::class, 'show']);
 Route::post('/contact-us', [ContactFormController::class, 'store']);
 
 Route::get('/bet-button-clicks/count/{company}', [BetButtonClickController::class, 'count']);
+Route::get('/bet-button-clicks/count-all', [BetButtonClickController::class, 'count_all']);
 Route::post('/bet-button-clicks', [BetButtonClickController::class, 'store']);
