@@ -19,11 +19,13 @@ const displayMessage = (message, type) => toast(message, { autoClose: 1000, type
 const usersCount = ref(null);
 const subscribersCount = ref(null);
 const users = ref(null);
+const mostRecentUsers = ref(null);
 const recentUsers = ref(null);
 const sportyBetClicks = ref(null);
 const prideBetClicks = ref(null);
 const betWayClicks = ref(null);
 const premierBetClicks = ref(null);
+const allBetButtonClicks = ref(null);
 
 const loadInitialData = async () => {
   try {
@@ -41,6 +43,9 @@ const loadInitialData = async () => {
     response = await axios.get('recent-users');
     recentUsers.value = response.data;
 
+    response = await axios.get('most-recent-users');
+    mostRecentUsers.value = response.data;
+
     response = await axios.get(`bet-button-clicks/count/${'bet-way'}`);
     betWayClicks.value = response.data;
 
@@ -52,6 +57,9 @@ const loadInitialData = async () => {
     
     response = await axios.get(`bet-button-clicks/count/${'premier-bet'}`);
     premierBetClicks.value = response.data;
+    
+    response = await axios.get('bet-button-clicks/count-all');
+    allBetButtonClicks.value = response.data;
 
   } catch (error) {
     displayMessage(error.response.statusText, 'error');
@@ -82,7 +90,7 @@ stateUrl.value = url;
                     <div class="middle">
                         <div class="left">
                             <h3>All Users</h3>
-                            <h1>{{usersCount}}</h1>
+                            <h1>{{usersCount?.users_count}}</h1>
                         </div>
                         <div class="progress">
                             <svg>
@@ -90,53 +98,53 @@ stateUrl.value = url;
                                     cx="38" cy="38" r="36" ></circle>
                             </svg>
                             <div class="number">
-                                <p>81%</p>
+                                <p>{{100}}%</p>
                             </div>
                         </div>
                     </div>
-                    <small class="text-muted">Last 24hours</small>
+                    <small class="text-muted">All Time</small>
                 </div>
                 <!-- End of All Users -->
-
-                <div class="expenses">
-                    <span class="material-icons-sharp">analytics</span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Subscribed</h3>
-                            <h1>{{subscribersCount}}</h1>
-                        </div>
-                        <div class="progress">
-                            <svg class="w-[7rem] h-[7rem]">
-                                <circle cx="38" cy="38" r="36" ></circle>
-                            </svg>
-                            <div class="number">
-                                <p>62%</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted">Last 24hours</small>
-                </div>
-                <!-- End of Subscribed Users -->
 
                 <div class="income">
                     <span class="material-icons-sharp">stacked_line_chart</span>
                     <div class="middle">
                         <div class="left">
-                            <h3>Premium</h3>
-                            <h1>{{usersCount}}</h1>
+                            <h3>Premium Users</h3>
+                            <h1>{{usersCount?.countLast24Hours}}</h1>
                         </div>
                         <div class="progress">
                             <svg class="w-[7rem] h-[7rem]">
                                 <circle cx="38" cy="38" r="36" ></circle>
                             </svg>
                             <div class="number">
-                                <p>44%</p>
+                                <p>{{usersCount?.percentageLast24Hours}}%</p>
                             </div>
                         </div>
                     </div>
                     <small class="text-muted">Last 24hours</small>
                 </div>
                 <!-- End of Premium Users -->
+
+                <div class="expenses">
+                    <span class="material-icons-sharp">analytics</span>
+                    <div class="middle">
+                        <div class="left">
+                            <h3>All Button Clicks</h3>
+                            <h1>{{allBetButtonClicks?.countLast24Hours}}</h1>
+                        </div>
+                        <div class="progress">
+                            <svg class="w-[7rem] h-[7rem]">
+                                <circle cx="38" cy="38" r="36" ></circle>
+                            </svg>
+                            <div class="number">
+                                <p>{{allBetButtonClicks?.percentageLast24Hours}}%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <small class="text-muted">Last 24hours</small>
+                </div>
+                <!-- End of Subscribed Users -->
             </div>
 
             <!-- Recent -->
@@ -190,9 +198,9 @@ stateUrl.value = url;
             <!-- End of top -->
 
             <div class="recent-updates">
-                <h2 class="heading">Recent Updates</h2>
+                <h2 class="heading">Most Recent Users</h2>
                 <div class="updates">
-                    <div class="update" v-for="user in recentUsers" :key="user.id">
+                    <div class="update" v-for="user in mostRecentUsers" :key="user.id">
                         <div class="profile-photo">
                             <img src="/images/default-profile.png" alt="profile picture">
                         </div>
@@ -213,7 +221,7 @@ stateUrl.value = url;
                     </div>
                     <div class="right">
                         <div class="info">
-                            <h3>PrideBet Clicks</h3>
+                            <h3>Pride Bet Clicks</h3>
                             <small class="text-muted">Last 24 hours</small>
                         </div>
                         <h5 class="success">+{{prideBetClicks?.percentageLast24Hours}}%</h5>
@@ -252,7 +260,7 @@ stateUrl.value = url;
                     </div>
                     <div class="right">
                         <div class="info">
-                            <h3>Betway Clicks</h3>
+                            <h3>Premier Bet Clicks</h3>
                             <small class="text-muted">Last 24 hours</small>
                         </div>
                         <h5 class="success">+{{premierBetClicks?.percentageLast24Hours}}%</h5>
@@ -265,11 +273,11 @@ stateUrl.value = url;
                     </div>
                     <div class="right">
                         <div class="info">
-                            <h3>New Customers</h3>
+                            <h3>New Users</h3>
                             <small class="text-muted">Last 24 hours</small>
                         </div>
-                        <h5 class="primary">+25%</h5>
-                        <h3 class="text-visible">{{usersCount}}</h3>
+                        <h5 class="primary">+{{usersCount?.percentageLast24Hours}}%</h5>
+                        <h3 class="text-visible">{{usersCount?.countLast24Hours}}</h3>
                     </div>
                 </div>
                 <!-- <div class="item add-product">
