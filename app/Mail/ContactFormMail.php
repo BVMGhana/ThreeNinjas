@@ -24,6 +24,14 @@ class ContactFormMail extends Mailable
         $this->details = $details;
     }
 
+    // public function build()
+    // {
+    //     return $this->from('info@3ninjaodds.com', $this->details['name'])
+    //                 ->subject($this->details['subject'])
+    //                 ->view('emails.contact_form')
+    //                 ->with('details', $this->details);
+    // }
+
     /**
      * Get the message envelope.
      */
