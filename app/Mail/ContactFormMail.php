@@ -24,45 +24,46 @@ class ContactFormMail extends Mailable
         $this->details = $details;
     }
 
-    // public function build()
-    // {
-    //     return $this->from('info@3ninjaodds.com', $this->details['name'])
-    //                 ->subject($this->details['subject'])
-    //                 ->view('emails.contact_form')
-    //                 ->with('details', $this->details);
-    // }
+    public function build()
+    {
+        // return $this->from('info@3ninjaodds.com', $this->details['name'])
+        return $this->from('osei@comsolpartners.com', $this->details['name'])
+                    ->subject($this->details['subject'])
+                    ->view('emails.contact_form')
+                    ->with('details', $this->details);
+    }
 
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            // subject: 'Contact Form Mail',
-            // from: new Address($this->details['email'], $this->details['name']),
-            from: new Address('osei@comsolpartners.com', $this->details['name']),
-            subject: $this->details['subject']
-        );
-    }
+    // public function envelope(): Envelope
+    // {
+    //     return new Envelope(
+    //         // subject: 'Contact Form Mail',
+    //         // from: new Address($this->details['email'], $this->details['name']),
+    //         from: new Address('osei@comsolpartners.com', $this->details['name']),
+    //         subject: $this->details['subject']
+    //     );
+    // }
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
-        return new Content(
-            // view: 'view.name',
-            view: 'emails.contact_form',
-        );
-    }
+    // public function content(): Content
+    // {
+    //     return new Content(
+    //         // view: 'view.name',
+    //         view: 'emails.contact_form',
+    //     );
+    // }
 
     /**
      * Get the attachments for the message.
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
-    {
-        return [];
-    }
+    // public function attachments(): array
+    // {
+    //     return [];
+    // }
 }
