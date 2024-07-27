@@ -196,9 +196,9 @@ const addNewRecord = () => {
                     <tbody>
                         <tr v-for="(item, index) in whiteNinjas" :key="item.id" class="text-left text-[13px] md:text-[16px]">
                             <td>{{ index + 1 }}</td>
-                            <td>{{ item.league.title }}</td>
+                            <td>{{ item.league?.title }}</td>
                             <td>{{ item.fixtures }}</td>
-                            <td>{{ item.tip.title }}</td>
+                            <td>{{ item.tip?.title }}</td>
                             <!-- <td class="py-3 px-2">
                                 <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                                 <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
