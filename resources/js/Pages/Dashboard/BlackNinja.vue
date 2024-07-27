@@ -118,6 +118,7 @@ const addNewRecord = () => {
         if (stateUrl.value.includes('white-ninja') || stateUrl.value.includes('red-ninja') || 
         stateUrl.value.includes('black-ninja')) {
             form.reset();
+            errors.value = {};
         }
     }
 };

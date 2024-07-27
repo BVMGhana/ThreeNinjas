@@ -50,6 +50,7 @@ const submitPrediction = async () => {
             if (stateUrl.value.includes('edit=true') && editDataId) {
                 const response = await axios.put(`previous-results/${editDataId.value}`, form);
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('previous-results');
                     previousResults.value = result.data;
@@ -57,6 +58,7 @@ const submitPrediction = async () => {
             } else {
                 const response = await axios.post('previous-results', form);
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('previous-results');
                     previousResults.value = result.data;
@@ -116,6 +118,7 @@ const addNewRecord = () => {
 
         if (stateUrl.value.includes('previous-results')) {
             form.reset();
+            errors.value = {};
         }
     }
 };

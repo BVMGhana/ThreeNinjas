@@ -48,6 +48,7 @@ const submitData = async () => {
             if (stateUrl.value.includes('edit=true') && editDataId) {
                 const response = await axios.put(`banners/${editDataId.value}`, formData);
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('banners');
                     banners.value = result.data;
@@ -55,6 +56,7 @@ const submitData = async () => {
             } else {
                 const response = await axios.post('banners', formData);
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('banners');
                     banners.value = result.data;
@@ -121,6 +123,8 @@ const addNewRecord = () => {
 
         if (stateUrl.value.includes('banners')) {
             form.reset();
+            errors.value = {};
+            errors.value = {};
         }
     }
 };

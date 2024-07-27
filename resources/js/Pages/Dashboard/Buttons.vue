@@ -48,6 +48,7 @@ const submitData = async () => {
             if (stateUrl.value.includes('edit=true') && editDataId) {
                 const response = await axios.put(`buttons/${editDataId.value}`, form);
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('buttons');
                     buttons.value = result.data;
@@ -55,6 +56,7 @@ const submitData = async () => {
             } else {
                 const response = await axios.post('buttons', form);
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('buttons');
                     buttons.value = result.data;
@@ -123,6 +125,7 @@ const addNewRecord = () => {
 
         if (stateUrl.value.includes('buttons')) {
             form.reset();
+            errors.value = {};
         }
     }
 };

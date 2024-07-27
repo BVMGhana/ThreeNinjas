@@ -36,6 +36,7 @@ const submitData = async () => {
             if (stateUrl.value.includes('edit=true') && editDataId) {
                 const response = await axios.put(`fixtures/${editDataId.value}`, otherForm.data());
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('fixtures');
                     fixtures.value = result.data;
@@ -43,6 +44,7 @@ const submitData = async () => {
             } else {
                 const response = await axios.post('fixtures', otherForm.data());
                 if (response.status === 201) {
+                    errors.value = {};
                     displayMessage(response.data.message, 'success');
                     const result = await axios.get('fixtures');
                     fixtures.value = result.data;
@@ -99,6 +101,7 @@ const addNewRecord = () => {
 
         if (stateUrl.value.includes('leagues') || stateUrl.value.includes('fixtures') || stateUrl.value.includes('tips')) {
             otherForm.reset();
+            errors.value = {};
         }
     }
 };
