@@ -236,9 +236,9 @@ const reportUserClick = async (user_id, ninja, company) => {
                   <tbody class="text-gray-300">
                     <tr v-for="(item, index) in previousResults" :key="item.id" class="text-left text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
-                      <td class="py-3 px-2">{{ item.league.title }}</td>
+                      <td class="py-3 px-2">{{ item.league?.title }}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
-                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">{{ item.tip?.title }}</td>
                       <td class="py-3 px-2 text-center">
                         <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
                         <i v-if="item.results===false" class="fas fa-times" style="color: red;"></i>
@@ -291,9 +291,9 @@ const reportUserClick = async (user_id, ninja, company) => {
                   <tbody class="text-gray-300">
                     <tr v-for="(item, index) in redNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
-                      <td class="py-3 px-2">{{ item.league.title }}</td>
+                      <td class="py-3 px-2">{{ item.league?.title }}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
-                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">{{ item.tip?.title }}</td>
                       <td class="py-3 px-2 text-center">
                         <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
@@ -349,9 +349,9 @@ const reportUserClick = async (user_id, ninja, company) => {
                   <tbody class="text-gray-300">
                     <tr v-for="(item, index) in blackNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
-                      <td class="py-3 px-2">{{ item.league.title }}</td>
+                      <td class="py-3 px-2">{{ item.league?.title }}</td>
                       <td class="py-3 px-2">{{ item.fixtures }}</td>
-                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">{{ item.tip?.title }}</td>
                       <td class="py-3 px-2 text-center">
                         <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
@@ -407,9 +407,9 @@ const reportUserClick = async (user_id, ninja, company) => {
                   <tbody class="text-gray-300">
                     <tr v-for="(item, index) in whiteNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
-                      <td class="py-3 px-2">{{item.league.title}}</td>
+                      <td class="py-3 px-2">{{item.league?.title}}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
-                      <td class="py-3 px-2">{{ item.tip.title }}</td>
+                      <td class="py-3 px-2">{{ item.tip?.title }}</td>
                       <td class="py-3 px-2 text-center">
                         <span>N/A</span>
                         <!-- <i v-if="item.results===true" class="far fa-check-square" style="color: green;"></i>
