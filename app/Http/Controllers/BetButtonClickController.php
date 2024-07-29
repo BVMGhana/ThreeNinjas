@@ -37,7 +37,7 @@ class BetButtonClickController extends Controller
                 'clicks_count' => $clicks_count,
                 'countLast24Hours' => $countLast24Hours,
                 'countBefore24Hours' => $countBefore24Hours,
-                'percentageLast24Hours' => $percentageLast24Hours
+                'percentageLast24Hours' => round($percentageLast24Hours)
             ]);
             
         } catch (Exception $e) {
@@ -75,7 +75,7 @@ class BetButtonClickController extends Controller
                 'clicks_count' => $clicks_count,
                 'countLast24Hours' => $countLast24Hours,
                 'countBefore24Hours' => $countBefore24Hours,
-                'percentageLast24Hours' => $percentageLast24Hours
+                'percentageLast24Hours' => round($percentageLast24Hours)
             ]);
             
         } catch (Exception $e) {
