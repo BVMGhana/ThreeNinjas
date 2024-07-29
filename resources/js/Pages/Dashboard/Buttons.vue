@@ -131,7 +131,22 @@ const addNewRecord = () => {
 };
 
 const ninjas = ['white', 'black', 'red'];
-const companies = ['pride-bet', 'bet-way', 'sporty-bet', 'premier-bet'];
+const companies = [
+    'pride-bet', 
+    'bet-way', 
+    'sporty-bet', 
+    'premier-bet', 
+    'parimatch', 
+    'm-sports', 
+    'football.com',
+    '22Bet',
+    '1xBet',
+    'socca-bet',
+    'betika',
+    'bet-pawa',
+    'mel-bet',
+    'bingo-bets'
+];
 
 const capitalize = string => string.charAt(0).toUpperCase() + string.substring(1);
 const transform = string => string.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
