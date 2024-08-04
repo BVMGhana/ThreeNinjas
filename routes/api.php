@@ -17,6 +17,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\BetButtonClickController;
+use App\Http\Controllers\PredictionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -24,11 +25,14 @@ Route::get('/user', function (Request $request) {
 
 // Route::post('register', [RegisteredUserController::class, 'store']);
 
-Route::get('/users', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'index'])->name('users.count');
 Route::get('/users-count', [UserController::class, 'count']);
 Route::get('/predictions-count', [UserController::class, 'count_all']);
 Route::get('/most-recent-users', [UserController::class, 'most_recent']);
 Route::get('/recent-users', [UserController::class, 'recent']);
+
+Route::post('/predictions', [PredictionController::class, 'store']);
+Route::put('/predictions/:ninja', [PredictionController::class, 'update']);
 
 Route::get('/buttons', [ButtonController::class, 'index']);
 Route::post('/buttons', [ButtonController::class, 'store']);
