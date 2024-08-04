@@ -55,6 +55,11 @@ class RedNinjaController extends Controller
                 'results' => $request->results,
             ]);
             $red_ninja->save();
+
+            $request = new Request();
+            $predictionController = new PredictionController();
+            $predictionController->update($request, "red");
+
             return response()->json(['success' => true, 'message' => 'Record added.'], 201);
 
         } catch (\Exception $e) {
