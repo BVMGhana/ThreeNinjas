@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use App\Models\WhiteNinja;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PredictionController;
 
 class WhiteNinjaController extends Controller
 {
@@ -55,6 +56,11 @@ class WhiteNinjaController extends Controller
                 'results' => $request->results,
             ]);
             $white_ninja->save();
+
+            $request = new Request();
+            $predictionController = new PredictionController();
+            $predictionController->update($request, "white");
+
             return response()->json(['success' => true, 'message' => 'Record added.'], 201);
 
         } catch (\Exception $e) {
