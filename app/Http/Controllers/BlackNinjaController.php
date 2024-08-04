@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Log;
 use App\Models\BlackNinja;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PredictionController;
 
 class BlackNinjaController extends Controller
 {
@@ -55,6 +56,11 @@ class BlackNinjaController extends Controller
                 'results' => $request->results,
             ]);
             $black_ninja->save();
+
+            $request = new Request();
+            $predictionController = new PredictionController();
+            $predictionController->update($request, "black");
+
             return response()->json(['success' => true, 'message' => 'Record added.'], 201);
 
         } catch (\Exception $e) {
