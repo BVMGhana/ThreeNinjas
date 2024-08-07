@@ -34,7 +34,10 @@ getData();
 </script>
 
 <template>
-    <Head title="About Us" />
+    <Head>
+        <title>About Us</title>
+        <meta name="description" content="Learn more about 3Ninjas, your trusted source for accurate and expert betting tips. Join our community and gain the edge in sports betting.">
+    </Head>
 
     <div class="h-screen w-screen overflow-x-hidden bg-[#EEF5FF] scroll-smooth fade-in">
 
