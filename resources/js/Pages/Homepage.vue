@@ -4,6 +4,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import NavBar from '@/Components/NavBar.vue';
 import Footer from '@/Components/Footer.vue';
 import Analytics from '@/Components/Analytics.vue';
+import Meaning from '@/Components/Meaning.vue';
 import axios from '../axiosConfig';
 
 const whiteNinja = ref(null);
@@ -237,7 +238,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                     </tr>
                   </thead>
                   <tbody class="text-gray-300">
-                    <tr v-for="(item, index) in previousResults" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                    <tr v-for="(item, index) in previousResults" :key="item.id" class="text-left text-left text-[11px] sm:text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
                       <td class="py-3 px-2">{{ item.league?.title }}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
@@ -292,7 +293,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                     </tr>
                   </thead>
                   <tbody class="text-gray-300">
-                    <tr v-for="(item, index) in redNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                    <tr v-for="(item, index) in redNinja" :key="item.id" class="text-left text-left text-[11px] sm:text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
                       <td class="py-3 px-2">{{ item.league?.title }}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
@@ -310,7 +311,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                     <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)" 
                       v-for="button in redNinjaButtons" :key="button.id" :href="button.url" 
                       :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
+                      class="no-underline uppercase rounded-[30px] text-[11px] md:text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
                       target="_blank">
                       <span class="mr-1 sm:mr-2">{{ button.title }}</span> | <span class="ml-1 sm:ml-2">code: {{ button.code }}</span>
                     </a>
@@ -350,7 +351,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                     </tr>
                   </thead>
                   <tbody class="text-gray-300">
-                    <tr v-for="(item, index) in blackNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                    <tr v-for="(item, index) in blackNinja" :key="item.id" class="text-left text-left text-[11px] sm:text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
                       <td class="py-3 px-2">{{ item.league?.title }}</td>
                       <td class="py-3 px-2">{{ item.fixtures }}</td>
@@ -368,7 +369,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                     <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)"
                       v-for="button in blackNinaButtons" :key="button.id" :href="button.url" 
                       :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
+                      class="no-underline uppercase rounded-[30px] text-[11px] md:text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
                       target="_blank">
                       <span class="mr-1 sm:mr-2">{{ button.title }}</span> | <span class="ml-1 sm:ml-2">code: {{ button.code }}</span>
                     </a>
@@ -408,7 +409,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                     </tr>
                   </thead>
                   <tbody class="text-gray-300">
-                    <tr v-for="(item, index) in whiteNinja" :key="item.id" class="text-left text-[13px] md:text-[16px]">
+                    <tr v-for="(item, index) in whiteNinja" :key="item.id" class="text-left text-[11px] sm:text-[13px] md:text-[16px]">
                       <td class="py-3 px-2">{{ index + 1 }}</td>
                       <td class="py-3 px-2">{{item.league?.title}}</td>
                       <td class="py-3 px-2">{{item.fixtures}}</td>
@@ -426,7 +427,7 @@ const reportUserClick = async (user_id, ninja, company) => {
                     <a @click="reportUserClick($page.props.auth.user.id, button.ninja, button.company)"
                       v-for="button in whiteNinjaButtons" :key="button.id" :href="button.url" 
                       :style="{ backgroundColor: button.background, color: button.foreground }" 
-                      class="no-underline uppercase rounded-[30px] text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
+                      class="no-underline uppercase rounded-[30px] text-[11px] md:text-[13px] font-bold py-[4px] text-center px-[8px] sm:px-[20px]"
                       target="_blank">
                       <span class="mr-1 sm:mr-2">{{ button.title }}</span> | <span class="ml-1 sm:ml-2">code: {{ button.code }}</span>
                     </a>
@@ -442,6 +443,9 @@ const reportUserClick = async (user_id, ninja, company) => {
           </div>
         </div>
       </section>
+
+      <!-- Meaning of Three Ninjas Registration -->
+      <Meaning />
 
       <!-- Analytics Section -->
       <Analytics :usersCount="usersCount?.users_count" :predictionsCount="predictionsCount" />
