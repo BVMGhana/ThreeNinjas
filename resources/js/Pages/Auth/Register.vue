@@ -42,8 +42,8 @@ const submit = () => {
 
         <NavBar />
 
-        <div id="main-bg" class="fade-in flex flex-col justify-end pt-[0.5rem] items-center mt-[69px] sm:mt-[77.5px]">
-            <div class="text-white h-full">
+        <div id="main-bg" class="fade-in h-screen flex flex-col pt-[0.5rem] items-center mt-[69px] sm:mt-[77.5px]">
+            <div class="text-white h-full flex flex-col justify-center">
                 <div class="bg-slate-800 border border-slate-400 rounded-[12px] p-8 shadow-lg backdrop-filter 
                     backdrop-blur-sm bg-opacity-30 relative from-bottom">
                     <h1 class="text-4xl font-bold text-center mb-6">Register</h1>
