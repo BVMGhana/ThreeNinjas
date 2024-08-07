@@ -151,7 +151,10 @@ const reportUserClick = async (user_id, ninja, company) => {
 </script>
 
 <template>
-    <Head title="Homepage" />
+    <Head>
+        <title>Homepage</title>
+        <meta name="description" content="Join 3NinjasOdds for daily expert betting tips and accurate odds delivered directly to your phone via SMS or email. Get exclusive VIP slips and personalized recommendations to enhance your betting strategy.">
+    </Head>
     <!-- <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50"> -->
     <div class="h-screen w-screen overflow-x-hidden bg-[#EEF5FF] scroll-smooth fade-in">
 
