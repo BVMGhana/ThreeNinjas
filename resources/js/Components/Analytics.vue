@@ -52,7 +52,7 @@ defineProps({
 </script>
 
 <template>
-    <section id="analytics" class="w-full h-fit px-1 my-8">
+    <section id="analytics" class="w-full h-fit px-1 my-8 mb-[6rem]">
         <div class="wrapper w-full flex flex-wrap items-center justify-center gap-[15px] lg:gap-[10px]">
           <div class="container w-[165px] sm:w-[185px] lg:w-[190px] h-[165px] sm:h-[185px] lg:h-[190px]
             flex flex-col justify-around items-center py-[1em] px-0 text-[16px] rounded-[0.5em]
