@@ -60,6 +60,7 @@ onMounted(() => {
 
             // Smoothly scroll the element into view
             element.scrollIntoView({ behavior: 'smooth' });
+            element.classList.add('accordion-active');
         }
     }
 
@@ -349,7 +350,7 @@ const reportUserClick = async (user_id, ninja, company) => {
           </div>
           
           <!-- Black Ninja -->
-          <div class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
+          <div id="black-ninja" class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
                 <div>BLACK NINJA</div>
@@ -407,7 +408,7 @@ const reportUserClick = async (user_id, ninja, company) => {
           </div>
           
           <!-- White Ninja -->
-          <div class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
+          <div id="white-ninja" class="item" v-if="$page.props.auth.user && $page.props.auth.user.id">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
                 <div>WHITE NINJA</div>
@@ -468,10 +469,6 @@ const reportUserClick = async (user_id, ninja, company) => {
 
       <!-- Meaning of Three Ninjas Registration -->
       <Meaning />
-
-      <p>
-        <button @click="scrollToElement('red-ninja')">Scroll White Ninja</button>
-      </p>
 
       <!-- Analytics Section -->
       <Analytics :usersCount="usersCount?.users_count" :predictionsCount="predictionsCount" />
