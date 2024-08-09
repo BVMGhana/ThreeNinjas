@@ -73,7 +73,7 @@ onMounted(() => {
             if (ninja && ninja === "white") scrollToElement('white-ninja');
             if (ninja && ninja === "black") scrollToElement('black-ninja');
         }
-    }, 3000);
+    }, 2000);
 });
 
 const getSiblings = element => {
