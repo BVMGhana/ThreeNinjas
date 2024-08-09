@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { useRoute } from 'vue-router';
 import NavBar from '@/Components/NavBar.vue';
 import Footer from '@/Components/Footer.vue';
 import Analytics from '@/Components/Analytics.vue';
@@ -51,6 +52,28 @@ onMounted(() => {
     }
   }, 3000);
 
+
+    function scrollToElement(elementId, offset = 100) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            // Apply scroll-margin-top to the element
+            element.style.scrollMarginTop = `${offset}px`;
+
+            // Smoothly scroll the element into view
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    setTimeout(() => {
+        const { url } = usePage();
+        if (url.includes("default")) {
+            const ninja = url.split("=")[1];
+            if (ninja && ninja === "previous") scrollToElement('previous-results');
+            if (ninja && ninja === "red") scrollToElement('red-ninja');
+            if (ninja && ninja === "white") scrollToElement('white-ninja');
+            if (ninja && ninja === "black") scrollToElement('black-ninja');
+        }
+    }, 5000);
 });
 
 const getSiblings = element => {
@@ -214,7 +237,7 @@ const reportUserClick = async (user_id, ninja, company) => {
         <div class="w-full lg:w-[80%] rounded-lg overflow-hidden bg-slate-800 flex flex-col gap-[3px] lg:mx-5">
           
           <!-- Previous Predictions -->
-          <div class="item accordion-active">
+          <div id="previous-results" class="item accordion-active">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
                 <div>PREVIOUS RESULTS</div>
@@ -269,7 +292,7 @@ const reportUserClick = async (user_id, ninja, company) => {
           </div>
           
           <!-- Red Ninja -->
-          <div class="item accordion-active">
+          <div id="red-ninja" class="item accordion-active">
             <div class="header p-6 bg-slate-900 font-bold flex justify-between item-center cursor-pointer">
               <div>
                 <div>RED NINJA</div>
@@ -446,6 +469,10 @@ const reportUserClick = async (user_id, ninja, company) => {
 
       <!-- Meaning of Three Ninjas Registration -->
       <Meaning />
+
+      <p>
+        <button @click="scrollToElement('red-ninja')">Scroll White Ninja</button>
+      </p>
 
       <!-- Analytics Section -->
       <Analytics :usersCount="usersCount?.users_count" :predictionsCount="predictionsCount" />
