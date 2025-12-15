@@ -79,9 +79,9 @@ class UserController extends Controller
     public function count_all()
     {
         try {
-            $white_ninja_count = Prediction::where("ninja", "white")->first()->count;
-            $red_ninja_count = Prediction::where("ninja", "red")->first()->count;
-            $black_ninja_count = Prediction::where("ninja", "black")->first()->count;
+            $white_ninja_count = Prediction::where("ninja", "white")->first()?->count;
+            $red_ninja_count = Prediction::where("ninja", "red")->first()?->count;
+            $black_ninja_count = Prediction::where("ninja", "black")->first()?->count;
             $total_predictions = $white_ninja_count + $red_ninja_count + $black_ninja_count;
             return response()->json($total_predictions);
 
