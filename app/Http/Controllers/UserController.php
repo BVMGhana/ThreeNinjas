@@ -41,9 +41,9 @@ class UserController extends Controller
             $now = Carbon::now();
             $yesterday = $now->subDays(1);
 
-            $countLast24Hours = User::where('created_at', '>=', $yesterday)->count();
+            $countLast24Hours = User::where('created_at', '>=', $yesterday)->count() || 0;
 
-            $countBefore24Hours = User::where('created_at', '<', $yesterday)->count();
+            $countBefore24Hours = User::where('created_at', '<', $yesterday)->count() || 0;
 
             $percentageLast24Hours = 0;
             if ($countBefore24Hours > 0) {
